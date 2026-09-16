@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+@import "@xyflow/react/dist/style.css";
+
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+html, body { margin: 0; min-height: 100%; background: #ffffff; }
+body { font-family: "IBM Plex Sans Arabic", Arial, sans-serif; }
+button, input { font: inherit; }
+.day-mode { --brand: #ff0071; --ink: #050505; --muted: #667085; --line: #e5e7eb; background: #ffffff; color: var(--ink); }
+.day-mode .font-mono { font-family: "IBM Plex Sans Arabic", Arial, sans-serif !important; letter-spacing: normal; }
+.day-mode [class*="bg-[#111923]"] { background-color: #ffffff !important; }
+.day-mode [class*="bg-[#0b1018]"] { background-color: #ffffff !important; }
+.day-mode [class*="bg-[#0f1722]"] { background-color: #fafafa !important; }
+.day-mode [class*="bg-[#0d131c]"] { background-color: #ffffff !important; }
+.day-mode [class*="bg-slate-950"] { background-color: #ffffff !important; }
+.day-mode [class*="border-white/"] { border-color: var(--line) !important; }
+.day-mode [class*="text-slate-100"], .day-mode [class*="text-slate-200"], .day-mode [class*="text-slate-300"] { color: var(--ink) !important; }
+.day-mode [class*="text-slate-400"], .day-mode [class*="text-slate-500"], .day-mode [class*="text-slate-600"], .day-mode [class*="text-slate-700"] { color: var(--muted) !important; }
+.day-mode aside[class*="w-[244px]"] [class*="group/folder"] > div > button { color: #344054 !important; }
+.day-mode aside[class*="w-[244px]"] [class*="group/folder"] > div > button:hover { color: #c50059 !important; background-color: #fff1f7 !important; }
+.day-mode aside[class*="w-[244px]"] [class*="group/file"] > button:first-child { color: #475467 !important; }
+.day-mode aside[class*="w-[244px]"] [class*="group/file"] > button:first-child:hover { color: #c50059 !important; background-color: #fff1f7 !important; }
+.day-mode button[title="ترتيب"], .day-mode button[title="إعدادات المخططات"] { display: none !important; }
+.day-mode select option[value="diagram"], .day-mode select option[value="markdown"] { display: none; }
+.day-mode section[class*="h-[148px]"]:not(.change-log-panel), .day-mode button[title="فتح لوحة المشاكل"] { display: none !important; }
+.day-mode [class*="bg-white/"] { background-color: #f8f9fb !important; }
+.day-mode [class*="bg-cyan-"] { background-color: var(--brand) !important; }
+.day-mode [class*="text-cyan-"] { color: var(--brand) !important; }
+.day-mode [class*="border-cyan-"] { border-color: var(--brand) !important; }
+.day-mode [class*="bg-violet-"] { background-color: #ffe6f1 !important; }
+.day-mode [class*="text-violet-"] { color: var(--brand) !important; }
+.day-mode [class*="border-violet-"] { border-color: #ffb5d2 !important; }
+.day-mode [class*="bg-pink-"] { background-color: #ffe6f1 !important; }
+.day-mode [class*="text-pink-"] { color: var(--brand) !important; }
+.day-mode [class*="border-pink-"] { border-color: #ffb5d2 !important; }
+.day-mode .react-flow__controls button { background: #ffffff !important; fill: var(--muted) !important; border-color: var(--line) !important; }
+.day-mode .react-flow__controls button:hover { background: #f8f9fb !important; }
+.day-mode .properties-panel { background: #ffffff !important; color: #1f2937 !important; font-family: "IBM Plex Sans Arabic", Arial, sans-serif !important; }
+.day-mode .properties-panel .font-mono { font-family: inherit !important; letter-spacing: normal !important; }
+.day-mode .properties-panel .border-white\/10 { border-color: #e5e7eb !important; }
+.day-mode .properties-panel input, .day-mode .properties-panel textarea, .day-mode .properties-panel [role="combobox"] { background: #ffffff !important; color: #1f2937 !important; border-color: #dbe1e8 !important; }
+.file-name { direction: ltr; unicode-bidi: plaintext; text-align: left; white-space: nowrap; }
+.react-flow__attribution { display: none; }
+.react-flow__controls button:hover { background: #f8f9fb !important; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 999px; }

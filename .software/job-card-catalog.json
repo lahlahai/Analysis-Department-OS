@@ -1,0 +1,606 @@
+{
+  "version": "1.0",
+  "cards": [
+    {
+      "id": "اسم الجدول",
+      "domain": "المجال",
+      "table": "اسم الجدول",
+      "description": "شرح مختصر"
+    },
+    {
+      "id": "task_types",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "task_types",
+      "description": "أنواع المهام المستخدمة لتصنيف مهام البطاقات الوظيفية."
+    },
+    {
+      "id": "job_categories",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "job_categories",
+      "description": "تصنيفات الوظائف المستخدمة داخل البطاقات الوظيفية."
+    },
+    {
+      "id": "job_grades",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "job_grades",
+      "description": "الدرجات أو الفئات الوظيفية المعتمدة."
+    },
+    {
+      "id": "career_tracks",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "career_tracks",
+      "description": "المسارات المهنية لتطور وتصنيف الوظائف."
+    },
+    {
+      "id": "qualifications",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "qualifications",
+      "description": "المؤهلات العلمية المطلوبة أو المفضلة للوظائف."
+    },
+    {
+      "id": "job_definitions",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "job_definitions",
+      "description": "التعريف الأساسي للمسميات الوظيفية."
+    },
+    {
+      "id": "job_groups",
+      "domain": "التعريفات والهيكل الوظيفي",
+      "table": "job_groups",
+      "description": "مجموعات تجمع الوظائف حسب طبيعتها أو مستواها."
+    },
+    {
+      "id": "org_units",
+      "domain": "الهيكل التنظيمي",
+      "table": "org_units",
+      "description": "التعريفات الثابتة للوحدات التنظيمية مثل المديريات والدوائر والأقسام."
+    },
+    {
+      "id": "org_structures",
+      "domain": "الهيكل التنظيمي",
+      "table": "org_structures",
+      "description": "إصدارات الهيكل التنظيمي وحالة واعتماد كل إصدار."
+    },
+    {
+      "id": "org_structure_entries",
+      "domain": "الهيكل التنظيمي",
+      "table": "org_structure_entries",
+      "description": "تمثيل الوحدات التنظيمية داخل إصدار محدد مع التسلسل الهرمي."
+    },
+    {
+      "id": "job_structures",
+      "domain": "الهيكل الوظيفي",
+      "table": "job_structures",
+      "description": "إصدارات هيكل الوظائف المرتبطة بإصدار من الهيكل التنظيمي."
+    },
+    {
+      "id": "job_structure_entries",
+      "domain": "الهيكل الوظيفي",
+      "table": "job_structure_entries",
+      "description": "عناصر الوظائف داخل إصدار هيكل الوظائف وتسلسلها وعدد المقاعد المعتمد."
+    },
+    {
+      "id": "job_positions",
+      "domain": "الهيكل الوظيفي",
+      "table": "job_positions",
+      "description": "المقاعد الوظيفية الفعلية وحالتها ومصدر إحداثها."
+    },
+    {
+      "id": "job_entry_qualifications",
+      "domain": "الهيكل الوظيفي",
+      "table": "job_entry_qualifications",
+      "description": "ربط عناصر هيكل الوظائف بالمؤهلات المطلوبة."
+    },
+    {
+      "id": "job_cards",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_cards",
+      "description": "الكيان الأساسي للبطاقة الوظيفية المرتبط بالمسمى الوظيفي."
+    },
+    {
+      "id": "job_card_versions",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_versions",
+      "description": "إصدارات البطاقة الوظيفية للاحتفاظ بتاريخ التعديلات."
+    },
+    {
+      "id": "job_card_org_units",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_org_units",
+      "description": "ربط البطاقة الوظيفية بالوحدات التنظيمية وتحديد الوحدة الأساسية."
+    },
+    {
+      "id": "job_card_coordination_units",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_coordination_units",
+      "description": "الوحدات التي تتطلب الوظيفة التنسيق معها."
+    },
+    {
+      "id": "skills",
+      "domain": "البطاقات الوظيفية",
+      "table": "skills",
+      "description": "قاموس المهارات المطلوبة للوظائف."
+    },
+    {
+      "id": "job_card_skills",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_skills",
+      "description": "ربط البطاقات الوظيفية بالمهارات ومستوى الإتقان المطلوب."
+    },
+    {
+      "id": "experiences",
+      "domain": "البطاقات الوظيفية",
+      "table": "experiences",
+      "description": "قاموس أنواع الخبرات المهنية."
+    },
+    {
+      "id": "job_card_experiences",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_experiences",
+      "description": "ربط البطاقات الوظيفية بالخبرات وعدد سنوات الخبرة المطلوبة."
+    },
+    {
+      "id": "job_tasks",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_tasks",
+      "description": "المهام الوظيفية المعرفة في النظام."
+    },
+    {
+      "id": "job_card_tasks",
+      "domain": "البطاقات الوظيفية",
+      "table": "job_card_tasks",
+      "description": "ربط البطاقات الوظيفية بالمهام وترتيبها."
+    },
+    {
+      "id": "request_types",
+      "domain": "الطلبات والقوالب",
+      "table": "request_types",
+      "description": "أنواع الطلبات؛ ومنها طلبات الإجازة وطلبات إحداث المقاعد الوظيفية."
+    },
+    {
+      "id": "request_templates",
+      "domain": "الطلبات والقوالب",
+      "table": "request_templates",
+      "description": "قوالب الطلبات المختلفة المرتبطة بنوع الطلب."
+    },
+    {
+      "id": "request_template_fields",
+      "domain": "الطلبات والقوالب",
+      "table": "request_template_fields",
+      "description": "تعريف الحقول الديناميكية لكل قالب طلب."
+    },
+    {
+      "id": "requests",
+      "domain": "الطلبات والقوالب",
+      "table": "requests",
+      "description": "الطلبات الفعلية المقدمة في النظام بمختلف أنواعها."
+    },
+    {
+      "id": "request_field_values",
+      "domain": "الطلبات والقوالب",
+      "table": "request_field_values",
+      "description": "القيم التي أدخلها المستخدم في حقول قالب الطلب."
+    },
+    {
+      "id": "document_types",
+      "domain": "المرفقات",
+      "table": "document_types",
+      "description": "أنواع الوثائق والمستندات المستخدمة لتصنيف المرفقات."
+    },
+    {
+      "id": "attachments",
+      "domain": "المرفقات",
+      "table": "attachments",
+      "description": "المرفقات العامة المرتبطة بكيانات النظام مثل الطلبات والقرارات والمقاعد الوظيفية."
+    },
+    {
+      "id": "workflow_rules",
+      "domain": "الموافقات وسير العمل",
+      "table": "workflow_rules",
+      "description": "قواعد وخطوات سير الموافقات حسب نوع الطلب أو الكيان."
+    },
+    {
+      "id": "approval_instances",
+      "domain": "الموافقات وسير العمل",
+      "table": "approval_instances",
+      "description": "نسخة تنفيذية فعلية لمسار موافقة مرتبط بكيان محدد."
+    },
+    {
+      "id": "approval_instance_steps",
+      "domain": "الموافقات وسير العمل",
+      "table": "approval_instance_steps",
+      "description": "تفاصيل خطوات كل دورة موافقة وحالة كل خطوة ومن نفذها."
+    },
+    {
+      "id": "users",
+      "domain": "المستخدمون والصلاحيات",
+      "table": "users",
+      "description": "مستخدمو النظام."
+    },
+    {
+      "id": "roles",
+      "domain": "المستخدمون والصلاحيات",
+      "table": "roles",
+      "description": "الأدوار التي يمكن إسنادها للمستخدمين."
+    },
+    {
+      "id": "permissions",
+      "domain": "المستخدمون والصلاحيات",
+      "table": "permissions",
+      "description": "الصلاحيات والعمليات المتاحة في النظام."
+    },
+    {
+      "id": "role_permissions",
+      "domain": "المستخدمون والصلاحيات",
+      "table": "role_permissions",
+      "description": "ربط الأدوار بالصلاحيات بعلاقة متعدد إلى متعدد."
+    },
+    {
+      "id": "user_roles",
+      "domain": "المستخدمون والصلاحيات",
+      "table": "user_roles",
+      "description": "ربط المستخدمين بالأدوار بعلاقة متعدد إلى متعدد."
+    },
+    {
+      "id": "audit_logs",
+      "domain": "التدقيق",
+      "table": "audit_logs",
+      "description": "سجل تدقيق مركزي لتوثيق الإنشاء والتعديل والحذف والموافقات وغيرها."
+    },
+    {
+      "id": "circular_types",
+      "domain": "التعاميم والجهات",
+      "table": "circular_types",
+      "description": "أنواع التعاميم أو القرارات الإدارية القابلة للإعداد."
+    },
+    {
+      "id": "external_entities",
+      "domain": "التعاميم والجهات",
+      "table": "external_entities",
+      "description": "الجهات الخارجية التي يمكن مخاطبتها أو إرسال التعاميم والمراسلات إليها."
+    },
+    {
+      "id": "circulars",
+      "domain": "التعاميم والجهات",
+      "table": "circulars",
+      "description": "التعاميم والقرارات الصادرة وحالتها وتواريخ إصدارها ونشرها."
+    },
+    {
+      "id": "circular_recipients",
+      "domain": "التعاميم والجهات",
+      "table": "circular_recipients",
+      "description": "الجهات الداخلية أو الخارجية المستلمة للتعميم وحالة التسليم."
+    },
+    {
+      "id": "employment_statuses",
+      "domain": "الموظفون",
+      "table": "employment_statuses",
+      "description": "حالات الموظف الوظيفية والقواعد المترتبة عليها مثل إيقاف الراتب أو التصفية."
+    },
+    {
+      "id": "marital_statuses",
+      "domain": "الموظفون",
+      "table": "marital_statuses",
+      "description": "الحالات الاجتماعية للموظفين."
+    },
+    {
+      "id": "nationalities",
+      "domain": "الموظفون",
+      "table": "nationalities",
+      "description": "الجنسيات المستخدمة في بيانات الموظفين."
+    },
+    {
+      "id": "employees",
+      "domain": "الموظفون",
+      "table": "employees",
+      "description": "السجل الأساسي للموظف وبياناته الشخصية والوظيفية الحالية."
+    },
+    {
+      "id": "employee_positions",
+      "domain": "الموظفون",
+      "table": "employee_positions",
+      "description": "السجل التاريخي لإشغال الموظفين للمقاعد الوظيفية."
+    },
+    {
+      "id": "daily_attendance",
+      "domain": "الحضور والغياب",
+      "table": "daily_attendance",
+      "description": "الملخص اليومي لحضور الموظف مثل أول دخول وآخر خروج وإجمالي الدوام."
+    },
+    {
+      "id": "attendance_logs",
+      "domain": "الحضور والغياب",
+      "table": "attendance_logs",
+      "description": "سجل كل حركة دخول أو خروج للموظف خلال اليوم."
+    },
+    {
+      "id": "absence_decisions",
+      "domain": "الحضور والغياب",
+      "table": "absence_decisions",
+      "description": "قرارات الغياب وما يترتب عليها من حسم أو تحويل."
+    },
+    {
+      "id": "leave_types",
+      "domain": "الإجازات",
+      "table": "leave_types",
+      "description": "أنواع الإجازات وخصائصها مثل كونها مأجورة أو تتطلب مستندًا."
+    },
+    {
+      "id": "leave_balances",
+      "domain": "الإجازات",
+      "table": "leave_balances",
+      "description": "أرصدة الإجازات السنوية لكل موظف ونوع إجازة."
+    },
+    {
+      "id": "official_mission_orders",
+      "domain": "المهام الرسمية والداخلية",
+      "table": "official_mission_orders",
+      "description": "أوامر المهمات الرسمية ووجهتها ومدتها ومرجعها."
+    },
+    {
+      "id": "mission_participants",
+      "domain": "المهام الرسمية والداخلية",
+      "table": "mission_participants",
+      "description": "الموظفون المشاركون في المهمات الرسمية."
+    },
+    {
+      "id": "internal_tasks",
+      "domain": "المهام الرسمية والداخلية",
+      "table": "internal_tasks",
+      "description": "المهام الداخلية المسندة بين الموظفين وحالتها وأولويتها."
+    },
+    {
+      "id": "individual_reports",
+      "domain": "المهام الرسمية والداخلية",
+      "table": "individual_reports",
+      "description": "التقارير الفردية المرتبطة بالمهام الداخلية."
+    },
+    {
+      "id": "employee_action_types",
+      "domain": "الحركات الوظيفية",
+      "table": "employee_action_types",
+      "description": "أنواع الحركات الوظيفية مثل الترفيع والنقل والإيقاف."
+    },
+    {
+      "id": "employee_action_records",
+      "domain": "الحركات الوظيفية",
+      "table": "employee_action_records",
+      "description": "سجل الحركات والتغيرات الوظيفية التي تطرأ على الموظف."
+    },
+    {
+      "id": "promotion_records",
+      "domain": "الحركات الوظيفية",
+      "table": "promotion_records",
+      "description": "سجلات الترفيعات والزيادات المرتبطة بالموظفين والقرارات."
+    },
+    {
+      "id": "disciplinary_action_types",
+      "domain": "العقوبات والمكافآت",
+      "table": "disciplinary_action_types",
+      "description": "أنواع العقوبات مثل الإنذار والحسم والتوبيخ."
+    },
+    {
+      "id": "disciplinary_reasons",
+      "domain": "العقوبات والمكافآت",
+      "table": "disciplinary_reasons",
+      "description": "الأسباب المرجعية التي يمكن أن تؤدي إلى عقوبة."
+    },
+    {
+      "id": "disciplinary_actions",
+      "domain": "العقوبات والمكافآت",
+      "table": "disciplinary_actions",
+      "description": "العقوبات الفعلية المسجلة على الموظفين."
+    },
+    {
+      "id": "disciplinary_action_types_map",
+      "domain": "العقوبات والمكافآت",
+      "table": "disciplinary_action_types_map",
+      "description": "ربط العقوبات بأنواعها بعلاقة متعدد إلى متعدد."
+    },
+    {
+      "id": "disciplinary_action_reasons",
+      "domain": "العقوبات والمكافآت",
+      "table": "disciplinary_action_reasons",
+      "description": "ربط العقوبات بأسبابها بعلاقة متعدد إلى متعدد."
+    },
+    {
+      "id": "reward_types",
+      "domain": "العقوبات والمكافآت",
+      "table": "reward_types",
+      "description": "أنواع المكافآت المعتمدة في النظام."
+    },
+    {
+      "id": "rewards",
+      "domain": "العقوبات والمكافآت",
+      "table": "rewards",
+      "description": "المكافآت الفعلية الممنوحة للموظفين."
+    },
+    {
+      "id": "reward_reward_types",
+      "domain": "العقوبات والمكافآت",
+      "table": "reward_reward_types",
+      "description": "ربط المكافآت بأنواعها بعلاقة متعدد إلى متعدد."
+    },
+    {
+      "id": "insurance_types",
+      "domain": "التأمين والتصفية",
+      "table": "insurance_types",
+      "description": "أنواع التأمين المتاحة للموظفين."
+    },
+    {
+      "id": "insurance_coverage_types",
+      "domain": "التأمين والتصفية",
+      "table": "insurance_coverage_types",
+      "description": "أنواع التغطية التأمينية."
+    },
+    {
+      "id": "insurance_classes",
+      "domain": "التأمين والتصفية",
+      "table": "insurance_classes",
+      "description": "فئات أو درجات التأمين."
+    },
+    {
+      "id": "insurance_contracts",
+      "domain": "التأمين والتصفية",
+      "table": "insurance_contracts",
+      "description": "عقود التأمين الخاصة بالموظفين ونسب المساهمات والحسميات."
+    },
+    {
+      "id": "service_inclusions",
+      "domain": "التأمين والتصفية",
+      "table": "service_inclusions",
+      "description": "فترات ضم الخدمة والمبالغ والحسميات المترتبة عليها."
+    },
+    {
+      "id": "liquidation_statuses",
+      "domain": "التأمين والتصفية",
+      "table": "liquidation_statuses",
+      "description": "حالات عملية التصفية مثل قيد المعالجة أو مكتملة أو ملغاة."
+    },
+    {
+      "id": "termination_reasons",
+      "domain": "التأمين والتصفية",
+      "table": "termination_reasons",
+      "description": "أسباب إنهاء الخدمة المستخدمة في إجراءات التصفية."
+    },
+    {
+      "id": "insurance_liquidations",
+      "domain": "التأمين والتصفية",
+      "table": "insurance_liquidations",
+      "description": "عمليات تصفية التأمين والمستحقات عند انتهاء أو تغير خدمة الموظف."
+    },
+    {
+      "id": "liquidation_leave_stats",
+      "domain": "التأمين والتصفية",
+      "table": "liquidation_leave_stats",
+      "description": "ملخص أرصدة وأيام الإجازات المستخدمة أثناء التصفية."
+    },
+    {
+      "id": "liquidation_salary_snapshots",
+      "domain": "التأمين والتصفية",
+      "table": "liquidation_salary_snapshots",
+      "description": "لقطات الراتب المستخدمة في حسابات التصفية."
+    },
+    {
+      "id": "assets",
+      "domain": "العهدة والأصول",
+      "table": "assets",
+      "description": "العهد والأصول المسلمة للموظفين."
+    },
+    {
+      "id": "decision_types",
+      "domain": "القرارات والقوالب",
+      "table": "decision_types",
+      "description": "أنواع القرارات الإدارية المستخدمة في النظام."
+    },
+    {
+      "id": "decision_templates",
+      "domain": "القرارات والقوالب",
+      "table": "decision_templates",
+      "description": "قوالب القرارات المرتبطة بنوع القرار."
+    },
+    {
+      "id": "decision_template_fields",
+      "domain": "القرارات والقوالب",
+      "table": "decision_template_fields",
+      "description": "الحقول الديناميكية المعرفة لكل قالب قرار."
+    },
+    {
+      "id": "decisions",
+      "domain": "القرارات والقوالب",
+      "table": "decisions",
+      "description": "السجل المركزي للقرارات الفعلية وأرقامها وروابط ملفاتها وحالتها."
+    },
+    {
+      "id": "decision_field_values",
+      "domain": "القرارات والقوالب",
+      "table": "decision_field_values",
+      "description": "القيم الفعلية لحقول القالب في كل قرار."
+    },
+    {
+      "id": "official_correspondences",
+      "domain": "المراسلات الرسمية",
+      "table": "official_correspondences",
+      "description": "المراسلات الواردة والصادرة والداخلية وربطها بالجهات والموظفين والقرارات."
+    },
+    {
+      "id": "training_categories",
+      "domain": "التدريب",
+      "table": "training_categories",
+      "description": "تصنيفات الدورات والبرامج التدريبية."
+    },
+    {
+      "id": "training_centers",
+      "domain": "التدريب",
+      "table": "training_centers",
+      "description": "مراكز أو جهات التدريب التي تقدم الدورات."
+    },
+    {
+      "id": "training_plans",
+      "domain": "التدريب",
+      "table": "training_plans",
+      "description": "الخطط التدريبية وما تتضمنه من برامج ودورات مخططة."
+    },
+    {
+      "id": "training_courses",
+      "domain": "التدريب",
+      "table": "training_courses",
+      "description": "الدورات التدريبية وتفاصيلها ومدتها وتكلفتها ومركزها."
+    },
+    {
+      "id": "quotations",
+      "domain": "التدريب",
+      "table": "quotations",
+      "description": "عروض الأسعار المقدمة للدورات أو الخدمات التدريبية."
+    },
+    {
+      "id": "committees",
+      "domain": "التدريب",
+      "table": "committees",
+      "description": "اللجان المشكلة لدراسة أو اعتماد موضوعات التدريب."
+    },
+    {
+      "id": "committee_members",
+      "domain": "التدريب",
+      "table": "committee_members",
+      "description": "أعضاء اللجان وأدوارهم ضمن كل لجنة."
+    },
+    {
+      "id": "committee_votes",
+      "domain": "التدريب",
+      "table": "committee_votes",
+      "description": "تصويت أعضاء اللجان وقراراتهم."
+    },
+    {
+      "id": "course_registrations",
+      "domain": "التدريب",
+      "table": "course_registrations",
+      "description": "تسجيل الموظفين في الدورات التدريبية وحالة التسجيل."
+    },
+    {
+      "id": "evaluations",
+      "domain": "التدريب",
+      "table": "evaluations",
+      "description": "تقييمات الدورات أو المشاركين بعد التدريب."
+    },
+    {
+      "id": "course_target_org_unit",
+      "domain": "التدريب",
+      "table": "course_target_org_unit",
+      "description": "ربط الدورات بالوحدات التنظيمية المستهدفة."
+    },
+    {
+      "id": "training_sessions",
+      "domain": "التدريب",
+      "table": "training_sessions",
+      "description": "الجلسات أو المواعيد الفعلية المكونة للدورة التدريبية."
+    },
+    {
+      "id": "employee_certificates",
+      "domain": "التدريب",
+      "table": "employee_certificates",
+      "description": "الشهادات التدريبية التي حصل عليها الموظفون."
+    }
+  ]
+}
+
