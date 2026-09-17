@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState, type MouseEvent as ReactMouseEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent } from "react";
 import { addEdge, applyEdgeChanges, applyNodeChanges, type Connection, type OnEdgesChange, type OnNodesChange } from "@xyflow/react";
-import { Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleDot, Code2, Command, FileCode2, FileJson, FileText, Folder, FolderPlus, GitBranch, GitFork, LayoutPanelLeft, Package, PanelRight, Pencil, Plus, Search, Settings2, Trash2, WandSparkles, X } from "lucide-react";
+import { Check, ChevronDown, ChevronLeft, ChevronRight, ChevronUp, CircleDot, Code2, Command, ExternalLink, FileCode2, FileJson, FileText, Folder, FolderPlus, GitBranch, LayoutPanelLeft, Link2, Package, Pencil, Plus, Search, Settings2, Trash2, WandSparkles, X } from "lucide-react";
 import { diagramLayoutSchema } from "@/domain/schemas";
 import { projectDiagram, serializeLayout } from "@/domain/diagram";
 import { autoLayout } from "@/domain/layout";
@@ -17,9 +17,7 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { Input } from "@/components/ui/input";
 import { DataTableEditor, emptyDataTableDocument } from "@/components/editor/data-table";
 import { CodeEditor } from "@/components/editor/code-editor";
-import { Inspector } from "@/components/workspace/inspector";
 import { ChangeLogPanel } from "@/components/workspace/change-log-panel";
-import { JobCardsPage, JobCardsSidebar } from "@/components/job-cards/job-cards-page";
 import { CitizenServicesPage, CitizenServicesSidebar } from "@/components/citizen-services/citizen-services-page";
 
 const workspace = loadFixtureWorkspace();
@@ -86,8 +84,78 @@ function fileIcon(path: string) {
 
 function pathLabel(path: string) { return path.split("/").at(-1) ?? path; }
 
+interface QuickLink {
+  id: string;
+  title: string;
+  description: string;
+  url: string;
+}
+
+type QuickLinkScope = "general" | "file";
+
+const defaultQuickLinks: QuickLink[] = [
+  { id: "google-drive", title: "Google Drive", description: "الملفات والمراجع المشتركة", url: "https://drive.google.com/" },
+  { id: "github", title: "GitHub", description: "المستودع وسجل التعديلات", url: "https://github.com/lahlahai/Analysis-Department-OS" },
+  { id: "onedrive", title: "OneDrive", description: "مساحة ملفات إضافية للفريق", url: "https://onedrive.live.com/" },
+];
+
+const MIN_GENERAL_LINKS_RATIO = 15;
+const MAX_GENERAL_LINKS_RATIO = 85;
+
+function clampQuickLinksRatio(value: number) {
+  return Math.min(MAX_GENERAL_LINKS_RATIO, Math.max(MIN_GENERAL_LINKS_RATIO, Math.round(value)));
+}
+
+function normalizeQuickLinkUrl(value: string) {
+  const candidate = value.trim();
+  if (!candidate) return null;
+  const normalized = /^[a-z][a-z\d+.-]*:\/\//i.test(candidate) ? candidate : `https://${candidate}`;
+  try {
+    const url = new URL(normalized);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.toString() : null;
+  } catch {
+    return null;
+  }
+}
+
+function isValidQuickLink(value: unknown): value is QuickLink {
+  if (!value || typeof value !== "object") return false;
+  const link = value as Record<string, unknown>;
+  return typeof link.id === "string" && typeof link.title === "string" && typeof link.description === "string" && typeof link.url === "string";
+}
+
 function MarkdownPreview({ text }: { text: string }) {
   return <div className="h-full overflow-auto bg-[#0d131c] px-8 py-7 text-sm text-slate-300"><div className="mx-auto max-w-3xl space-y-5 font-sans leading-7">{text.split("\n").map((line, index) => line.startsWith("# ") ? <h1 key={index} className="border-b border-white/10 pb-4 text-2xl font-semibold text-slate-100">{line.slice(2)}</h1> : line.startsWith("## ") ? <h2 key={index} className="pt-3 text-lg font-semibold text-slate-100">{line.slice(3)}</h2> : line.startsWith("- ") ? <div key={index} className="flex gap-2 pl-2"><span className="text-cyan-300">•</span><span>{line.slice(2)}</span></div> : /^\d+\. /.test(line) ? <div key={index} className="pl-2 text-slate-400">{line}</div> : line.trim() ? <p key={index}>{line.replaceAll("**", "")}</p> : <div key={index} className="h-1" />)}</div></div>;
+}
+
+interface QuickLinksPanelProps {
+  id: string;
+  title: string;
+  links: QuickLink[];
+  emptyText: string;
+  onAdd: () => void;
+  onEdit?: (link: QuickLink) => void;
+  onRemove: (id: string) => void;
+}
+
+function QuickLinksPanel({ id, title, links, emptyText, onAdd, onEdit, onRemove }: QuickLinksPanelProps) {
+  return <section className="quick-links-panel border-t border-white/10 px-3 py-3" aria-labelledby={id}>
+    <div className="mb-2 flex items-center justify-between gap-2">
+      <div id={id} className="flex min-w-0 items-center gap-2 font-mono text-[9px] font-semibold tracking-[0.08em] text-slate-700"><Link2 size={12} className="shrink-0 text-amber-700" /><span className="truncate">{title}</span></div>
+      <button type="button" onClick={onAdd} className="grid size-5 shrink-0 place-items-center rounded text-slate-500 transition hover:bg-amber-50 hover:text-amber-800" title="إضافة رابط" aria-label="إضافة رابط"><Plus size={12} /></button>
+    </div>
+    <div className="quick-links-list space-y-1">
+      {links.map((link) => <div key={link.id} className="quick-link-item group/quick-link flex items-center gap-1 rounded-md">
+        <a href={link.url} target="_blank" rel="noreferrer" className="flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1.5 text-right transition" title={link.url}>
+          <span className="quick-link-icon grid size-7 shrink-0 place-items-center rounded-md"><ExternalLink size={12} /></span>
+          <span className="min-w-0 flex-1"><span className="block truncate text-[10px] font-semibold">{link.title}</span><span className="block truncate text-[9px]">{link.description}</span></span>
+        </a>
+        {onEdit && <button type="button" onClick={() => onEdit(link)} className="quick-link-edit grid size-6 shrink-0 place-items-center rounded opacity-0 transition group-hover/quick-link:opacity-100" title="تعديل الرابط" aria-label={`تعديل ${link.title}`}><Pencil size={11} /></button>}
+        <button type="button" onClick={() => onRemove(link.id)} className="quick-link-remove grid size-6 shrink-0 place-items-center rounded opacity-0 transition group-hover/quick-link:opacity-100" title="حذف الرابط" aria-label={`حذف ${link.title}`}><Trash2 size={11} /></button>
+      </div>)}
+      {links.length === 0 && <p className="rounded-md border border-dashed border-slate-300 px-2 py-3 text-center text-[9px] leading-5 text-slate-500">{emptyText}</p>}
+    </div>
+  </section>;
 }
 
 export function Workspace() {
@@ -115,15 +183,50 @@ export function Workspace() {
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null);
   const [showProblems, setShowProblems] = useState(false);
   const [showLeftPanel, setShowLeftPanel] = useState(true);
-  const [showRightPanel, setShowRightPanel] = useState(true);
-  const [workspaceSection, setWorkspaceSection] = useState<"files" | "job-cards" | "citizen-services">("files");
-  const [jobCardDomain, setJobCardDomain] = useState("الكل");
+  const [showQuickLinksPanel, setShowQuickLinksPanel] = useState(true);
+  const [workspaceSection, setWorkspaceSection] = useState<"files" | "citizen-services">("files");
   const [citizenServiceFilter, setCitizenServiceFilter] = useState<"all" | "service" | "inquiry">("all");
   const [showCommand, setShowCommand] = useState(false);
   const [tabContextMenu, setTabContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [isLayingOut, setIsLayingOut] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
+  const [quickLinks, setQuickLinks] = useState<QuickLink[]>(defaultQuickLinks);
+  const [fileQuickLinks, setFileQuickLinks] = useState<Record<string, QuickLink[]>>({});
+  const [quickLinksHydrated, setQuickLinksHydrated] = useState(false);
+  const [quickLinksGeneralRatio, setQuickLinksGeneralRatio] = useState(20);
+  const quickLinksResizeRef = useRef<{ startY: number; startRatio: number; height: number } | null>(null);
+  const [quickLinkDialog, setQuickLinkDialog] = useState(false);
+  const [quickLinkScope, setQuickLinkScope] = useState<QuickLinkScope>("general");
+  const [quickLinkEditingId, setQuickLinkEditingId] = useState<string | null>(null);
+  const [quickLinkDraft, setQuickLinkDraft] = useState({ title: "", description: "", url: "" });
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem("analysis-department-quick-links") ?? "null") as unknown;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      if (Array.isArray(stored) && stored.every(isValidQuickLink)) setQuickLinks(stored);
+      const storedFileLinks = JSON.parse(localStorage.getItem("analysis-department-file-links") ?? "null") as unknown;
+      if (storedFileLinks && typeof storedFileLinks === "object" && !Array.isArray(storedFileLinks)) {
+        const validFileLinks = Object.fromEntries(Object.entries(storedFileLinks).filter(([, links]) => Array.isArray(links) && links.every(isValidQuickLink)));
+        setFileQuickLinks(validFileLinks);
+      }
+      const storedRatio = Number(localStorage.getItem("analysis-department-quick-links-ratio"));
+      if (Number.isFinite(storedRatio)) {
+        setQuickLinksGeneralRatio(clampQuickLinksRatio(storedRatio));
+      }
+    } catch {
+      // Keep defaults when local storage is unavailable or malformed.
+    }
+    setQuickLinksHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!quickLinksHydrated) return;
+    localStorage.setItem("analysis-department-quick-links", JSON.stringify(quickLinks));
+    localStorage.setItem("analysis-department-file-links", JSON.stringify(fileQuickLinks));
+    localStorage.setItem("analysis-department-quick-links-ratio", String(quickLinksGeneralRatio));
+  }, [quickLinks, fileQuickLinks, quickLinksGeneralRatio, quickLinksHydrated]);
 
   const activeLayout = useMemo(() => layouts.find((layout) => activePath === `.software/diagrams/${layout.diagram.id}.json`), [activePath, layouts]);
   const activeIsDiagram = Boolean(activeLayout);
@@ -133,7 +236,6 @@ export function Workspace() {
   const selectedEntity = selectedId ? model.entities.find((entity) => entity.id === selectedId) : undefined;
   const selectedRelationships = selectedId ? model.relationships.filter((item) => item.source === selectedId || item.target === selectedId) : [];
   const selectedRelationship = selectedEdgeId ? model.relationships.find((relationship) => relationship.id === selectedEdgeId) : undefined;
-  const jobCardDomains = useMemo(() => ["الكل", ...Array.from(new Set(workspace.jobCards.map((card) => card.domain)))], []);
   const diagramFilePaths = Object.keys(files).filter((path) => path.startsWith(".software/diagrams/") && path.endsWith(".json"));
   const diagramTypeForPath = (path: string) => { const rawId = path.split("/").at(-1)?.replace(".json", "") ?? ""; return layouts.find((layout) => path === `.software/diagrams/${layout.diagram.id}.json`)?.diagram.type ?? (rawId === "flow" ? "flowchart" : rawId as DiagramType); };
   const visibleFileGroups = folders.map((label) => ({ label, files: Object.keys(files).filter((path) => folderForPath(path) === label && (label !== "diagrams" || enabledDiagramTypes.includes(diagramTypeForPath(path)))) }));
@@ -274,6 +376,70 @@ export function Workspace() {
     setOpenPaths((current) => current.includes(path) ? current : [...current, path]);
     setShowCommand(false);
     setEditorOpen(false);
+  }
+
+  function openQuickLinkDialog(scope: QuickLinkScope, link?: QuickLink) {
+    if (scope === "file" && !activePath) {
+      setNotice("افتح ملفاً أولاً لإضافة رابط مخصص له");
+      return;
+    }
+    setQuickLinkScope(scope);
+    setQuickLinkEditingId(link?.id ?? null);
+    setQuickLinkDraft(link ? { title: link.title, description: link.description, url: link.url } : { title: "", description: "", url: "https://" });
+    setQuickLinkDialog(true);
+  }
+
+  function submitQuickLink() {
+    const title = quickLinkDraft.title.trim();
+    const description = quickLinkDraft.description.trim();
+    const url = normalizeQuickLinkUrl(quickLinkDraft.url);
+    if (!title || !description || !url) {
+      setNotice("أدخل اسم الرابط ووصفه ورابطاً صحيحاً");
+      return;
+    }
+    const link = { id: quickLinkEditingId ?? `quick-link-${Date.now()}`, title, description, url };
+    if (quickLinkScope === "general") {
+      setQuickLinks((current) => quickLinkEditingId ? current.map((item) => item.id === quickLinkEditingId ? link : item) : [...current, link]);
+    } else if (activePath) {
+      setFileQuickLinks((current) => ({ ...current, [activePath]: quickLinkEditingId ? (current[activePath] ?? []).map((item) => item.id === quickLinkEditingId ? link : item) : [...(current[activePath] ?? []), link] }));
+    }
+    setQuickLinkEditingId(null);
+    setQuickLinkDialog(false);
+  }
+
+  function removeQuickLink(scope: QuickLinkScope, id: string) {
+    if (scope === "general") setQuickLinks((current) => current.filter((link) => link.id !== id));
+    else if (activePath) setFileQuickLinks((current) => ({ ...current, [activePath]: (current[activePath] ?? []).filter((link) => link.id !== id) }));
+  }
+
+  function startQuickLinksResize(event: ReactPointerEvent<HTMLDivElement>) {
+    event.preventDefault();
+    const body = event.currentTarget.parentElement;
+    if (!body) return;
+    quickLinksResizeRef.current = { startY: event.clientY, startRatio: quickLinksGeneralRatio, height: body.getBoundingClientRect().height };
+    const handleMove = (moveEvent: PointerEvent) => {
+      const resizeState = quickLinksResizeRef.current;
+      if (!resizeState || resizeState.height <= 0) return;
+      const deltaRatio = ((moveEvent.clientY - resizeState.startY) / resizeState.height) * 100;
+      setQuickLinksGeneralRatio(clampQuickLinksRatio(resizeState.startRatio + deltaRatio));
+    };
+    const handleUp = () => {
+      quickLinksResizeRef.current = null;
+      window.removeEventListener("pointermove", handleMove);
+      window.removeEventListener("pointerup", handleUp);
+    };
+    window.addEventListener("pointermove", handleMove);
+    window.addEventListener("pointerup", handleUp);
+  }
+
+  function handleQuickLinksResizeKey(event: React.KeyboardEvent<HTMLDivElement>) {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setQuickLinksGeneralRatio((current) => clampQuickLinksRatio(current - 5));
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setQuickLinksGeneralRatio((current) => clampQuickLinksRatio(current + 5));
+    }
   }
 
   function openTabContextMenu(event: ReactMouseEvent<HTMLDivElement>) {
@@ -443,41 +609,41 @@ export function Workspace() {
     setCanvasNodes((current) => current.map((node) => node.id === id ? { ...node, data: { ...node.data, label: nextModel.entities.find((entity) => entity.id === id)?.name ?? node.data.label, description: nextModel.entities.find((entity) => entity.id === id)?.description ?? node.data.description, fieldCount: nextModel.entities.find((entity) => entity.id === id)?.fields.length ?? node.data.fieldCount } } : node));
   }
 
-  return <main className="day-mode relative flex h-screen min-h-[680px] flex-col overflow-hidden text-slate-800">
-    <header className="flex h-12 shrink-0 items-center border-b border-white/10 bg-[#111923] px-3 shadow-lg shadow-black/10">
-      <div className="flex w-[244px] items-center gap-2 border-r border-white/10 pr-4"><div className="grid size-7 place-items-center rounded-md bg-cyan-400 text-slate-950"><Package size={16} strokeWidth={2.5} /></div><div><div className="font-mono text-[11px] font-semibold tracking-tight text-slate-100">مهندس البرمجيات</div><div className="font-mono text-[8px] tracking-[0.12em] text-slate-500">مساحة هندسية</div></div></div>
+  return <main className="day-mode official-shell relative flex h-screen min-h-[680px] flex-col overflow-hidden text-slate-800">
+    <header className="official-header flex h-12 shrink-0 items-center border-b border-white/10 bg-[#111923] px-3 shadow-lg shadow-black/10">
+      <div className="official-brand flex w-[244px] items-center gap-2 border-r border-white/10 pr-4"><div className="official-brand-mark grid size-7 place-items-center rounded-md bg-cyan-400 text-slate-950"><Package size={16} strokeWidth={2.5} /></div><div><div className="font-mono text-[11px] font-semibold tracking-tight text-slate-100">قسم فريق تحليل المشاريع</div><div className="font-mono text-[8px] tracking-[0.12em] text-slate-500">مكان واحد لكل الملفات والروابط</div></div></div>
       <div className="flex min-w-0 flex-1 items-center gap-3 px-4"><span className="rounded border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[10px] text-slate-300">checkout-platform</span><ChevronRight size={13} className="text-slate-600" /><span className="flex items-center gap-1 font-mono text-[10px] text-slate-400"><GitBranch size={13} className="text-violet-300" />main</span><span className="h-4 w-px bg-white/10" /><span className="font-mono text-[10px] text-slate-500">acme / checkout-platform</span></div>
       <div className="flex items-center gap-1"><Button size="sm" variant="ghost" onClick={saveChanges}><Check size={13} className={modifiedPaths.length ? "text-amber-600" : "text-emerald-600"} />حفظ {modifiedPaths.length > 0 && <span className="rounded bg-amber-100 px-1 text-[9px] text-amber-700">{modifiedPaths.length}</span>}</Button><Button size="sm" variant="ghost" disabled={!activeLayout || isLayingOut} onClick={() => handleAutoLayout("RIGHT")}><WandSparkles size={13} className="text-violet-600" />ترتيب</Button><Button size="sm" variant="ghost" onClick={() => setShowProblems(true)}><CircleDot size={13} className={issues.length ? "text-amber-600" : "text-emerald-600"} />تحقق</Button><Button size="icon" variant="ghost" title="إعدادات المخططات" onClick={() => setShowDiagramSettings(true)}><Settings2 size={14} /></Button></div>
     </header>
 
-    <div className="flex min-h-0 flex-1">
-      {showLeftPanel && <aside className="flex w-[244px] shrink-0 flex-col border-r border-white/10 bg-[#111923]">
-         <div className="flex h-10 items-center justify-between border-b border-white/10 px-3"><div className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.13em] text-slate-400"><LayoutPanelLeft size={13} />{workspaceSection === "files" ? "الملفات" : workspaceSection === "job-cards" ? "البطاقات" : "طلبات المواطنين"}</div><div className="flex items-center gap-0.5">{workspaceSection === "files" && <><Button size="icon" variant="ghost" title="ملف جديد" onClick={openCreateFile}><Plus size={13} /></Button><Button size="icon" variant="ghost" title="مجلد جديد" onClick={openCreateFolder}><FolderPlus size={13} /></Button></>}<Button size="icon" variant="ghost" title="طي اللوحة الجانبية" onClick={() => setShowLeftPanel(false)}><ChevronRight size={14} /></Button></div></div>
-         <div className="flex border-b border-white/10 p-1"><button type="button" onClick={() => setWorkspaceSection("files")} className={cn("flex-1 rounded px-2 py-1.5 text-[10px]", workspaceSection === "files" ? "bg-cyan-400/10 text-cyan-700" : "text-slate-500 hover:bg-slate-100")}>ملفات المشروع</button><button type="button" onClick={() => setWorkspaceSection("job-cards")} className={cn("flex-1 rounded px-2 py-1.5 text-[10px]", workspaceSection === "job-cards" ? "bg-pink-50 text-pink-700" : "text-slate-500 hover:bg-slate-100")}>البطاقات الوظيفية</button><button type="button" onClick={() => setWorkspaceSection("citizen-services")} className={cn("flex-1 rounded px-2 py-1.5 text-[10px]", workspaceSection === "citizen-services" ? "bg-amber-50 text-amber-700" : "text-slate-500 hover:bg-slate-100")}>طلبات المواطنين</button></div>
+    <Dialog open={quickLinkDialog} onOpenChange={setQuickLinkDialog}><DialogContent dir="rtl"><DialogTitle className="text-lg font-semibold text-slate-900">{quickLinkEditingId ? "تعديل الرابط العام" : quickLinkScope === "general" ? "إضافة رابط عام" : "إضافة رابط للملف"}</DialogTitle><DialogDescription className="mt-1 text-right text-xs text-slate-500">أضف اسماً ووصفاً ورابطاً واضحاً ليستفيد منه الفريق.</DialogDescription><div className="mt-5 space-y-4"><label className="block text-sm font-medium text-slate-700">اسم الرابط<Input className="mt-1" autoFocus value={quickLinkDraft.title} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, title: event.target.value }))} placeholder="Google Drive" /></label><label className="block text-sm font-medium text-slate-700">الوصف<Input className="mt-1" value={quickLinkDraft.description} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, description: event.target.value }))} placeholder="الملفات والمراجع المشتركة" /></label><label className="block text-sm font-medium text-slate-700">الرابط<Input className="mt-1" value={quickLinkDraft.url} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, url: event.target.value }))} placeholder="https://example.com" dir="ltr" /></label></div><div className="mt-6 flex justify-start gap-2"><Button variant="outline" onClick={() => setQuickLinkDialog(false)}>إلغاء</Button><Button variant="primary" onClick={submitQuickLink}><Link2 size={14} />{quickLinkEditingId ? "حفظ التعديل" : "إضافة الرابط"}</Button></div></DialogContent></Dialog>
+    <div className="workspace-body flex min-h-0 flex-1">
+      {showLeftPanel && <aside className="workspace-sidebar official-sidebar flex w-[244px] shrink-0 flex-col border-r border-white/10 bg-[#111923]">
+         <div className="flex h-10 items-center justify-between border-b border-white/10 px-3"><div className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.13em] text-slate-400"><LayoutPanelLeft size={13} />{workspaceSection === "files" ? "الملفات" : "طلبات المواطنين"}</div><div className="flex items-center gap-0.5">{workspaceSection === "files" && <><Button size="icon" variant="ghost" title="ملف جديد" onClick={openCreateFile}><Plus size={13} /></Button><Button size="icon" variant="ghost" title="مجلد جديد" onClick={openCreateFolder}><FolderPlus size={13} /></Button></>}<Button size="icon" variant="ghost" title="طي اللوحة الجانبية" onClick={() => setShowLeftPanel(false)}><ChevronRight size={14} /></Button></div></div>
+         <div className="flex border-b border-white/10 p-1"><button type="button" onClick={() => setWorkspaceSection("files")} className={cn("flex-1 rounded px-2 py-1.5 text-[10px]", workspaceSection === "files" ? "bg-cyan-400/10 text-cyan-700" : "text-slate-500 hover:bg-slate-100")}>ملفات المشروع</button><button type="button" onClick={() => setWorkspaceSection("citizen-services")} className={cn("flex-1 rounded px-2 py-1.5 text-[10px]", workspaceSection === "citizen-services" ? "bg-amber-50 text-amber-700" : "text-slate-500 hover:bg-slate-100")}>طلبات المواطنين</button></div>
         {workspaceSection === "files" ? <>
         <div className="flex items-center gap-2 border-b border-white/10 px-3 py-2"><Search size={13} className="text-slate-600" /><Input className="h-7 border-0 bg-transparent px-0 shadow-none focus:bg-transparent focus:ring-0" placeholder="تصفية الملفات" /></div>
         <div className="min-h-0 flex-1 overflow-auto px-2 py-3">{visibleFileGroups.length === 0 ? <div className="rounded-lg border border-dashed border-slate-300 px-3 py-6 text-center text-[11px] leading-6 text-slate-500">المستكشف فارغ.<br />أنشئ مجلدًا أو ملفًا جديدًا للبدء.</div> : visibleFileGroups.map((group) => { const isOpen = openFolders[group.label] ?? true; const isCoreFolder = coreFolders.includes(group.label); return <div key={group.label} className="group/folder mb-2"><div className="flex items-center gap-1 rounded px-2 py-1 hover:bg-slate-100"><button type="button" onClick={() => toggleFolder(group.label)} className="flex min-w-0 flex-1 items-center gap-1 text-right font-mono text-[10px] font-semibold text-slate-500"><ChevronDown size={12} className={cn("transition-transform", !isOpen && "-rotate-90")} /><Folder size={13} className="text-cyan-300/70" /><span className="truncate">{group.label === "diagrams" ? "المخططات" : group.label === "docs" ? "التوثيق" : group.label}</span><span className="ml-auto text-[9px] text-slate-700">{group.files.length}</span></button>{!isCoreFolder && <div className="flex items-center gap-0.5"><button type="button" onClick={() => openRenameFolder(group.label)} className="grid size-5 place-items-center rounded text-slate-400 hover:bg-white hover:text-cyan-600" title="إعادة تسمية المجلد"><Pencil size={10} /></button><button type="button" onClick={() => deleteFolder(group.label)} className="grid size-5 place-items-center rounded text-slate-400 hover:bg-white hover:text-rose-600" title="حذف المجلد"><Trash2 size={10} /></button></div>}</div>{isOpen && <div className="mt-0.5">{group.files.map((path) => <div key={path} className={cn("group/file flex w-full items-center rounded", activePath === path ? "bg-cyan-400/10" : "hover:bg-white/[0.05]")}><button type="button" onClick={() => selectPath(path)} className={cn("flex min-w-0 flex-1 items-center gap-2 px-2 py-1.5 text-left font-mono text-[10px] transition-colors", activePath === path ? "text-cyan-200" : "text-slate-400 hover:text-slate-200")}><span className="w-4">{fileIcon(path)}</span><span className="file-name truncate" dir="ltr">{pathLabel(path)}</span>{files[path] !== savedFiles[path] && <span className="ml-auto size-1.5 rounded-full bg-amber-300" />}</button><div className="flex items-center gap-0.5 pr-1 opacity-0 transition-opacity group-hover/file:opacity-100"><button type="button" onClick={() => openRenameFile(path)} className="grid size-5 place-items-center rounded text-slate-400 hover:bg-white hover:text-cyan-600" title="إعادة تسمية الملف"><Pencil size={10} /></button><button type="button" onClick={() => deleteFile(path)} className="grid size-5 place-items-center rounded text-slate-400 hover:bg-white hover:text-rose-600" title="حذف الملف"><Trash2 size={10} /></button></div></div>)}</div>}</div>; })}</div>
-        <div className="border-t border-white/10 p-3"><div className="mb-2 flex items-center gap-2 font-mono text-[9px] tracking-[0.13em] text-slate-600"><GitFork size={12} />مستودع GitHub</div><div className="flex w-full items-center gap-2 rounded-md border border-white/10 bg-white/[0.03] p-2 text-right"><div className="grid size-6 place-items-center rounded bg-slate-800"><GitFork size={14} /></div><div className="min-w-0 flex-1"><div className="truncate font-mono text-[10px] text-slate-300">acme/checkout-platform</div><div className="font-mono text-[9px] text-slate-600">مستودع متصل</div></div></div></div>
-         </> : workspaceSection === "job-cards" ? <JobCardsSidebar cards={workspace.jobCards} domains={jobCardDomains} activeDomain={jobCardDomain} onDomainChange={setJobCardDomain} /> : <CitizenServicesSidebar services={workspace.citizenServices} activeFilter={citizenServiceFilter} onFilterChange={setCitizenServiceFilter} />}
+         </> : <CitizenServicesSidebar services={workspace.citizenServices} activeFilter={citizenServiceFilter} onFilterChange={setCitizenServiceFilter} />}
       </aside>}
 
-      <section className="flex min-w-0 flex-1 flex-col bg-[#0b1018]">
+      <section className="official-main flex min-w-0 flex-1 flex-col bg-[#0b1018]">
         {workspaceSection === "files" ? <>
-         <div className="flex h-10 shrink-0 items-stretch border-b border-white/10 bg-[#0f1722] px-2" onContextMenu={openTabContextMenu}><div className="flex min-w-0 flex-1 items-stretch gap-1 overflow-x-auto">{openPaths.map((path) => <div key={path} className={cn("flex max-w-[190px] shrink-0 items-center border-x border-white/10", activePath === path && "bg-white/[0.06]")}><button type="button" onClick={() => selectPath(path)} className={cn("flex min-w-0 items-center gap-2 px-3 font-mono text-[10px]", activePath === path ? "text-cyan-200" : "text-slate-500 hover:text-slate-200")}><span>{fileIcon(path)}</span><span className="file-name truncate" dir="ltr">{pathLabel(path)}</span>{files[path] !== savedFiles[path] && <span className="size-1.5 shrink-0 rounded-full bg-amber-300" />}</button><button type="button" onClick={(event) => { event.stopPropagation(); closeFile(path); }} className="mr-1 grid size-5 shrink-0 place-items-center rounded text-slate-600 hover:bg-white/10 hover:text-slate-200" title="إغلاق الملف"><X size={11} /></button></div>)}</div><div className="flex items-center gap-1 pl-2"><Button size="icon" variant="ghost" title="لوحة الأوامر" onClick={() => setShowCommand(true)}><Command size={14} /></Button></div></div>
+         <div className="workspace-tabs flex h-10 shrink-0 items-stretch border-b border-white/10 bg-[#0f1722] px-2" onContextMenu={openTabContextMenu}><div className="flex min-w-0 flex-1 items-stretch gap-1 overflow-x-auto">{openPaths.map((path) => <div key={path} className={cn("workspace-tab flex max-w-[190px] shrink-0 items-center border-x border-white/10", activePath === path && "workspace-tab-active")}><button type="button" onClick={() => selectPath(path)} className={cn("workspace-tab-button flex min-w-0 items-center gap-2 px-3 font-mono text-[10px]", activePath === path ? "text-cyan-200" : "text-slate-500 hover:text-slate-200")}><span>{fileIcon(path)}</span><span className="file-name truncate" dir="ltr">{pathLabel(path)}</span>{files[path] !== savedFiles[path] && <span className="size-1.5 shrink-0 rounded-full bg-amber-300" />}</button><button type="button" onClick={(event) => { event.stopPropagation(); closeFile(path); }} className="workspace-tab-close mr-1 grid size-5 shrink-0 place-items-center rounded text-slate-600 hover:bg-white/10 hover:text-slate-200" title="إغلاق الملف"><X size={11} /></button></div>)}</div><div className="workspace-tabs-actions flex items-center gap-1 pl-2"><Button size="icon" variant="ghost" title="لوحة الأوامر" onClick={() => setShowCommand(true)}><Command size={14} /></Button></div></div>
         <div className="min-h-0 flex-1">{activePath ? <DataTableEditor key={activePath} path={activePath} value={files[activePath] ?? ""} onChange={(value) => setFiles((current) => ({ ...current, [activePath]: value }))} /> : <EmptyWorkspaceState />}</div>
-         </> : workspaceSection === "job-cards" ? <JobCardsPage cards={workspace.jobCards} domains={jobCardDomains} activeDomain={jobCardDomain} onDomainChange={setJobCardDomain} onRequestAttach={(card) => setNotice(`سيتم ربط ${card.table} بملف دراسة مديرية لاحقًا`)} /> : <CitizenServicesPage services={workspace.citizenServices} activeFilter={citizenServiceFilter} onFilterChange={setCitizenServiceFilter} />}
+         </> : <CitizenServicesPage services={workspace.citizenServices} activeFilter={citizenServiceFilter} onFilterChange={setCitizenServiceFilter} />}
         <ChangeLogPanel />
       </section>
 
-      {showRightPanel && workspaceSection === "files" && <aside className="properties-panel flex w-[282px] shrink-0 flex-col border-l border-slate-200 bg-white"><div className="flex h-10 items-center justify-between border-b border-slate-200 bg-slate-50 px-3"><div className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.13em] text-slate-600"><PanelRight size={13} />الخصائص</div><Button size="icon" variant="ghost" title="طي لوحة الخصائص" onClick={() => setShowRightPanel(false)}><ChevronLeft size={14} /></Button></div>{selectedNode || selectedEntity || selectedRelationship ? <Inspector node={selectedNode} entity={selectedEntity} relationship={selectedRelationship} relationships={selectedRelationships} onOpenJson={() => selectPath(selectedNode?.data.type === "entity" ? ".software/entities.json" : ".software/components.json")} onUpdateComponent={updateComponent} onUpdateEntity={updateEntity} onUpdateRelationship={updateRelationship} onDeleteRelationship={deleteSelectedEdge} /> : <div className="flex flex-1 flex-col items-center justify-center px-8 text-center"><div className="mb-3 grid size-10 place-items-center rounded-lg border border-dashed border-slate-300 text-slate-500"><Code2 size={18} /></div><div className="font-mono text-[11px] text-slate-700">لا يوجد اختيار</div><div className="mt-1 text-[10px] leading-relaxed text-slate-500">اختر عقدة أو رابطًا لعرض خصائصه.</div></div>}</aside>}
+      {showQuickLinksPanel && workspaceSection === "files" && <aside className="quick-links-sidebar official-properties flex w-[282px] shrink-0 flex-col border-l border-slate-200 bg-white"><div className="flex h-10 items-center justify-between border-b border-slate-200 bg-slate-50 px-3"><div className="flex items-center gap-2 font-mono text-[10px] font-semibold tracking-[0.08em] text-slate-700"><Link2 size={13} className="text-amber-700" />الروابط السريعة</div><Button size="icon" variant="ghost" title="طي لوحة الروابط السريعة" onClick={() => setShowQuickLinksPanel(false)}><ChevronLeft size={14} /></Button></div><div className="quick-links-sidebar-body flex min-h-0 flex-1 flex-col overflow-auto" style={{ gridTemplateRows: `${quickLinksGeneralRatio}fr 8px ${100 - quickLinksGeneralRatio}fr` }}><QuickLinksPanel id="general-quick-links" title="روابط عامة للفريق" links={quickLinks} emptyText="أضف رابطاً عاماً للفريق." onAdd={() => openQuickLinkDialog("general")} onEdit={(link) => openQuickLinkDialog("general", link)} onRemove={(id) => removeQuickLink("general", id)} /><div className="quick-links-resize-handle" role="separator" tabIndex={0} aria-orientation="horizontal" aria-valuemin={MIN_GENERAL_LINKS_RATIO} aria-valuemax={MAX_GENERAL_LINKS_RATIO} aria-valuenow={quickLinksGeneralRatio} aria-label="تغيير مساحة الروابط العامة وروابط الملف" title="اسحب لتغيير مساحة القسمين" onPointerDown={startQuickLinksResize} onKeyDown={handleQuickLinksResizeKey}><span /></div><div className="quick-links-file-section"><QuickLinksPanel id="file-quick-links" title={activePath ? `روابط الملف: ${pathLabel(activePath)}` : "روابط الملف المفتوح"} links={activePath ? (fileQuickLinks[activePath] ?? []) : []} emptyText={activePath ? "أضف روابط مرتبطة بهذا الملف." : "افتح ملفاً لعرض روابطه الخاصة."} onAdd={() => openQuickLinkDialog("file")} onRemove={(id) => removeQuickLink("file", id)} /></div></div></aside>}
     </div>
 
     {!showLeftPanel && <Button className="fixed right-2 top-16 z-30 shadow-md" size="sm" variant="outline" title="فتح لوحة الملفات" onClick={() => setShowLeftPanel(true)}><ChevronLeft size={14} />الملفات</Button>}
-    {!showRightPanel && workspaceSection === "files" && <Button className="fixed left-2 top-16 z-30 shadow-md" size="sm" variant="outline" title="فتح لوحة الخصائص" onClick={() => setShowRightPanel(true)}>الخصائص<ChevronRight size={14} /></Button>}
+    {!showQuickLinksPanel && workspaceSection === "files" && <Button className="fixed left-2 top-16 z-30 shadow-md" size="sm" variant="outline" title="فتح لوحة الروابط السريعة" onClick={() => setShowQuickLinksPanel(true)}>الروابط السريعة<ChevronRight size={14} /></Button>}
     {!showProblems && <Button className="fixed bottom-9 left-1/2 z-30 -translate-x-1/2 shadow-md" size="sm" variant="outline" title="فتح لوحة المشاكل" onClick={() => setShowProblems(true)}><ChevronUp size={14} />المشاكل</Button>}
 
     {showProblems && <section className="h-[148px] shrink-0 border-t border-white/10 bg-[#0f1722]"><div className="flex h-9 items-center gap-5 border-b border-white/10 px-4"><div className="flex h-full items-center gap-2 border-b border-cyan-300 font-mono text-[10px] text-slate-200"><CircleDot size={13} className={issues.length ? "text-amber-300" : "text-emerald-300"} />المشاكل <span className={cn("rounded px-1.5 py-0.5 text-[9px]", issues.length ? "bg-amber-300/15 text-amber-300" : "bg-emerald-300/15 text-emerald-300")}>{issues.length}</span></div><button className="ml-auto text-slate-600 hover:text-slate-200" onClick={() => setShowProblems(false)} title="طي لوحة المشاكل"><ChevronDown size={14} /></button></div><div className="h-[109px] overflow-auto px-4 py-2">{issues.length === 0 ? <div className="flex items-center gap-2 py-3 font-mono text-[10px] text-emerald-300"><Check size={13} />لا توجد مشاكل في المشروع.</div> : issues.map((issue) => <div key={issue.id} className="flex items-center gap-3 border-b border-white/[0.04] py-1.5 font-mono text-[10px]"><span className={issue.severity === "error" ? "text-rose-300" : "text-amber-300"}>{issue.severity === "error" ? "×" : "△"}</span><span className="text-slate-300">{issue.message}</span><span className="ml-auto text-slate-600">{issue.path}</span></div>)}</div></section>}
-    <footer className="flex h-7 shrink-0 items-center gap-4 border-t border-white/10 bg-[#111923] px-3 font-mono text-[9px] text-slate-500"><span className="flex items-center gap-1.5 text-emerald-300"><span className="size-1.5 rounded-full bg-emerald-300" />جاهز</span><span className="flex items-center gap-1"><GitBranch size={11} />main</span><span className="flex items-center gap-1"><CircleDot size={11} className={issues.length ? "text-amber-300" : "text-emerald-300"} />{issues.length ? `${issues.length} مشكلة` : "تم التحقق"}</span><span className="ml-auto">{modifiedPaths.length ? `${modifiedPaths.length} ملف متغير` : "لا تغييرات"}</span><span className="text-slate-700">TypeScript · UTF-8 · LF</span></footer>
+    <footer className="official-footer flex h-9 shrink-0 items-center gap-3 border-t border-white/10 bg-[#111923] px-4 font-mono text-[9px] text-slate-500"><span className="footer-ready flex items-center gap-1.5"><span className="size-1.5 rounded-full bg-emerald-300" />جاهز</span><span className="footer-branch flex items-center gap-1"><GitBranch size={11} />main</span><span className="footer-check flex items-center gap-1"><CircleDot size={11} className={issues.length ? "text-amber-300" : "text-emerald-300"} />{issues.length ? `${issues.length} مشكلة` : "تم التحقق"}</span><span className="footer-development-status"><span className="size-1.5 rounded-full bg-amber-300" />الموقع ما يزال تحت التطوير</span><span className="ml-auto footer-credit">تصميم وتنفيذ: محمد لحلح</span><span className="footer-stack text-slate-700">TypeScript · UTF-8 · LF</span></footer>
 
     {notice && <div className="fixed bottom-10 left-1/2 z-50 -translate-x-1/2 rounded-md border border-cyan-400/30 bg-slate-950 px-3 py-2 font-mono text-[10px] text-cyan-200 shadow-2xl">{notice}</div>}
     <Dialog open={fileDialog !== null} onOpenChange={(open) => !open && setFileDialog(null)}><DialogContent dir="rtl"><DialogTitle className="text-lg font-semibold text-slate-900">{fileDialog === "rename" ? "إعادة تسمية ملف" : "ملف جديد"}</DialogTitle><DialogDescription className="mt-1 text-right text-xs text-slate-500">{fileDialog === "rename" ? "غيّر اسم الملف مع الحفاظ على محتواه." : "أنشئ ملفًا جديدًا داخل مجلد المشروع."}</DialogDescription><div className="mt-5 space-y-4"><label className="block text-sm font-medium text-slate-700">اسم الملف<Input className="mt-1" autoFocus value={nameDraft} onChange={(event) => setNameDraft(event.target.value)} placeholder={fileDialog === "rename" ? "اسم الملف" : "مخطط الدفع"} dir="ltr" /></label>{fileDialog === "create" && <><label className="block text-sm font-medium text-slate-700">المجلد<select className="mt-1 flex h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-pink-500" value={fileKindDraft === "diagram" ? "diagrams" : folderDraft} onChange={(event) => setFolderDraft(event.target.value)}>{folders.map((folder) => <option key={folder} value={folder}>{folder === "diagrams" ? "المخططات" : folder === "docs" ? "التوثيق" : folder}</option>)}</select></label><label className="block text-sm font-medium text-slate-700">نوع الملف<select className="mt-1 flex h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-pink-500" value={fileKindDraft} onChange={(event) => setFileKindDraft(event.target.value as "diagram" | "json" | "markdown")}><option value="diagram">مخطط Diagram</option><option value="json">JSON</option><option value="markdown">توثيق Markdown</option></select></label>{fileKindDraft === "diagram" && <label className="block text-sm font-medium text-slate-700">نوع المخطط<select className="mt-1 flex h-9 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-800 outline-none focus:border-pink-500" value={diagramTypeDraft} onChange={(event) => setDiagramTypeDraft(event.target.value as DiagramType)}>{diagramCatalog.filter((item) => item.enabled).map((item) => <option key={item.type} value={item.type}>{item.label}</option>)}</select></label>}</>}</div><div className="mt-6 flex justify-start gap-2"><Button variant="outline" onClick={() => setFileDialog(null)}>إلغاء</Button><Button variant="primary" onClick={submitFile}><Check size={14} />{fileDialog === "rename" ? "حفظ الاسم" : "إنشاء الملف"}</Button></div></DialogContent></Dialog>
@@ -485,7 +651,7 @@ export function Workspace() {
     <Dialog open={editorOpen} onOpenChange={setEditorOpen}><DialogContent dir="rtl" className="flex h-[82vh] max-w-[1180px] flex-col gap-0 overflow-hidden p-0"><div className="shrink-0 border-b border-slate-200 px-6 py-4"><DialogTitle className="text-base font-semibold text-slate-900">تحرير الملف</DialogTitle><DialogDescription className="mt-1 font-mono text-[10px] text-slate-500" dir="ltr">{activePath}</DialogDescription></div><div className="min-h-0 flex-1">{activePath.endsWith(".md") ? <div className="grid h-full min-h-0 grid-cols-2 divide-x divide-slate-200"><CodeEditor path={activePath} value={files[activePath]} onChange={handleEditorChange} /><MarkdownPreview text={files[activePath]} /></div> : <CodeEditor path={activePath} value={files[activePath]} onChange={handleEditorChange} />}</div><div className="flex shrink-0 items-center justify-between border-t border-slate-200 bg-slate-50 px-6 py-3"><span className="text-xs text-slate-500">Ctrl / Cmd + S للحفظ</span><div className="flex gap-2"><Button variant="outline" onClick={() => setEditorOpen(false)}>إلغاء</Button><Button variant="primary" onClick={saveAndCloseEditor}><Check size={14} />حفظ الملف</Button></div></div></DialogContent></Dialog>
     <Dialog open={showDiagramSettings} onOpenChange={setShowDiagramSettings}><DialogContent dir="rtl"><DialogTitle className="text-lg font-semibold text-slate-900">أنواع المخططات</DialogTitle><DialogDescription className="mt-1 text-right text-xs text-slate-500">فعّل ما تحتاجه الآن. الأنواع الأخرى محفوظة للمراحل القادمة.</DialogDescription><div className="mt-5 space-y-2">{diagramCatalog.map((item) => <div key={item.type} className={cn("flex items-center gap-3 rounded-lg border p-3", item.enabled ? "border-slate-200 bg-white" : "border-slate-100 bg-slate-50 opacity-60")}><Checkbox checked={enabledDiagramTypes.includes(item.type)} disabled={!item.enabled} onCheckedChange={() => toggleDiagramType(item.type)} /><div className="min-w-0 flex-1"><div className="font-medium text-slate-800">{item.label}</div><div className="mt-0.5 text-xs text-slate-500">{item.description}</div></div><Badge variant={item.enabled && enabledDiagramTypes.includes(item.type) ? "default" : "secondary"}>{item.enabled && enabledDiagramTypes.includes(item.type) ? "مفعّل" : "غير مفعّل"}</Badge></div>)}</div><div className="mt-5 rounded-lg bg-pink-50 p-3 text-xs leading-6 text-pink-700">المفعّل حاليًا: ERD، Flowchart، Workflow، Process.</div></DialogContent></Dialog>
     {showCommand && <div className="fixed inset-0 z-40 bg-slate-950/60 backdrop-blur-[2px]" onMouseDown={() => setShowCommand(false)}><div className="mx-auto mt-24 w-[520px] overflow-hidden rounded-lg border border-white/15 bg-[#111923] shadow-2xl" onMouseDown={(event) => event.stopPropagation()}><div className="flex items-center gap-2 border-b border-white/10 px-4 py-3"><Command size={14} className="text-cyan-300" /><input autoFocus className="flex-1 bg-transparent font-mono text-xs text-slate-200 outline-none placeholder:text-slate-600" placeholder="اكتب أمرًا…" /></div><div className="p-2">{[["تخطيط تلقائي", WandSparkles], ["تحقق من المشروع", CircleDot]].map(([label, Icon]) => <button key={String(label)} onClick={() => label === "تخطيط تلقائي" ? (setShowCommand(false), handleAutoLayout("RIGHT")) : (setShowCommand(false), setShowProblems(true))} className="flex w-full items-center gap-3 rounded px-3 py-2.5 text-right font-mono text-[11px] text-slate-300 hover:bg-cyan-400/10 hover:text-cyan-200"><span className="grid size-6 place-items-center rounded bg-white/[0.06]"><Icon size={13} /></span>{String(label)}<span className="mr-auto text-[9px] text-slate-600">↵</span></button>)}</div><div className="border-t border-white/10 px-4 py-2 font-mono text-[9px] text-slate-600">Esc إغلاق · ↑↓ تنقل · Enter تشغيل</div></div></div>}
-    {tabContextMenu && <div className="fixed inset-0 z-50" onMouseDown={() => setTabContextMenu(null)} onContextMenu={(event) => { event.preventDefault(); setTabContextMenu(null); }}><div className="absolute min-w-[190px] rounded-md border border-slate-700 bg-[#111923] p-1 shadow-2xl" style={{ left: tabContextMenu.x, top: tabContextMenu.y }} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="flex w-full items-center gap-2 rounded px-3 py-2 text-right text-xs text-slate-200 transition-colors hover:bg-cyan-400/10 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-40" onClick={closeAllTabs} disabled={!openPaths.length}><X size={13} />إغلاق جميع التبويبات</button></div></div>}
+    {tabContextMenu && <div className="fixed inset-0 z-50" onMouseDown={() => setTabContextMenu(null)} onContextMenu={(event) => { event.preventDefault(); setTabContextMenu(null); }}><div className="context-menu absolute min-w-[190px] rounded-md border border-slate-700 bg-[#111923] p-1 shadow-2xl" style={{ left: tabContextMenu.x, top: tabContextMenu.y }} onMouseDown={(event) => event.stopPropagation()}><button type="button" className="context-menu-item flex w-full items-center gap-2 rounded px-3 py-2 text-right text-xs text-slate-200 transition-colors hover:bg-cyan-400/10 hover:text-cyan-200 disabled:cursor-not-allowed disabled:opacity-40" onClick={closeAllTabs} disabled={!openPaths.length}><X size={13} />إغلاق جميع التبويبات</button></div></div>}
   </main>;
 }
 

@@ -9,6 +9,7 @@ describe("workspace validation", () => {
     expect(validateModel(workspace.model, workspace.layouts)).toEqual([]);
     expect(workspace.jobCards).toHaveLength(100);
     expect(validateJsonFile(".software/job-card-catalog.json", workspace.files[".software/job-card-catalog.json"])).toEqual([]);
+    expect(Object.keys(workspace.files).filter((path) => path.startsWith("قسم التنظيم والتخطيط العمراني/")).length).toBe(8);
   });
 
   it("projects model relationships when a diagram has no explicit edge list", () => {

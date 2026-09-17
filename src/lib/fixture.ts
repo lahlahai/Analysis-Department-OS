@@ -179,7 +179,7 @@ export const fixtureFiles: Record<string, string> = {
   ]),
   "docs/architecture/overview.md": documentationOverview,
   "docs/architecture/hama-urban-planning-department.md": documentationSummary,
-  "docs/requirements/citizen-services.md": "# طلبات المواطنين — دائرة التنظيم العمراني\n\nيتضمن الكتالوج إعداد الكروكيات الفنية، واستعلام شراء فضلة، واستعلام دمج عقارين، واستعلام الوضع التنظيمي، وطلب مخطط كروكي مع الشوارع المحيطة.\n\nالمراحل الموحدة: النافذة الواحدة ← الديوان العام ← ديوان الشؤون الفنية ← بريد دائرة التخطيط العمراني ← إعداد الرد والتوقيع ← المصادقة والختم.\n\nالتفاصيل المنظمة موجودة في .software/citizen-services.json.\n",
+  "docs/requirements/citizen-services.md": "# طلبات المواطنين — دائرة التنظيم العمراني\n\nيتضمن الكتالوج ثمانية طلبات: دمج عقارين، شراء فضلة، كروكي، الاستعلام عن الوضع التنظيمي للعقار، استعلام تغيير استخدام عقار، موافقة مبدئية على تنظيم مشروع إفراز طابقي أو جوار، استفسار عن مصاعد بانورامية وشروط التركيب، وترخيص صيدلية.\n\nالمراحل الموحدة: النافذة الواحدة ← الديوان العام ← دائرة التنظيم والتخطيط العمراني ← إعداد الرد والتوقيع ← المصادقة والختم أو الإحالة إلى الجهة المختصة.\n\nالتفاصيل المنظمة موجودة في .software/citizen-services.json.\n",
   "docs/studies/hama-urban-planning/README.md": "# دراسة دائرة التخطيط العمراني في بلدية مدينة حماة\n\nتبدأ هذه الدراسة من ملف التوثيق الوظيفي، ثم تُضاف إليها متطلبات المديرية ونموذج البيانات والإجراءات وقرارات الاعتماد.\n\nالمخططات الأربعة موجودة في .software/diagrams/: ERD وFlowchart وWorkflow وProcess diagram.\n",
 };
 
@@ -191,6 +191,27 @@ export interface FixtureWorkspace {
   citizenServices: ReturnType<typeof citizenServicesDocumentSchema.parse>["services"];
 }
 
+type CitizenService = ReturnType<typeof citizenServicesDocumentSchema.parse>["services"][number];
+
+function citizenServiceTableDocument(service: CitizenService) {
+  const rows = [
+    ["اسم الطلب", service.name],
+    ["النوع", service.kind === "service" ? "خدمة" : "استعلام"],
+    ["المجال", service.domain],
+    ["الوحدة", service.unit],
+    ["الوصف", service.description],
+    ["الاستخدام", service.usage],
+    ["المديرية", service.directorate],
+    ["الدائرة", service.department],
+    ["القناة", service.channel],
+    ["الأولوية", service.priority],
+    ["الحقول المطلوبة", service.requiredFields.join("، ")],
+    ["المرفقات", service.attachments.join("، ") || "لا يوجد"],
+    ["الاستجابة", service.response],
+  ];
+  return `${JSON.stringify({ version: "1.0", serviceId: service.id, columns: ["البيان", "التفاصيل"], rows, columnWidths: [180, 520], rowHeights: rows.map(() => 36) }, null, 2)}\n`;
+}
+
 export function loadFixtureWorkspace(): FixtureWorkspace {
   const project = projectDocumentSchema.parse(JSON.parse(fixtureFiles[".software/project.json"])).project;
   const components = componentsDocumentSchema.parse(JSON.parse(fixtureFiles[".software/components.json"])).components;
@@ -199,6 +220,7 @@ export function loadFixtureWorkspace(): FixtureWorkspace {
   const layouts = Object.entries(fixtureFiles).filter(([path]) => path.includes("/diagrams/")).map(([, contents]) => diagramLayoutSchema.parse(JSON.parse(contents)));
   const jobCardDocument = jobCardCatalogSchema.parse(jobCardCatalogDocument);
   const citizenServices = citizenServicesDocumentSchema.parse(citizenServicesDocument);
-  const files = { ...fixtureFiles, ".software/job-card-catalog.json": `${JSON.stringify(jobCardDocument, null, 2)}\n`, ".software/citizen-services.json": `${JSON.stringify(citizenServices, null, 2)}\n` };
+  const citizenServiceFiles = Object.fromEntries(citizenServices.services.map((service) => [`قسم التنظيم والتخطيط العمراني/${service.id}.json`, citizenServiceTableDocument(service)]));
+  const files = { ...fixtureFiles, ...citizenServiceFiles, ".software/job-card-catalog.json": `${JSON.stringify(jobCardDocument, null, 2)}\n`, ".software/citizen-services.json": `${JSON.stringify(citizenServices, null, 2)}\n` };
   return { model: { project: { ...project, version: "1.0" }, components, entities, relationships }, layouts, files, jobCards: jobCardDocument.cards, citizenServices: citizenServices.services };
 }
