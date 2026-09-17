@@ -1,17 +1,148 @@
 {
-  "version": "1.0",
-  "serviceId": "change-property-use",
-  "links": [
-    { "id": "request-file", "title": "ملف الطلب في المستودع", "description": "النسخة المحفوظة من هذا الطلب داخل GitHub", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1%20%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85%20%D8%B9%D9%82%D8%A7%D8%B1.json" },
-    { "id": "service-catalog", "title": "كتالوج الخدمات", "description": "المرجع الكامل لبيانات خدمات المواطنين", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json" },
-    { "id": "service-guide", "title": "دليل طلبات المواطنين", "description": "المراحل العامة ومتطلبات معالجة الطلبات", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md" },
-    { "id": "repository", "title": "مستودع فريق تحليل المشاريع", "description": "الملفات والمراجع المشتركة للفريق", "url": "https://github.com/lahlahai/Analysis-Department-OS" },
-    { "id": "plantuml", "title": "المخطط الإلكتروني للطلب", "description": "مخطط PlantUML المرتبط بهذا الطلب", "url": "https://editor.plantuml.com/uml/hLZDRjj64BxlKn2vzmLwA0AqG4z1YoOlGBX4Ia2c3Oaju9vgocGLzTeNA5n5iY95LML5LfzazzedwNn3qajEbbYwIWwnHCttpV_iS9-Fqd2O_dW-K2gDqq4Kw8EvqOj0p_LEB_MHlinD7j37VypKJFMs_kMztl0l99BfEJt_zvVV0ppJR_LMtv4OGPUcq0-4omCpmGF67OZcmByJDYVXkIdCLAdmBBqO1i_mWyaXJvB5io0S1L_6QVnpbAXBCZK-Yo_397sKA_I-rZQZ1sDIiJKJCEex1h-y6gNHkS3Uaz3OMZdHUxBoXkM_YWRnJz7mog6jeF-lzLyLZarSwqsbvviaUfbUN7uCqnlYXlj5vJJYnf2leoGQXeFlejVnA9KQ9UnU_mc_IjNN3GTVHMS_9F5P9yz2RqbsqqoE9nTC-oAC1mvdxid-HHs1d2YMI40LEOYVHqdgm6tr3duJ4aunTcCoaxLTU1M58bK4V4j6xawfBTRnxI1CaZXv_I9CmjVHiAq5rg2w-uRQJr9-CGKZkOIl94Zu1ysBibmOX1HSNGoLgie_-EoBgfY3pmDoFsC5UTsn_XPr4yr8wZsKCmpXp9awPujASYzoQx8AO7ubcgMvBj6hCZTU_C9CaIf06TZRPCWAR_5epQPC0tDpAXSIUU1cNpoDxPQO5YIvS2P8gbAg96dJbMMzHfyWBOK8bCsF2WSf-W3ntWIcuB1dUXzG-KwRWW7zivfg7s0vEXkEaGx8Mmx6EBrb3ypOv3P-qZuRFNtNJJI3QanIVCIa09_RQZUk5IeL9TyhvVMImyLfvK6XL_fO4dKFUZVf75CGVeFsW6bhCWlTcmcSmU7qniEEB0gwrlc4JYuULGGTfvYISQvFDDZg2cy_uq1QCua0BFNVPi9dJElmHhdMau4LIKD1wPyitNXH5zPFf7I9tYjJkcQSZ9FqoEf78V4OVYUmGZMdouOHhWU4siDkgDwmLD-MAqZj0t-rLVC_SdIALy1oymYIUhafMNOOhIQN3LhB29stPboL1gO5vbuRggB1AE87Wjha20kAl9_pifoQDkD44pRpQFHGdkIM7KB2cbax_2plt61x-brH2orkkzp2cD9e5ymjSSPuaCYPNl5mCXDv8CpqYYVh7vQgOLNJSBaAL-MAgT8-2OGSe1_jlz8iDvE4CHUMtaxT-152TiyLeevkxToObR8q86sjm9rLmXl8XeEw0qSBvQAnmjrBrjDO-czS9nBBzUkfR01zq4Vnjd2IYJF2ZucFtmWy2vsN6DiBPEjZi-1JVqN4A5cy7U6KnpvTBWPrc25I5nX5vmX7JLvczTPCW7w7LoMJGSK7Z0sOYs4cR73jKgBUwWz2aIJs7t22fw_1ddSVcEgYn7DBAmf9ckpEZ8o5x3rG-7CiLsHB8V8iQg0yFYI_V8c5XgsvraU1PbkRQwrI0kacin3X-aHO9zutSgx-jNw0QhodV8gtTaHOslY9IhOgaYKQa4UtSE-4YZwzWdtLwZaf11azbpLuSXdxe-Ud59NlWuiw4DdlrGDeAMSVo5iT6LF9oXipRDT7UvcrXoqcQntAdJfaiqajJeh65LBtczm2N-ehFtjAE2-cb0AbrD3BFW74HTLJZUgu-58AP9RLOmXan5IeNq7HXDaZ0kSeAwml86qIUzmLq9yZ0N8-hQtwffTM1JtypNqz1EavvC4NS9--QT3rl2bwJeLCD_R_0G00" }
-  ],
-  "columns": ["البيان", "التفاصيل"],
-  "rows": [
-    ["اسم الطلب", "طلب استعلام تغيير استخدام عقار — دائرة التنظيم والتخطيط العمراني"], ["المعرف الفريد", "change-property-use"], ["النوع", "استعلام"], ["المجال", "التخطيط والتنظيم العمراني"], ["الوحدة", "دائرة التنظيم والتخطيط العمراني"], ["الوصف", "طلب معرفة إمكانية تغيير استخدام عقار من الاستخدام الحالي إلى استخدام مقترح."], ["الاستخدام", "يستخدم لدراسة ملاءمة الاستخدام المقترح مع المخطط التنظيمي والأنظمة النافذة."], ["المديرية", "مديرية الشؤون الفنية"], ["الدائرة", "دائرة التنظيم والتخطيط العمراني"], ["القناة", "كلاهما"], ["الأولوية", "رئيسي"], ["الحقول المطلوبة", "اسم مقدم الطلب، رقم الهاتف الجوال، رقم العقار، الاستخدام الحالي، الاستخدام المقترح، مبررات التغيير"], ["المرفقات", "بيان قيد عقاري، مخطط كروكي، مخطط أو وصف للاستخدام المقترح"], ["الاستجابة", "رأي تنظيمي أولي يوضح إمكانية متابعة طلب تغيير الاستخدام والمتطلبات اللازمة."]
-  ],
-  "columnWidths": [180, 700],
-  "rowHeights": [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    "version":  "1.0",
+    "serviceId":  "change-property-use",
+    "links":  [
+                  {
+                      "id":  "sequence-diagram",
+                      "title":  "sequence diagram",
+                      "description":  "تسلسل خطوات الطلب والجهات المشاركة",
+                      "url":  "https://editor.plantuml.com/uml/hLZDRjj64BxlKn2vzmLwA0AqG4z1YoOlGBX4Ia2c3Oaju9vgocGLzTeNA5n5iY95LML5LfzazzedwNn3qajEbbYwIWwnHCttpV_iS9-Fqd2O_dW-K2gDqq4Kw8EvqOj0p_LEB_MHlinD7j37VypKJFMs_kMztl0l99BfEJt_zvVV0ppJR_LMtv4OGPUcq0-4omCpmGF67OZcmByJDYVXkIdCLAdmBBqO1i_mWyaXJvB5io0S1L_6QVnpbAXBCZK-Yo_397sKA_I-rZQZ1sDIiJKJCEex1h-y6gNHkS3Uaz3OMZdHUxBoXkM_YWRnJz7mog6jeF-lzLyLZarSwqsbvviaUfbUN7uCqnlYXlj5vJJYnf2leoGQXeFlejVnA9KQ9UnU_mc_IjNN3GTVHMS_9F5P9yz2RqbsqqoE9nTC-oAC1mvdxid-HHs1d2YMI40LEOYVHqdgm6tr3duJ4aunTcCoaxLTU1M58bK4V4j6xawfBTRnxI1CaZXv_I9CmjVHiAq5rg2w-uRQJr9-CGKZkOIl94Zu1ysBibmOX1HSNGoLgie_-EoBgfY3pmDoFsC5UTsn_XPr4yr8wZsKCmpXp9awPujASYzoQx8AO7ubcgMvBj6hCZTU_C9CaIf06TZRPCWAR_5epQPC0tDpAXSIUU1cNpoDxPQO5YIvS2P8gbAg96dJbMMzHfyWBOK8bCsF2WSf-W3ntWIcuB1dUXzG-KwRWW7zivfg7s0vEXkEaGx8Mmx6EBrb3ypOv3P-qZuRFNtNJJI3QanIVCIa09_RQZUk5IeL9TyhvVMImyLfvK6XL_fO4dKFUZVf75CGVeFsW6bhCWlTcmcSmU7qniEEB0gwrlc4JYuULGGTfvYISQvFDDZg2cy_uq1QCua0BFNVPi9dJElmHhdMau4LIKD1wPyitNXH5zPFf7I9tYjJkcQSZ9FqoEf78V4OVYUmGZMdouOHhWU4siDkgDwmLD-MAqZj0t-rLVC_SdIALy1oymYIUhafMNOOhIQN3LhB29stPboL1gO5vbuRggB1AE87Wjha20kAl9_pifoQDkD44pRpQFHGdkIM7KB2cbax_2plt61x-brH2orkkzp2cD9e5ymjSSPuaCYPNl5mCXDv8CpqYYVh7vQgOLNJSBaAL-MAgT8-2OGSe1_jlz8iDvE4CHUMtaxT-152TiyLeevkxToObR8q86sjm9rLmXl8XeEw0qSBvQAnmjrBrjDO-czS9nBBzUkfR01zq4Vnjd2IYJF2ZucFtmWy2vsN6DiBPEjZi-1JVqN4A5cy7U6KnpvTBWPrc25I5nX5vmX7JLvczTPCW7w7LoMJGSK7Z0sOYs4cR73jKgBUwWz2aIJs7t22fw_1ddSVcEgYn7DBAmf9ckpEZ8o5x3rG-7CiLsHB8V8iQg0yFYI_V8c5XgsvraU1PbkRQwrI0kacin3X-aHO9zutSgx-jNw0QhodV8gtTaHOslY9IhOgaYKQa4UtSE-4YZwzWdtLwZaf11azbpLuSXdxe-Ud59NlWuiw4DdlrGDeAMSVo5iT6LF9oXipRDT7UvcrXoqcQntAdJfaiqajJeh65LBtczm2N-ehFtjAE2-cb0AbrD3BFW74HTLJZUgu-58AP9RLOmXan5IeNq7HXDaZ0kSeAwml86qIUzmLq9yZ0N8-hQtwffTM1JtypNqz1EavvC4NS9--QT3rl2bwJeLCD_R_0G00",
+                      "category":  "diagram",
+                      "order":  1
+                  },
+                  {
+                      "id":  "state-diagram",
+                      "title":  "state diagram",
+                      "description":  "حالات الطلب وانتقاله بين المراحل",
+                      "url":  "https://editor.plantuml.com/uml/hLZ1RXit4BtFLonoB90VwA58a3H53muAfqWFHGzRYN4Ma5VkQkN0lLcML5L_4RIkPDUsAZYElVqIpjzq7gWjbnDgKoCz621doNdlpGo7j1uDohGeX_izeZ8hUoQnbtR1OxkmvuczbS4oaV6rFRSLh3n9PFWtptbkr_MNAxjoNoeUYMbDzFrdFoGF7twHF3TlTirFGpCeYGIeDCc3skc5NOcFrOCa7GJB_3Y1Xo_pqXHFqp9DFa_iKe3U2W4UORCWWgfpwFsVog8hV93rF9V1568QIm7f_H9v202-J7jPLppL90JsrAxjDVP7yM0wjvSyub724vwsmMhlHDxWDUzaWq6MxsrKyynUoDyguIdFnDt8taHtVPTcfUnwrY-UcbvsQ8eZS5_mYSHhujato7aDIsHTKd8cOddClsuoooTRTa9BaoPHaxFEcqwOZWzF426U2Osp9YUiERTtA2bKtJMFuKE5DAARA18BaAedJrxtiuu1iuMz4dPp1t5hrm8mGXGM33utFEEn3mcFGPgFxLz-oK8YjshG_jyyGfiYJ1JE0qqlJ74O4_LEA9nil8iL5EOyZdhA2jCfNmn_t4Sk-xbs1Gyg3Jn1ce3X0w1MLJpzDmxRs42h5aAa34fjllLetYzXE1rnFufLNZOfvIs73lBj1OGb8dSa_fr3fNfRgViokP-avccesKGfgnNA45i4KPuCyfxmN5YYnzhAhg8-DirfrtIC6BlY8wBC1w6jkbmgL7qIQKiSDdvX97pCytlLY6k9k0Hr3zAOHChG9FRI5Dchh9EMa50Ze0KAm1Az0c7o5HH5KauYHf4T-DnoAMtPgl7RrkghujHUsBKOttgeHkJYP16UhqnkYhItQ_QoGHcvlDhzXdM4PCyWrwshi0BXqo146XLClZMTrtdMyTOW8Yuzbpp395h92lsT_LqMkmaVyvJdxgng7D3H9aVecrwQvtAyTjAi1oxjy4iqMxjAy2gpVzXrtMxnKBkLBxUReF04yGGVi0b0Y098rtaFqgBSHnVvA0Edki9zNX_aAzboiz7jNH7vSHZw5-MmU-Gwl7kGdgaE94a6VNiTNBvDSppWtZlH1sX-S-J0rA_R-2uFgLx5C3aDF0VnJtBadqeVsur5xsrLtpbJUuS6U2yAfxB-n2vS0CDtloP7iSHL-6PNTPF5E-AYRcyh7k55mB_OXSg3A_d7tMw6rf3slivVzOjztsruh1-h4fGAUddYalKRpm3o9ygVHs3o7XqUAc9GTQdlciFCl8a-cYEbjlm45YZ6k4AYg3bwDlIz5YC0koUn_RNjUe78gI1eBOldzbft45z647QFbk8YInJEW-0_xvTc4FotCn67k8Zle2QorSTZ9ytJFLCqycShv2zIV2tvi-SeMFGq5peTJfs_W3bHC6qjOTV3slmhP_7aUxeyKtUmgjbeacMoyeUvxOwA19aeQdTvUPALHw4rQECyTezWD01RWRmhoXkaYqV_YQ-RyDIHr8ZWfqsEsavwrFUaMlzxy8TW0RDxL6mZ5r_io3KmYTp44tgMINayFZWe-eSfhdOdZX6Ju_ejk6Z6AxZh8eMEXWekW0wz4uLWW7SJq_MgV9k6Fr-g3cUrqUJtrQCwyzdF9fUg_V25Qq_n9C2bqn0f_gTm6DyPCRgVQ2HwksOmx9Kw6hSk9ecjN4lsQbflBr08lFen01FvEOleaScxm_tUFm00",
+                      "category":  "diagram",
+                      "order":  2
+                  },
+                  {
+                      "id":  "class-diagram",
+                      "title":  "class diagram",
+                      "description":  "العناصر والبيانات والعلاقات الأساسية",
+                      "url":  "https://editor.plantuml.com/uml/lLVDRjj64BxpAHOw5d3GNdCeqiP0aKEGmdRHeq1OMvi0HRaKbS8j2bIAf2fwYo1LJR6sLS6ENVL9Tj-cCqDkHYkjLmoG9Zd8v7xVx3S_Epjyqit2DEkruo38eYoMGe_LF-f2ZuIwrqEL2tMXRbIXLl10RmlrhvxggLgQbMkre1M03E3LCWYEux3R5GruEzGZFO6NzthS465NF8sow6UPY5y20V_sX5hgWHurRQHuB9ubcJoHgK71CcwcHx1qcALHSkBW_mwGGlVfGLtg2Vuo_bUMHNxv706YSOPKVzSDJ-JJqp0vaGVonvxiPYu7AhkMGgETxHlm5McUreJh4LhN4uVzjm3EWP8tsQFcjfaj7WbGSrjwvTvX5cQzha4M60WmUrrY2uZCGa_9v7wOoQEeBTVKG_qK0Bv4q_H8YVaJNirTsTWAzhTfvqocsRahn0ReZDfAZodfuwtLN4_nFTR7JZDWuawjZATm5j1JFVKL4a61zmwWG_9XNyRHIvcUlqXRCjroX6XDc-OfR5N0_rojl1cqB9djlMcSgQMwmRySQMGe5nB-sZctauZnrNtrjvgRE5w0meMQKqHU9F8mwvnz7oMjpa-kr3BTSVpLZGFbhYKgJIg3gYfGDKduHYOo3UC3UH9rizHPNqpsYM2KIyIcW5lrXvvK3xeFDJgjGd8aZq-JwFWJACefcGkX5dWIrR9A4JM7UrYvDmTe16iNAB4yYN6O963gUHZ5Bcq4Hn73zNHyK0dLBytDDDz2PdDoX8HSWurtLM3tvHbSQMsPEDeqCxtn98oxo7GVfUg1A0DVXW2WUbB5TA47k6xd-4Y6RPSQOysZXZ4EDRO8Jv4TPhsMiyAOpHe-rTtbxxSMT0PlNm6ANDjvrNtTwSGoJ9pNabF5Y8nSuUYZYbt5dCC-RsgqJTeJRxytxaBcGmIwLbN63kJBI3fR94FzrSiuloEsGLPOEow4692DfRCubtJltrYDnqeqdvgQdIW9mUM7naUmsVSDZmw9iD42owXkh_wV5PGF49sv6PVFF_wEd1OgPhe-ZAFFm_FEHzsBg6g51nr-8VzlzSGS_B-mgvcQcAaxlDlVA_cgrOgog9E4yRFaXqxQ3l71fSmm7sXWD1VrDqkNPiNL5fz1tidNVvp1YK7fGfQ5nwVkYuYX_gEiXnxn3F0BXttKQaEqJ7fjqJ13fE3F099kVGXKwjKb5SgYVCYHMexvCz3mkbdTyQ_q26tHnkkJjs5HLwH-igoYYXC4HhL45EGwZmjDLaO0FK0DxsyMWEPOHDQQTQqz89UhahuBkFugndfpR9eZGwPDDtC1pMbkhlUJ9lSJByVg07uLV70PkCBOLUcXsxB0wd3aslF5OYUSSZ43CRTuYNaomTQOQ2SNPPYl_yON3R6t9ngVFthqMSFrTVrOK6TO02rmB1i-_9YlHQAeWb8wW6phtpnCipEVpv9-XMxegI0hhtSPWB-ixpooOUOGL6wlicZxOwYYOUQ5cdaszj4fi_NeMzz13WCR461-QQx0BQAUh15jaA5Q7nB4MeB3pBBMaS0Jl6iJNhNpQK_R9VFENq9Cv2dPr19ozJW8RAkxYPVOUO5cBzayz-K6T2ZwgXBnr7ioMjVWr3HbFQHZuHTcfayYNkDaBlGGIHiJc8TLjQkrVJw0GmDFVJXDAnwWwOYk-46TsRUSVLvftUwAGV149grUE_uF",
+                      "category":  "diagram",
+                      "order":  3
+                  },
+                  {
+                      "id":  "activity-diagram",
+                      "title":  "activity diagram",
+                      "description":  "تدفق الإجراءات والقرارات",
+                      "url":  "https://editor.plantuml.com/uml/hLTBRjj84Dtp5BsqhZ3Q-2e3Z0mBq7W6OmsoreSoeqi4XYEBOlG98Tbo-oHLjqazT5FLKPka7SGhT_thrUjgwl9s-ET_m___7YJ9i3ySz0pFw41BEXewyfHo8__lgI0hXoMdHlvzvJdFgQmqMzevZUMnYCeaGSXXaln1kQZknKKKEt5AgvZjGRfmNuXmA-AfeLoCbpmJLM4WSO6wCAAIHo8Q6yWveszYz5WTKnYACAULDwOz564GfCAfe0sFnP5JdjLdJFfNveBlV8ZG38uJQJOLyOg-TCpmkdSZjW9S9p7oX_mvZlJgg-CCK3FIGS0p20I1fwvpSEZmX5Eeuumm3vlkdl9O4UnePMfQXjb7kkuDRdlcGXIMqqxIk_chVmNOh0H_DhI55uPvf9BdF4PULzSJPyYyaCDd9vFOFABlQhAa3Ihro8OXb3TQYk9A1x6S-3XK89dOJZl92Rej5Rwm6bk5AyR85ztagWFoTwFaiPAy9fLokjNQkN1AXQJ9oQA83GpZQbpJdwxxWvvd9rHHGwrJ0Bpzsv2qLTa7iWxAYBWFF0lJG6ruxhAZwfthHYa7WXNqWd2gUcUVC1NweTE0aF4mmefunFCsydc6-okn5sN5EqvnEK43pUDhMlFT-xZj_TuYD30wy4J0qaJTtz6FlwDOWO0LLwfXZw9fMWFZC_dP1bhGcaeHtck8e4h9YqWRpdXUIpv0W58hsbZdsUnuxdIWhvpvW-0naxvMhJ5ox1RQIJ2iIofF_A8j7KLpz0LnYXuHj2sahyNYWQdOiXMF9__UA8yZLnwvJUSnGKRQYoLdlgOTZw47fggEHwXFPcW6pTdR2f6hH-Z3qmzwwbCQcKFwJDPZAQMzWEFDIHPuB1t6EEe7GPpU0MbnaDbXTuZXsgVMc6Ace4KwVRRTpPL8mCB5yGD9oQ8NJXss3voPy7jY8KqkSVVqTOysa2vpZgEzzOKIHlLly4yBDbeT3S4RFtyQlYZ2OUfjYhybck35-lJFXbyz4VshoIdYulyeadry8IiIOG2jDzGT9B25VtoRD7KD4pX5uLBi2-2CXniXyTxRh9iV_1KztkM64JIZtcvQ2pXkeiBqwnFZ56rGsRY4mqIkNqk5275zesdKByaedplmB4uIFbard_anvw3AtNFK5F54GSum1h98qT2JF_8TAEr29yqVK6UGmBW07Ul6gBl1Vq-XK5Hao3hKrAFXfrRuTk17sp__9icbC45-3Fu0",
+                      "category":  "diagram",
+                      "order":  4
+                  },
+                  {
+                      "id":  "request-file",
+                      "title":  "ملف الطلب في المستودع",
+                      "description":  "النسخة المحفوظة من هذا الطلب داخل GitHub",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D8%B9%D9%84%D8%A7%D9%85%20%D8%AA%D8%BA%D9%8A%D9%8A%D8%B1%20%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85%20%D8%B9%D9%82%D8%A7%D8%B1.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-catalog",
+                      "title":  "كتالوج الخدمات",
+                      "description":  "المرجع الكامل لبيانات خدمات المواطنين",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-guide",
+                      "title":  "دليل طلبات المواطنين",
+                      "description":  "المراحل العامة ومتطلبات معالجة الطلبات",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "repository",
+                      "title":  "مستودع فريق تحليل المشاريع",
+                      "description":  "الملفات والمراجع المشتركة للفريق",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS",
+                      "category":  "supporting"
+                  }
+              ],
+    "columns":  [
+                    "البيان",
+                    "التفاصيل"
+                ],
+    "rows":  [
+                 [
+                     "اسم الطلب",
+                     "طلب استعلام تغيير استخدام عقار — دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "المعرف الفريد",
+                     "change-property-use"
+                 ],
+                 [
+                     "النوع",
+                     "استعلام"
+                 ],
+                 [
+                     "المجال",
+                     "التخطيط والتنظيم العمراني"
+                 ],
+                 [
+                     "الوحدة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "الوصف",
+                     "طلب معرفة إمكانية تغيير استخدام عقار من الاستخدام الحالي إلى استخدام مقترح."
+                 ],
+                 [
+                     "الاستخدام",
+                     "يستخدم لدراسة ملاءمة الاستخدام المقترح مع المخطط التنظيمي والأنظمة النافذة."
+                 ],
+                 [
+                     "المديرية",
+                     "مديرية الشؤون الفنية"
+                 ],
+                 [
+                     "الدائرة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "القناة",
+                     "كلاهما"
+                 ],
+                 [
+                     "الأولوية",
+                     "رئيسي"
+                 ],
+                 [
+                     "الحقول المطلوبة",
+                     "اسم مقدم الطلب، رقم الهاتف الجوال، رقم العقار، الاستخدام الحالي، الاستخدام المقترح، مبررات التغيير"
+                 ],
+                 [
+                     "المرفقات",
+                     "بيان قيد عقاري، مخطط كروكي، مخطط أو وصف للاستخدام المقترح"
+                 ],
+                 [
+                     "الاستجابة",
+                     "رأي تنظيمي أولي يوضح إمكانية متابعة طلب تغيير الاستخدام والمتطلبات اللازمة."
+                 ]
+             ],
+    "columnWidths":  [
+                         180,
+                         700
+                     ],
+    "rowHeights":  [
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42
+                   ]
 }

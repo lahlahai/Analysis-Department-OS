@@ -1,17 +1,148 @@
 {
-  "version": "1.0",
-  "serviceId": "panoramic-elevators-inquiry",
-  "links": [
-    { "id": "request-file", "title": "ملف الطلب في المستودع", "description": "النسخة المحفوظة من هذا الطلب داخل GitHub", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%85%D8%B5%D8%A7%D8%B9%D8%AF%20%D8%A8%D8%A7%D9%86%D9%88%D8%B1%D8%A7%D9%85%D9%8A%D8%A9%20%D9%88%D8%B4%D8%B1%D9%88%D8%B7%20%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A8.json" },
-    { "id": "service-catalog", "title": "كتالوج الخدمات", "description": "المرجع الكامل لبيانات خدمات المواطنين", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json" },
-    { "id": "service-guide", "title": "دليل طلبات المواطنين", "description": "المراحل العامة ومتطلبات معالجة الطلبات", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md" },
-    { "id": "repository", "title": "مستودع فريق تحليل المشاريع", "description": "الملفات والمراجع المشتركة للفريق", "url": "https://github.com/lahlahai/Analysis-Department-OS" },
-    { "id": "plantuml", "title": "المخطط الإلكتروني للطلب", "description": "مخطط PlantUML المرتبط بهذا الطلب", "url": "https://editor.plantuml.com/uml/pLXTRjj647xVKopotWlqeGZG0dqAMYIz0E6oAG6PDcGcXVjcsMHKzHH5gaXcxAYgVsJUPFSsdM-eWLPZKXG31sY0kY2rt_VDFuTyVf95m-pDuS2OBCa6iNKhV-7critSZIlz6VsTkQLrbI-ipzqTNLLkOTtSpNpXnsv9_y_zn5rQkhXrI_gx8Z1nb7HnJh_CZOaEigEXVORRFgSJCn8fdjden7wRPCdlSMgEoOZa83cEqapE-OBKBckkATquPyQnBw36u5Ud9rbygB2ta1LSIM9tVk8l-FntyI1v6mzF6zGA-dlc_bdZsCHhjrZh_936hxAZuySmjo3kCI9HorK81aE-ZzDu60rUng-JaqmhQjYj-nj-rT9dWOC_nGU_fib1Ay-SV9qW6mkozmFbGjnsdoZ24yb4vNFa2SHC-o9A1WtEt9BzSub0JXGb4h2E78uVncdMW5kYHWZ09S1OSd3aHpLo6FsIlOpV9l5lyL21b-u36Ndps7nAnmE5A6V2Rdz-74HfcgIlNqHfz5ghm1g2BlSDTJT9VK4sNae9dogGzW_ASvIBo54AJe-6ngpBttxrpRgOxTUMt1-nGFu5Uh5PSKeP-8I3B8Muvsn3pcXOqOqaXT4QuD-v6UojqLTr4ZlnSp-17u1AcaVmjmk8EM5vhDpJVnLZjoDcJ8rJ30IyfP__2amNNmE0g1EYeWZVKtx8iWla1wRYyWQN87XFm-P2QlYSxvv9oS2IQp-nTB5nhL5cXjP3C93h5LgSJb_s5kAX-OVTETveD0yofGZIG0h59bRObkbgZAL_GPvaqdASUK1mYXy8VMP9w1fOs5Z1nlw1OpqHKU4htR_WHcDiFM_G9qYqj5MZ3zr5ta5GerGCV4vMpKY_GkYk6QTZg5qA1m91C3e-AgoIHYfnNy9ClYFMY2nBBt2A_pMMtPGV05m2F518ze4lMMKCbZtI91gVxGgmSVgpqV6Gfp1O-dK2c0IjhNdFOt4X8vO6nxwa9XwSnBjRXm489jfchtvKHTZVwUPs-L8HG9fgBcNhT2kxORkeJMxFg0XrgDBVucOQ-ds5viIGtOt7qQhrGOL6sNZROdBfhl289Xf_3hlPPC4GWS_HkynN-dUXutgbN7SJHjqMYL7d09NbHe5lt1N09DlCf67WukMnLHi_qg5WNsmxAedViNaQ4z20D5mbMwkCwtxXbbmTu0XHJJIRm-sfxMRnERDSOSJlLOpz39lwd0k65rQxsUU4z0xpdI_qDjXFHxP6hiIo3YcYqIRPYntFOefdzTXex9jGSDSenefxUeGEe9JqouERWjJDYDWNF9clI5dlX7inbNYDmTh3yD0FxdEX3zzx852mVCch5Nx1_WjZo8CxgWm_jcXxdcqFE2XBq9e25sFPBUcqpCAFU4Vo8tv2A5lLibB1UzKK65poy9MO5smsMoKwsvQP_NQ5UwwP9Ijo1CvX_bQtCzFkbvq6_-NM2hSm89H17GD1aT5zRLwOLURkB8gde2XHeHY77HNQpRQTRrMm6_BrarfpwVTci2r9lTeQqtDfKdxH3zx9HSmOnTD0hGQaUkRjYe9g8zKwT5dOf_YEm6sbhUxVM9_TH4Adwd_gxh4JOUZ_Vrk8JN-2zk4n5BI7gkBU_Q3A5F2k5b04kXjukGWBcJkhgG7KzoGLszsDpofqEORXhfAd2t_mWJUGrVGjae6j7Q9DZE6dBVKc7mu8NCYdI5dhMZwO6GDAhT1ehig-1k83Mb-ZMZx86SDamjepRWm96pBuxC2Rl7Y2hsBGbtqXIB4nUxoHkue0UVTcOmEfcV-p-VCPen0iyCe6qZ68drEjlpaS_0S0" }
-  ],
-  "columns": ["البيان", "التفاصيل"],
-  "rows": [
-    ["اسم الطلب", "طلب استفسار عن مصاعد بانورامية وشروط التركيب"], ["المعرف الفريد", "panoramic-elevators-inquiry"], ["النوع", "استعلام"], ["المجال", "التنظيم والترخيص"], ["الوحدة", "دائرة التنظيم والتخطيط العمراني"], ["الوصف", "طلب توضيح الشروط الفنية والتنظيمية لتركيب مصعد بانورامي ضمن مبنى قائم أو جديد."], ["الاستخدام", "يستخدم قبل تقديم المخطط المعماري أو طلب تعديل واجهة المبنى."], ["المديرية", "مديرية الشؤون الفنية"], ["الدائرة", "دائرة التنظيم والتخطيط العمراني"], ["القناة", "إلكتروني"], ["الأولوية", "ثانوي"], ["الحقول المطلوبة", "اسم مقدم الطلب، رقم الهاتف الجوال، عنوان العقار، نوع المبنى، وصف موقع المصعد"], ["المرفقات", "مخطط الواجهة أو الموقع، صور المبنى القائم عند توفرها، المواصفات الفنية الأولية"], ["الاستجابة", "إجابة فنية تتضمن شروط الموقع والواجهة والسلامة والوثائق المطلوبة للترخيص."]
-  ],
-  "columnWidths": [180, 700],
-  "rowHeights": [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    "version":  "1.0",
+    "serviceId":  "panoramic-elevators-inquiry",
+    "links":  [
+                  {
+                      "id":  "sequence-diagram",
+                      "title":  "sequence diagram",
+                      "description":  "تسلسل خطوات الطلب والجهات المشاركة",
+                      "url":  "https://editor.plantuml.com/uml/pLXTRjj647xVKopotWlqeGZG0dqAMYIz0E6oAG6PDcGcXVjcsMHKzHH5gaXcxAYgVsJUPFSsdM-eWLPZKXG31sY0kY2rt_VDFuTyVf95m-pDuS2OBCa6iNKhV-7critSZIlz6VsTkQLrbI-ipzqTNLLkOTtSpNpXnsv9_y_zn5rQkhXrI_gx8Z1nb7HnJh_CZOaEigEXVORRFgSJCn8fdjden7wRPCdlSMgEoOZa83cEqapE-OBKBckkATquPyQnBw36u5Ud9rbygB2ta1LSIM9tVk8l-FntyI1v6mzF6zGA-dlc_bdZsCHhjrZh_936hxAZuySmjo3kCI9HorK81aE-ZzDu60rUng-JaqmhQjYj-nj-rT9dWOC_nGU_fib1Ay-SV9qW6mkozmFbGjnsdoZ24yb4vNFa2SHC-o9A1WtEt9BzSub0JXGb4h2E78uVncdMW5kYHWZ09S1OSd3aHpLo6FsIlOpV9l5lyL21b-u36Ndps7nAnmE5A6V2Rdz-74HfcgIlNqHfz5ghm1g2BlSDTJT9VK4sNae9dogGzW_ASvIBo54AJe-6ngpBttxrpRgOxTUMt1-nGFu5Uh5PSKeP-8I3B8Muvsn3pcXOqOqaXT4QuD-v6UojqLTr4ZlnSp-17u1AcaVmjmk8EM5vhDpJVnLZjoDcJ8rJ30IyfP__2amNNmE0g1EYeWZVKtx8iWla1wRYyWQN87XFm-P2QlYSxvv9oS2IQp-nTB5nhL5cXjP3C93h5LgSJb_s5kAX-OVTETveD0yofGZIG0h59bRObkbgZAL_GPvaqdASUK1mYXy8VMP9w1fOs5Z1nlw1OpqHKU4htR_WHcDiFM_G9qYqj5MZ3zr5ta5GerGCV4vMpKY_GkYk6QTZg5qA1m91C3e-AgoIHYfnNy9ClYFMY2nBBt2A_pMMtPGV05m2F518ze4lMMKCbZtI91gVxGgmSVgpqV6Gfp1O-dK2c0IjhNdFOt4X8vO6nxwa9XwSnBjRXm489jfchtvKHTZVwUPs-L8HG9fgBcNhT2kxORkeJMxFg0XrgDBVucOQ-ds5viIGtOt7qQhrGOL6sNZROdBfhl289Xf_3hlPPC4GWS_HkynN-dUXutgbN7SJHjqMYL7d09NbHe5lt1N09DlCf67WukMnLHi_qg5WNsmxAedViNaQ4z20D5mbMwkCwtxXbbmTu0XHJJIRm-sfxMRnERDSOSJlLOpz39lwd0k65rQxsUU4z0xpdI_qDjXFHxP6hiIo3YcYqIRPYntFOefdzTXex9jGSDSenefxUeGEe9JqouERWjJDYDWNF9clI5dlX7inbNYDmTh3yD0FxdEX3zzx852mVCch5Nx1_WjZo8CxgWm_jcXxdcqFE2XBq9e25sFPBUcqpCAFU4Vo8tv2A5lLibB1UzKK65poy9MO5smsMoKwsvQP_NQ5UwwP9Ijo1CvX_bQtCzFkbvq6_-NM2hSm89H17GD1aT5zRLwOLURkB8gde2XHeHY77HNQpRQTRrMm6_BrarfpwVTci2r9lTeQqtDfKdxH3zx9HSmOnTD0hGQaUkRjYe9g8zKwT5dOf_YEm6sbhUxVM9_TH4Adwd_gxh4JOUZ_Vrk8JN-2zk4n5BI7gkBU_Q3A5F2k5b04kXjukGWBcJkhgG7KzoGLszsDpofqEORXhfAd2t_mWJUGrVGjae6j7Q9DZE6dBVKc7mu8NCYdI5dhMZwO6GDAhT1ehig-1k83Mb-ZMZx86SDamjepRWm96pBuxC2Rl7Y2hsBGbtqXIB4nUxoHkue0UVTcOmEfcV-p-VCPen0iyCe6qZ68drEjlpaS_0S0",
+                      "category":  "diagram",
+                      "order":  1
+                  },
+                  {
+                      "id":  "state-diagram",
+                      "title":  "state diagram",
+                      "description":  "حالات الطلب وانتقاله بين المراحل",
+                      "url":  "https://editor.plantuml.com/uml/bLVDSXj54BxFKspbI5Kk73bGeU90SKYA4XGSA0vRyZZPglLAh5PEYPijMoXw2mg4vKM9KCb2tZUPUHk-dcOOJNlzaqDazMvtVrz_tTEQF1jKQLaDZtEbggpATM9szjmi4dDfDgQsf_YyDEl4D7QIs0kpXTMOLM8Mvj9ExDIiyVV2pinL0kFQhF6vGp1or336UBDGwiTFVagUFlqyUQNVTlJFGpseb09kfPCd7cvfLl1TFKdImRwRzvgRbVb0QO4CFs23ICr0BeCBV55KkZn8gpJ4mV4QhhybO7DcBsJ4yrB3KQ9T0gic6AfyXyYPFKE5A6bZps4WpUzc2p9SACgafwVEX4WasNixSm07EizET3bw_gQNTRLIeJPI931EFYDDLqIq1XZ4YCYgu8Ymc3P2WpuS8pK2AQInKq1SgJYOqacIiHsxz8xxQJ4YJEhs6BAm24Y-1Udprk2irDtAlw3Oe2IeOPOeMPW990mUF7k-3NV1ajYIv5tvO0PKQ0Vp7J-5OXZvlpaxzA96GjahoYwgK4gWkKg_rSLXLhn-KPpelDVNt9grsOJMt83-gP9-5Fj3cbLu9cGoIohFZozFWwWz2DU6HTmbBn_0nnWmDsxMNSBfhMZ9J2b9jPr-o9AGuecTyQ5Pq0ffpN7GwmwFTL5rT5VZwI6Ij71IIWnKU-Y3vpNeLfCBRxnp-7pC-HQmIiadZjttkioEHdBvqR54hWLj5ogqDaktJ1knfcHuPABGAC_j1TdWEThR5hR6YwLf47PlgRT21LNAP4yTJ2tfKVbVwKANQTxHhxD1LOxYaqwxRagC_sDB3Q2gPPGFaW7NvWyC21iWCG4hFh3VwUwR8kksP5ZGCg6ViHKO_maLVFrOeZkysNdXd4AKqYNy9a-B0ZFxCitog8Hhqz1gzLfyGAAjtngwdvOL3OHIeY2IfeMaUC9-CVQ-GMyZbF2TLr8rF9IAkxvlUEYuxfKze_LAb7s4-uDU1_UxPukTvKmzvXIrmimnMsCM7cQuIlZOBMsGraX_1R5JkDLyX0BR_nErnG9pYcgQEq3cPC9rbT36H9Abdvhzgr9G8eZgl48GAyjTVPaD1kZZryLHZtVT4ly8WHe3CbjeQAT4ZM3UkprTStmq5Hrzakctl7F7jCu8CecR7MQ02O-35vNRu9D48x48dKpp5vqF7ejzhahj6M7AW2zkBoAlk8i4Il7Oh84vCvlRnnCYthZS27_ul0frb8fjsO1Femv4Yej8SN23zgPXxP50zhnTUwdFtFn3Ln2_mY9wIkrRGdKWa-h8E1KGuQUaNMqOY3JhnozJ5bCyu7jfLetOV0GM6tR2055i-CvDIaUzaks79ePllvXwJpmEPYDa_Z8hqloBVh_idQGvX6HUfA7xEGiBabO3KZRH8crfkFsLHfRdBywkL6HwlR9VTF6gLsL7aBBAUaK0cDFF2gsKFLPev8HIjqUsFEJR1yhjwC4mhoJz7HUHk2byT_zc8zmeLVZkKF2_FAMUuQ8vFCx_1G00",
+                      "category":  "diagram",
+                      "order":  2
+                  },
+                  {
+                      "id":  "class-diagram",
+                      "title":  "class diagram",
+                      "description":  "العناصر والبيانات والعلاقات الأساسية",
+                      "url":  "https://editor.plantuml.com/uml/lLVTRXf75BxVfnXnMIbHUvkBAb4jLRs8KjcHUebMU4fMWiLP5aUqgbGmq9Ytg5GNs88fye-zRpBpDltcp4w7OOSDaTmV1JpCTyxvvloSEVEocuP9scktWY2DqXPdSY8UnKoEcNYG8p5dOeQlcRWHcHpWSoOsJEHoGh_BiRZ3BxbOQzWSdnFvKMoK0ZaL2uR5hTZWyq4ZCYmki3CFWaOhx7PPJUi1OWQ3aneBk-oRA8r-uZ7xEM3uxnc3p52EwowIlM3VnIblyiIW2g9oZAsJD8dYfaV-Dq1m4bg89PJXs-9_iRJsdLunXENtlIZf7_FtFTvDVKIr_2uJed-FVtczhBb4UqMOXQkli7cIXcclQv2PaeTRhpKsaqEnbbFon56OyhTHcszv2I7E05vgrLYIL_waW7bSGIfpg3Id_pxfdF4axNlF3Q3tC7flGXwVb7RdC8xVLN0yQZnyCgJH24SSc4HKBbp9AH4ywINdlF-gsusQSPl7tW1P3MuckIZG_GkOuRPdF3vtWUHpNn1TKAVH0paJIN_gPH2vWyY8pdN4Mz4vJ_flabEUb0v5OdLNhA8KH8R_voAlIZjNap5VcNjNgFuRzPUJUrwepdvykudgHbeb1IhaR_YiS27YBDPYGHvv4_EJj7FsGnIVTZxumcp5os66VH_Adt2efo9tTNugraJXMnxp96mTysRKJHD_KLZX2X8MvIMnG-1M_24_5WivG65D2vUyvOrtSTJu7nZDAPZe_MlLFX3tXMdor-81Em-cwiTq8u2YRX-jC8wXwdKOjNpSD1maHXLLLvr2XwVcRfXl4Tavx1P4hg7Zhd3i4J_3LUdl9rQoqfyMuqyopM-CQxEmluR-eRQUX3-cn_myuXzuilTgV9I3pxWOJUk4wALfK8-g9Shf_ZhGmT4-0QPtwaqmYolnSQyV5-dGCwD3tHqTV9SgUcfkakTE3IJ69KCb9rR-avDVLchU4TcdCcqEdhyVqDFeTBXF0VPdcStmfSWBD-gu-gDgeDMfPN7L1t4LMeO7-uKGGx7PUpjlQ9AuANS5EQ7aCjbzU9k8m-OJfBobI7Kr5Pj36-b_p40lu9s5cNxxJs_HXeMIMVVsmkBhiDzvIbicpUIWw5slqZHilFDtJWkjJcyLdDrSf74oTm3LHGmx8j-fInxtsgncfXvcXssYxepR1Nkn9EUjzMAkQvwgPVFlc4S3zL0ZCZg4lQby83bK6dSQeZ40RhfTNa7kqkYwa6C59z1sLTTDh4cRBSCoqAHXVRiGwhOGAcNSrArcOJFE0079b7Inb1TgAKUUWBY3CmN56PrDL822PpFjPZcsX6YGA9Pcr_WsiyFmIbsrE9v-3dc8L0pa3X6jz0fUkLNNmDRppOcqewt41gHLhrGqp7EuzbMDFNl6Qby-V_v5RVS9-eAHVzOG2Tmj8uSl-t9JS5Z9LIzd2CwlGM3sjl6bXnJay8Rsch3KRBbhEojrJZbbPEwoIXX_kMySah-XguAEvkvQfkv3e11JWMRYoc-qKfH2_cdHqkpl4Tw1GF9hpuYk1U4bArW6GTGPdacA4jnAEVjAm4wjFYDsrusXEsvgoNivhWwydWPDRW4k9q7WADgFNwes7GJw5nUbXJNiMjoB73b82UiE21LIHLFQykbdoD1zV3YSBjCAeEbxmKiUd_RQhNy0",
+                      "category":  "diagram",
+                      "order":  3
+                  },
+                  {
+                      "id":  "activity-diagram",
+                      "title":  "activity diagram",
+                      "description":  "تدفق الإجراءات والقرارات",
+                      "url":  "https://editor.plantuml.com/uml/nLTTRjDS47ttAlpuTGjVNheL959HgHH4mmBoOyUOHI1KsheX8LZzIUvEPdR3ESnrBrUk4nUr0Wb7zfqvSsRct1auF1kz-Z3w-FOaIKR7evDXAXkTIPNA5Nwkv4OMEiRpIkfKdEOflsicT_ZYP6rc5Pwv5bBZDzDIhbEyt4gDvyOi5dYPugHAaj_nakH_04zahQLctI47jBkGjVpWMSf3c6j6J_hXe_aEOhjQ9_vOvt02djakjU1lR2sLbao0XcRcWC_eaPbcSBx7NzT951YtUFiQ20H-E7Seq7qg2-3Fc3S3ylM6hpG_bpkT-OAXNFmwRWhEC2ij0NHybFud6uGeGVFwgG3ovI0TlHcU0eFjR81Izakdn3Fl0b2bpWwI9CKV5g8cH0E_bPhG5u3-rEKxyAvMgHd5OPM9Ejws3pNVPPtgM4kVdEOGvBNtHwuBnAp4aT6A5crgbXPBgNDWyNkKMYWJYH_GElNiaArZptriIWe4yzIk0M9lUMgG1K5xjTNWUzEdwV3aR0X-kJZD_c3uH47u9jhN7C-n_FG1cHeOh9lI3azV7nybYSML44OpvauLK2ulno7n10X_pdd20HJKrI-MNTMuiAQldYJOeGqxnElNFJrO5HUFgDYn5rUckkHGZR0WBiqeKuQ2ztnWHLbfGNbq9CLfgmN9UgAisNxFs0jT_WPRUm61N4khIZGXMY2LrDQkDGXVmhAHD6xw1YURfdOPjmXH-wN4krXvCCq0jk0awDLZJpT3CRttMYSweIzOrXJMhlvQFscs5DU_dm6QN3ATMhPu3KioBDck5Hi3DRlMPB6mL4cu2pDsvmn3JguTbfkM4B9YaHnl6J_e76LfRqh7viAJGn0Xbu1kRqgJD2lDhSFpmCHt8lY7rX0X9xuiR0NQtEP8X25ZqXHixj08BPWJ0wzaIvSmpVsq35lDaNAa4Rkub1wbxoiHy3sdA00uxLyELeOfqECxudt3luUyB-lDXXBValAZw3kla2yUHme_yX8OK2Jy5b2l2s0mCT-uKm-SsNJUpprDRvSxra3m7lZzulTk6FbSokwngrpB9LnlsgC5e5lRJqMFMHDTvdZKxaxjCJL6uk1h7dWI8t1z1ca-MOa1AnA6t7FfSHRra-I_avzTXw2-beOUAs6Gd9s_jAGwT1pAirDN3HUM1KRrpkKRYNStxhvL7GUq5ysVFKfy6oesz-zo2Uf6FIRU38MPitE4V6WLbnm-EFCIXo_P_dsL1YmSVgRpxYaVW5kgP5oMWKOjLyUwxCttRFJkVP8SGatuB_il",
+                      "category":  "diagram",
+                      "order":  4
+                  },
+                  {
+                      "id":  "request-file",
+                      "title":  "ملف الطلب في المستودع",
+                      "description":  "النسخة المحفوظة من هذا الطلب داخل GitHub",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%A7%D8%B3%D8%AA%D9%81%D8%B3%D8%A7%D8%B1%20%D8%B9%D9%86%20%D9%85%D8%B5%D8%A7%D8%B9%D8%AF%20%D8%A8%D8%A7%D9%86%D9%88%D8%B1%D8%A7%D9%85%D9%8A%D8%A9%20%D9%88%D8%B4%D8%B1%D9%88%D8%B7%20%D8%A7%D9%84%D8%AA%D8%B1%D9%83%D9%8A%D8%A8.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-catalog",
+                      "title":  "كتالوج الخدمات",
+                      "description":  "المرجع الكامل لبيانات خدمات المواطنين",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-guide",
+                      "title":  "دليل طلبات المواطنين",
+                      "description":  "المراحل العامة ومتطلبات معالجة الطلبات",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "repository",
+                      "title":  "مستودع فريق تحليل المشاريع",
+                      "description":  "الملفات والمراجع المشتركة للفريق",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS",
+                      "category":  "supporting"
+                  }
+              ],
+    "columns":  [
+                    "البيان",
+                    "التفاصيل"
+                ],
+    "rows":  [
+                 [
+                     "اسم الطلب",
+                     "طلب استفسار عن مصاعد بانورامية وشروط التركيب"
+                 ],
+                 [
+                     "المعرف الفريد",
+                     "panoramic-elevators-inquiry"
+                 ],
+                 [
+                     "النوع",
+                     "استعلام"
+                 ],
+                 [
+                     "المجال",
+                     "التنظيم والترخيص"
+                 ],
+                 [
+                     "الوحدة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "الوصف",
+                     "طلب توضيح الشروط الفنية والتنظيمية لتركيب مصعد بانورامي ضمن مبنى قائم أو جديد."
+                 ],
+                 [
+                     "الاستخدام",
+                     "يستخدم قبل تقديم المخطط المعماري أو طلب تعديل واجهة المبنى."
+                 ],
+                 [
+                     "المديرية",
+                     "مديرية الشؤون الفنية"
+                 ],
+                 [
+                     "الدائرة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "القناة",
+                     "إلكتروني"
+                 ],
+                 [
+                     "الأولوية",
+                     "ثانوي"
+                 ],
+                 [
+                     "الحقول المطلوبة",
+                     "اسم مقدم الطلب، رقم الهاتف الجوال، عنوان العقار، نوع المبنى، وصف موقع المصعد"
+                 ],
+                 [
+                     "المرفقات",
+                     "مخطط الواجهة أو الموقع، صور المبنى القائم عند توفرها، المواصفات الفنية الأولية"
+                 ],
+                 [
+                     "الاستجابة",
+                     "إجابة فنية تتضمن شروط الموقع والواجهة والسلامة والوثائق المطلوبة للترخيص."
+                 ]
+             ],
+    "columnWidths":  [
+                         180,
+                         700
+                     ],
+    "rowHeights":  [
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42
+                   ]
 }

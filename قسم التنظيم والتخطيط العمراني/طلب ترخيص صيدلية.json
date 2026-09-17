@@ -1,17 +1,148 @@
 {
-  "version": "1.0",
-  "serviceId": "pharmacy-license",
-  "links": [
-    { "id": "request-file", "title": "ملف الطلب في المستودع", "description": "النسخة المحفوظة من هذا الطلب داخل GitHub", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B1%D8%AE%D9%8A%D8%B5%20%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9.json" },
-    { "id": "service-catalog", "title": "كتالوج الخدمات", "description": "المرجع الكامل لبيانات خدمات المواطنين", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json" },
-    { "id": "service-guide", "title": "دليل طلبات المواطنين", "description": "المراحل العامة ومتطلبات معالجة الطلبات", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md" },
-    { "id": "repository", "title": "مستودع فريق تحليل المشاريع", "description": "الملفات والمراجع المشتركة للفريق", "url": "https://github.com/lahlahai/Analysis-Department-OS" },
-    { "id": "plantuml", "title": "المخطط الإلكتروني للطلب", "description": "مخطط PlantUML المرتبط بهذا الطلب", "url": "https://editor.plantuml.com/uml/lLdDRjj64BxlKonoRz5BBpqKGHlqvn2qQDfRBgp3EWGKsf2P0kxDKgIuQb-YS1t9YXnLTHoRRxBxDfrlbsDmI2v9HK5zK49gv_k-cPsP_T7zeomQPi-V3PJAacmGQtDZNvY5DakpCM_ip5nhSqt_hEqB-hnGAjhB3eRwdfdJYuazDNCocDxJqP7-CicIt-9K7H9WifSSHcbsDsvghis5neCvfnTZmDjJEmMcCtvqV9J5pogsRsdGcEsMH4PAx0it_a4yI7wDXySDR5FwF37_57PEugLP5ppVfV6ZxE2mRaOUpZ3MJZrTJfyJP_9rdCR3QF13l9ySPJL6QKQI_uPVdlgavE2FyTxJDDaBuYpC1c7Mf7HkNb7msMtpXY8yCpU5B3kXx-O0Th0FesGWaGePkLbm12O4iSG45973y6TncjNjADflxKbX1Jabfg-IUF3as_JeCDxBaeDK6bTLBp0BvY-DqC09UhobG4sQdVZYUJ9uagJxFmr_ZjBl1r6QqeCaeF6lID2LY8-41bTtm1Z-OPH6-_6mYqNw8zGs8X3RcX0sVREX6yG_4Fy5LzbngtOMZ8nckeVHyS4mb73R9Bz8Dw4LNDxusbmMjD_4qI1x-Y0PncWQKHOhLJG9_T7dHSdhppJDuSWfc7Hq7qrab-3GQ2abjiSf9524HnYIQtCEMpUIWAwG76FNSCPs5j1mJbF-nblClSK4gZXbdQukIw8O5GRs9S4iYreoAv-RdVOBEyCam9IpTqGFcqx3t4wB-KDJ9gFSsOlMlIsvC5Q5YJIcqMzH5yvp4Qgo0HEJHKxJyGxJcmFNJa26nol_o1txDQhFZZpU6Gbn8feXv-Xka8vwkK4YaliNRQ1OWNxNhMk5KfIv4Xi3Ig08-HsV3YnLIcdwAmMUboqNFQIc3_qjabSJqILixGpeqEXZMStsC2WWbkRTtNWkfpCx8hA5BAPI7EHxttHk40zHYyXfxn4pYgd0o7-X7ar5R0yejpX1dA1mbCBfsGd0LfM0J4ZLdFXpUEQQHssMf4koCv49sjjhQLkbHhBWFKya-QuHCUW6zLhfugynXS-nNliaMxWIN18G7XtBAL1QwmB0k_W0spXzKfjRtYqHYYWdTXJZUKoLyyoEYqoW95-InLoQgdXm5BTL6ESXHGJLrQziHIO57DYrt1Zp_wYstIACAIqiP2pEHIQmxeRTUS-eCxHa4RfSjehoTS5jDaL0KBMkatFk5uqT2tnziVB00I5Biy9sbkpi66f8ICblydJYDmz0io-5EvNzJr5FI1e1eYhZO5hRyHTPQ5Om9jfc9676MDXt1Rdn9GqgxUn3GqKMDfyHb2h1Y8oJIIC14K7YmvSjvmYbEjiV5Wqqp3OOzDVEhOsi46GX5DDdpjNUGALKvPG3HFcgKBmo6snyscGoJt17vXgDbt4BUtbmak_39wYUafTSGXhhYplTh8JdMCDe3BQgQn85S6W-iwSQ5UEA_TRLMyb9NdqaePW8aVD4JJOhcIP-Son9LA_5iZ-URuPrcSrdJvdk0HOauTgbmHNAfX6ebU7EsA_p9xK4sGsptaD1ujlTqfSl8YFoRXT69dbdyahE5YNBXR0J2OFi7YoFW3OviYDUzA6IUB3GyPej5lGFItTMv_pq4xzdHNN_uSiFVOosVflte3mtEIfLxCZTIdV1tKbaXj32Xo2f3y7W0xZGYeeD20bq0sX3G-EOO9jdRYg4_Hf1FoZUS_OEEBYt3JhlUyPs0YPP878Eq9HauwsssleaUO5pqNlwHHx9W5IG2xZVJl4POQtVjnNNxIfRsq9d-mKGs-ImuUi1zbWUW2IqrDZTr9k885vENJZCksU3h3pPC3y4LI3RGgZLYr7WRQX0ydAo-4BJxM5I5QHcSBA5mShad8zYEQnghsDMxs63MrI9fBlkU3b4hLnIls2hQw_ZrUv_nNsGZ3WU-BAMLwJkMsQb14M8jhyVg916J5n8x-g5kEPMYY45GuVWgX6klBSL5BX2LmfW0dMhg3aZqV3a8Eu5KnpvdG8k0NSzCSB9bOzEWJEfJ7nPhP8eu68LiquZrsxXCzFZzConBCTNzO378RRdTAa6Ko3MVcxeEWO7VhjGgeRKy-w52NeSTFbghx-inwc_uaUK_TbpJIysee-r7nKnLQBJfGVasZ3PVvhfWr_gyLFs9KPg0WFhQ1krva-5k7kvHBspM4hW6SXoztObKlrZh6qQtYXrd_vBlsV_1m00" }
-  ],
-  "columns": ["البيان", "التفاصيل"],
-  "rows": [
-    ["اسم الطلب", "طلب ترخيص صيدلية"], ["المعرف الفريد", "pharmacy-license"], ["النوع", "خدمة"], ["المجال", "التنظيم والترخيص"], ["الوحدة", "النافذة الواحدة"], ["الوصف", "طلب استكمال المتطلبات التنظيمية والمكانية اللازمة لترخيص صيدلية."], ["الاستخدام", "يستخدم للتحقق من ملاءمة الموقع واستكمال إحالات الترخيص إلى الجهات المختصة."], ["المديرية", "مديرية الشؤون الفنية"], ["الدائرة", "دائرة التنظيم والتخطيط العمراني"], ["القناة", "ورقي"], ["الأولوية", "رئيسي"], ["الحقول المطلوبة", "اسم مقدم الطلب، رقم الهاتف الجوال، عنوان العقار، اسم الصيدلي المسؤول، رقم الترخيص المهني، وصف الموقع"], ["المرفقات", "بيان قيد أو عقد إشغال الموقع، مخطط موقع الصيدلية، وثائق الصيدلي المسؤول، المخطط الداخلي عند الحاجة"], ["الاستجابة", "قائمة متطلبات الترخيص وإحالة الطلب للجهات صاحبة الاختصاص بعد التحقق المكاني."]
-  ],
-  "columnWidths": [180, 700],
-  "rowHeights": [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    "version":  "1.0",
+    "serviceId":  "pharmacy-license",
+    "links":  [
+                  {
+                      "id":  "sequence-diagram",
+                      "title":  "sequence diagram",
+                      "description":  "تسلسل خطوات الطلب والجهات المشاركة",
+                      "url":  "https://editor.plantuml.com/uml/lLdDRjj64BxlKonoRz5BBpqKGHlqvn2qQDfRBgp3EWGKsf2P0kxDKgIuQb-YS1t9YXnLTHoRRxBxDfrlbsDmI2v9HK5zK49gv_k-cPsP_T7zeomQPi-V3PJAacmGQtDZNvY5DakpCM_ip5nhSqt_hEqB-hnGAjhB3eRwdfdJYuazDNCocDxJqP7-CicIt-9K7H9WifSSHcbsDsvghis5neCvfnTZmDjJEmMcCtvqV9J5pogsRsdGcEsMH4PAx0it_a4yI7wDXySDR5FwF37_57PEugLP5ppVfV6ZxE2mRaOUpZ3MJZrTJfyJP_9rdCR3QF13l9ySPJL6QKQI_uPVdlgavE2FyTxJDDaBuYpC1c7Mf7HkNb7msMtpXY8yCpU5B3kXx-O0Th0FesGWaGePkLbm12O4iSG45973y6TncjNjADflxKbX1Jabfg-IUF3as_JeCDxBaeDK6bTLBp0BvY-DqC09UhobG4sQdVZYUJ9uagJxFmr_ZjBl1r6QqeCaeF6lID2LY8-41bTtm1Z-OPH6-_6mYqNw8zGs8X3RcX0sVREX6yG_4Fy5LzbngtOMZ8nckeVHyS4mb73R9Bz8Dw4LNDxusbmMjD_4qI1x-Y0PncWQKHOhLJG9_T7dHSdhppJDuSWfc7Hq7qrab-3GQ2abjiSf9524HnYIQtCEMpUIWAwG76FNSCPs5j1mJbF-nblClSK4gZXbdQukIw8O5GRs9S4iYreoAv-RdVOBEyCam9IpTqGFcqx3t4wB-KDJ9gFSsOlMlIsvC5Q5YJIcqMzH5yvp4Qgo0HEJHKxJyGxJcmFNJa26nol_o1txDQhFZZpU6Gbn8feXv-Xka8vwkK4YaliNRQ1OWNxNhMk5KfIv4Xi3Ig08-HsV3YnLIcdwAmMUboqNFQIc3_qjabSJqILixGpeqEXZMStsC2WWbkRTtNWkfpCx8hA5BAPI7EHxttHk40zHYyXfxn4pYgd0o7-X7ar5R0yejpX1dA1mbCBfsGd0LfM0J4ZLdFXpUEQQHssMf4koCv49sjjhQLkbHhBWFKya-QuHCUW6zLhfugynXS-nNliaMxWIN18G7XtBAL1QwmB0k_W0spXzKfjRtYqHYYWdTXJZUKoLyyoEYqoW95-InLoQgdXm5BTL6ESXHGJLrQziHIO57DYrt1Zp_wYstIACAIqiP2pEHIQmxeRTUS-eCxHa4RfSjehoTS5jDaL0KBMkatFk5uqT2tnziVB00I5Biy9sbkpi66f8ICblydJYDmz0io-5EvNzJr5FI1e1eYhZO5hRyHTPQ5Om9jfc9676MDXt1Rdn9GqgxUn3GqKMDfyHb2h1Y8oJIIC14K7YmvSjvmYbEjiV5Wqqp3OOzDVEhOsi46GX5DDdpjNUGALKvPG3HFcgKBmo6snyscGoJt17vXgDbt4BUtbmak_39wYUafTSGXhhYplTh8JdMCDe3BQgQn85S6W-iwSQ5UEA_TRLMyb9NdqaePW8aVD4JJOhcIP-Son9LA_5iZ-URuPrcSrdJvdk0HOauTgbmHNAfX6ebU7EsA_p9xK4sGsptaD1ujlTqfSl8YFoRXT69dbdyahE5YNBXR0J2OFi7YoFW3OviYDUzA6IUB3GyPej5lGFItTMv_pq4xzdHNN_uSiFVOosVflte3mtEIfLxCZTIdV1tKbaXj32Xo2f3y7W0xZGYeeD20bq0sX3G-EOO9jdRYg4_Hf1FoZUS_OEEBYt3JhlUyPs0YPP878Eq9HauwsssleaUO5pqNlwHHx9W5IG2xZVJl4POQtVjnNNxIfRsq9d-mKGs-ImuUi1zbWUW2IqrDZTr9k885vENJZCksU3h3pPC3y4LI3RGgZLYr7WRQX0ydAo-4BJxM5I5QHcSBA5mShad8zYEQnghsDMxs63MrI9fBlkU3b4hLnIls2hQw_ZrUv_nNsGZ3WU-BAMLwJkMsQb14M8jhyVg916J5n8x-g5kEPMYY45GuVWgX6klBSL5BX2LmfW0dMhg3aZqV3a8Eu5KnpvdG8k0NSzCSB9bOzEWJEfJ7nPhP8eu68LiquZrsxXCzFZzConBCTNzO378RRdTAa6Ko3MVcxeEWO7VhjGgeRKy-w52NeSTFbghx-inwc_uaUK_TbpJIysee-r7nKnLQBJfGVasZ3PVvhfWr_gyLFs9KPg0WFhQ1krva-5k7kvHBspM4hW6SXoztObKlrZh6qQtYXrd_vBlsV_1m00",
+                      "category":  "diagram",
+                      "order":  1
+                  },
+                  {
+                      "id":  "state-diagram",
+                      "title":  "state diagram",
+                      "description":  "حالات الطلب وانتقاله بين المراحل",
+                      "url":  "https://editor.plantuml.com/uml/lLZDZXj54BxNK_GPAH8NBdj0UG-4B2JsW1GuW3b573mxTepp52WuQq_YB2FRSUPDgj-6xrFHTjTeP7fmH0wEfxlg-xxwwUhnFlzb-jtFqrz_V24o_M7wuZxeJXzZhO_Q13tXooPeewr-Y2iz1ZtYlwTOutChyiqNtuPdpxuESQxxkDGdhbs-Smk-SJx1HmMl5RyIss3lmcKzPEkw1lu3IUCoBk8AMwz5hW2HHpTOMC3f4vIttAsXuXqUtiRAZD_eqOIJUGtZ0tR_2A2fd00Hf6HwFmxofKZ0lvGH67s0s9Lvdi2nWlAjUJMwfrUScq-PhIMwOlh_sO6O8tRgSESWWXu0yG1Dtcmibm-_Ps7PcDE6T7q9FJXlR55RZeS3UYcqyFbqoHzqa-HLP3qK8_VGStMlreYE-eCsB7SFFP6MOfL60r9WxTZj-YuTocsuFMIU8rz87wghczl3GnqNM9pfNxfDkuyKgLkXYj_osevge86IzzpxhgJMKrmansA7_oqDrpaeWy4Ah0iiNKLr5ojMUHPNNCdaJ7fovB_v3Ky0tKFeGvnZUUYCBFKz9t-8YrZnhdWJbq4xVK8AuNE2uOR3HifnRueTaZnqyD0tvSQxxX7v2jfXbB2Mvz7CksnG03AMvQM9h_HHf0ouhm4SXpXBZOvLPZYkoB_siyEkJFQm7hJJ3TRDY-DRZsoP0joXuSa3rZc_V8OzXMGGBWOY1I3beUwOtLWFCvL5HT-QbQOWRIRvlcvTby-vgftrkNUJwoYb4P6ZuxA-JsLok1IpfWNRSdomJWJMMnwNyyi0Oll4OKJ5Gtrik9JGiALXMWLMahsD5BqIAKKl63PC18lBHsrCJit6jioiiVTxy4PMb-oq8LKVUQH9AMFeHgVAlzOEoVA389cTkCWZEJ9tS6tZ3AuV9x6sYJiv3pHUhtfAz-sU6J2LRe6oAZiwY_3LbuHiI1jVZvEIZDUKmSRCBbz8h0QeFPtb1nyFo4uhKW0uE8o0nkReABNLjm3Pfn3OeAq9EQC6xQDgnwPAbJfQgplX8kDPYvhT7N8tSzoEbCDyzYRs3VlvKf6L8FDBFadi1XxyxNPtfMnvY28tqVnBW-61cKhlk0VzapzShKzdvul3gKoK8Sj6JYbo6zyuoVO0K-hCpG8bQsTp7_sNl49E779YaT6ienh1SbJJirojPnCPJUM7ctyLczZjSuwDrcPor1qSXtgK2mk-xocvJ3WnWKYAJcGyrO36jRQSLNJSM3ZQSXUQBk-MxhLmcLuN-JgQxjNSLQI4uCgGgx4ulvQiXEc4QKVeaF1jY_LSaiCUEoABZATDboX_jyHbKKKRNb2c9CCFkKUuU8YKWwTVXVBy_gVlyMUvlm40",
+                      "category":  "diagram",
+                      "order":  2
+                  },
+                  {
+                      "id":  "class-diagram",
+                      "title":  "class diagram",
+                      "description":  "العناصر والبيانات والعلاقات الأساسية",
+                      "url":  "https://editor.plantuml.com/uml/hLdBRXit5zxFKn3U_81_94YtGbkaHJPP9raFL4SeX4foOSj0qSj25ycotg9DayYA8tKGg_BqISYtwVdA8nyEGuvODIxQqP3VkV3SENrytc-UzI-wdIphj_kTbj9lpTXCz4flzTQ-N9gv6T5phinOR-dVXT9BNUYLcUkDqXjwhB6jhxFi_Bjsx_lcMREhJZhDy_El-lspzZSN_TRJazFUi_QFBVKeo_wdleZzqHxB_q0YLiHteioCbbXmBMtsZqXc02gYcQgVCaL__s-_RAWNBvu-iM_0qFu7CscePwHYxrjUBypGJ79xR08ipU0UyCjEW5Kb5nlahWqY0eMn9VVaBabOGUGh2rcQ8V6RGxqdpNxhURlRSXH_Z__gwuRQ_NBuViplDx9Z0MtVWwL-vx2K8otCd7XCSMJBh3H3iE3JYFwovPt0MdsgjxHxNG72AXxOxaxD34B5mb5rGWQs_lEtFKaYPG_Gp6Xl40L1Do-mZZuxKWyUgAD73nyU7-qBYeOYRyAdasmF4coFmPUUKRVyDoPknYQbuqo_8-etPfYIVq3ZiB5KC718cOEnG1igkEm6dxSLJo0FXcXda9ikI0XYEsoeuBAVxcmvmZBkbTx0XFVH-8ga5S35Gsn2r4ipCrULEl2yzKFVaVOQtiH-helx03SZNH3Xo94dDX4IJzuG5OJrjSp86gsJThVP2PUTjHdeaYr66YK76JB0yJkYVK9y1mR1kioSdSz_9e9wY_hmlIRP7yDBeXh360U4in3dLU98eT_2e583cHgcZsu5dI7RKh13OVmMhH9F0ADRJe3TKe1F6O9mX4_DE1HNI_fdeSlwLlKQFi4lKJC8X20pOrZqDAnSGmMNvHHOHKcZWFs3GIZCw76HkYFzWgluNRMtfrVKU4XayM11cn0MKI_GmKjQNoiYMz7w73PKLL1S2lUaB_6iDn44LOACuUOId59oYgdrZO7UuCp5SuQ5r44D8udRdqi4Qo0MpH2-Y4UYG0BJZI_aLlzkPlnY1cOA1mVhganQDN855fwi0DNhNAzXMLr8zjE8JJjRFZWg9bGqyyDL4Vk7LE6pbth1Ec3C9v9DOAOIP7gEUD4NSov68SGD0Za60fiqju4R3Wrk2NWmFiGdhfm3o26srlx2FcqY6-bRC-2h3dInObAopfBcBbcaNafiYKY_UgEIqedMDH2kGwXbDmWd-UqGLIuHOrGfVOVPmH-FTfNR8SrzAwHV-MJTEeAUcmDw0by10fRDGjRcUKacfwH38KBC5CKyAKA8hi1nIKtk7bDzXq8FpLFYH1ZaLUAmUQFt9_ZlVlxT4iU5mGH4BqjhNhcNBD2kzAyDzVNfQQVLxFbaqiN-r6Nk7yiZumJ3Q380OObA41pIlPcOBm0vfMh1gInyH4XzmAP4lbXOujilAMoItCognuqsZUZC8vmFdNfY0P55ThZQ7dwaXi8kGXvZIRqOB_k4WIu9FC54LTAXhbAIXs_vk_jBIhO8HSArLy1mHcH3GaWASQYq8gAnJupuLu1LMd4byZVepNvZ4sl3QVMThfQLU9zXS0p1YdZ33W7j2yPdJngBGB23zb_VO5qdDfGTKa81aLMGHySozdmI4wPpzwqQeqmmT2Ajs3vA47T7Gkh9f4ltVYIiaiy4AOaezBcbptVgGuLScFbPcZxR7pYSotNyKr_faq_ejuGRStb8E-3BRBgjirGab_B87igvvKEYaugvHIDdLUh_H6ZrBhgX3-jiJOm25FPhhgheBRbyhlS_n6EwGTVNgBU5TrklVFLYVlOIM_aIwQ_BhTlVYOoEFipfeu7HCA8sHzx8JF3cixJ5YoQRCiB1wqYv-xKXUFZKW66d4AyXRazfQ5eVO8f4oBF3Oz_csEqO1it8-rx3TX0mYSN10HRMqGG6wvYn1ILX5jxv2yV4s3C2o8nZWlc34miLK_kdmGiMTwPQKeIkq6c4SV1JFJFc2WAFr3bX_qTTW8HxRhKmLx7ZSRB4REgbatkdg9fHraLIyCRAaeJ2UmMlCgyEN65HKK6Ig4xnWRlC02ODB2K85NJOeu59ritklDBSPGvXeD3cUuULZrWd32brD3ASnDNnXnAnGMHy5Yl84WUmBWc-XWvZlpu6wipZLk_bHRVpDm00",
+                      "category":  "diagram",
+                      "order":  3
+                  },
+                  {
+                      "id":  "activity-diagram",
+                      "title":  "activity diagram",
+                      "description":  "تدفق الإجراءات والقرارات",
+                      "url":  "https://editor.plantuml.com/uml/hLXDSjjM3Dxh56yPxRhf9jdaAfsfClMCctPgzG2YH8bb3z79kAbaHhRAIhBCcm2tARu-OH3GRvuPfLd49Xz-FW0VW4U_lPb-zylqrn-lHwFfrVHw4cZFDRM1EYvv4UZ42ze4QgYb1pau1ZhAZnqlvF-xqUW_xT7eDJLSoDkQonTK0fTqJsinBVQN0R_HKTxSlH4Z7sb73tWbxmL72HcOBGDUHiCzkPQByp6lHAdXMPJTSeMVFUcDG5Zp4e9HhED27jgUMCTBhY0809M8T6UW5aVUS4yKid9uaECF1jaYalEEMdf4qZeeSGbBUDpZKIEiw9Ey_ukBg7rBHmEp5YWDKA1u9t5I2-wxd8cFylXRV2l0UKP_GpuAhUbUWWFqgtVX5Pazd9jD-cCSfZzCtel8GKJcf09S8GEy68z6GVuXLotjOwwUH78M1EezvBYMV0E94gVFYsX0n1jwjBCeIxTSYE6DfnXPPFPUOokXofLZAAXpzYCl_-4AIcTnHZ9ESBlHoaNVFb1LDqxaf0FFk5O7IpfQcAK0M8khJl36Hi4ltbNCAGh3Ax65zpZl5TXg8uVhCNI2OZnG1w8aGWI96th2QJHSyQ9d-8sPSkBKW3HSqwSqSatIvFttL--K5rzBpydrpIIymkk-gHBHW9RZ5tsPB5mCT1oZGEFjgK6AN-fIBNhMBXXm0WFGRGcSdPyrVYusjEMIQn7YEV2WTDOiN769rkC2ghoI89H3pns9WGO601jwZQ7g4ykoA-vhDHOdQ457D6aLg2ETunOX0dwPae_KocEhR8hvdcD4AgFS-eaUEiIZOnG0UX7wMV0v4C3OsQIxvo8cPDbl0oKVBx4inqO9bmfBlrOVG16VZh8EfKBvuApggIaT-qe7-fChnJJZfQw1j8qEmolWlpZPTWY1MeloGIHhEkbIBELi3QDnpLatzs0f5jZN-Oez52TQX0FaufDHqqx7wfmEF3ihu5YzPPcGC15tAss1bpxaREkMoMxq1kNb6WN7N4EIjjwRTGnajneO-h6BH6Dq3VhvYK2-pp5OxoXh4jq3poAwHK8jd7YTyRO7DCyN6qFhu51LqbBM9hcKMuTWJbX_6AFImHhdFKqH3QeSuLCZZq_QyvwrSBB34-tX1EjdbYou2QNcBhHq-i4_Ck2WE1EgzGWcE832FZbPAFMSLfwGwHbKqXuBn9PLyXxasEhL8AzNy6-_2OWGUFZt0VpKIQwmi3Rfv3mCc-l3xTnCV_hPSocQzxiWk5AeD-mxMzZ91dOCrpbX5B3zOGu6vEcYVdskbDvK_-VAooTHky0pEgcRp7fo0BGyeowrJbf1MjE-t_hcM95aLrPye2rrgk-6GH_b05AWKmmTB2Z231TiI5gayGvdU_4ocaHR5z-7XX71vIqn-9yLCSuuI_s0-J-G0dxacWzl8LbQz-bfih7Lz4QapiKogj9cxbZ3tIFNNmKWFl0ov_LB7NWERr3YYy9wtK-rtlfNg1fCsioekE0QQozV-lpbE7sdhjGWFcZCZiNznjAJlHDVVZFNaY5cztSBwD4jpwDv_vdelWgo9Z9JmBxFXuCQyFNFgtYNtib9cvd4_S6BQhX67SMz_LRwNlx0-2y0",
+                      "category":  "diagram",
+                      "order":  4
+                  },
+                  {
+                      "id":  "request-file",
+                      "title":  "ملف الطلب في المستودع",
+                      "description":  "النسخة المحفوظة من هذا الطلب داخل GitHub",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%AA%D8%B1%D8%AE%D9%8A%D8%B5%20%D8%B5%D9%8A%D8%AF%D9%84%D9%8A%D8%A9.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-catalog",
+                      "title":  "كتالوج الخدمات",
+                      "description":  "المرجع الكامل لبيانات خدمات المواطنين",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-guide",
+                      "title":  "دليل طلبات المواطنين",
+                      "description":  "المراحل العامة ومتطلبات معالجة الطلبات",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "repository",
+                      "title":  "مستودع فريق تحليل المشاريع",
+                      "description":  "الملفات والمراجع المشتركة للفريق",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS",
+                      "category":  "supporting"
+                  }
+              ],
+    "columns":  [
+                    "البيان",
+                    "التفاصيل"
+                ],
+    "rows":  [
+                 [
+                     "اسم الطلب",
+                     "طلب ترخيص صيدلية"
+                 ],
+                 [
+                     "المعرف الفريد",
+                     "pharmacy-license"
+                 ],
+                 [
+                     "النوع",
+                     "خدمة"
+                 ],
+                 [
+                     "المجال",
+                     "التنظيم والترخيص"
+                 ],
+                 [
+                     "الوحدة",
+                     "النافذة الواحدة"
+                 ],
+                 [
+                     "الوصف",
+                     "طلب استكمال المتطلبات التنظيمية والمكانية اللازمة لترخيص صيدلية."
+                 ],
+                 [
+                     "الاستخدام",
+                     "يستخدم للتحقق من ملاءمة الموقع واستكمال إحالات الترخيص إلى الجهات المختصة."
+                 ],
+                 [
+                     "المديرية",
+                     "مديرية الشؤون الفنية"
+                 ],
+                 [
+                     "الدائرة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "القناة",
+                     "ورقي"
+                 ],
+                 [
+                     "الأولوية",
+                     "رئيسي"
+                 ],
+                 [
+                     "الحقول المطلوبة",
+                     "اسم مقدم الطلب، رقم الهاتف الجوال، عنوان العقار، اسم الصيدلي المسؤول، رقم الترخيص المهني، وصف الموقع"
+                 ],
+                 [
+                     "المرفقات",
+                     "بيان قيد أو عقد إشغال الموقع، مخطط موقع الصيدلية، وثائق الصيدلي المسؤول، المخطط الداخلي عند الحاجة"
+                 ],
+                 [
+                     "الاستجابة",
+                     "قائمة متطلبات الترخيص وإحالة الطلب للجهات صاحبة الاختصاص بعد التحقق المكاني."
+                 ]
+             ],
+    "columnWidths":  [
+                         180,
+                         700
+                     ],
+    "rowHeights":  [
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42
+                   ]
 }

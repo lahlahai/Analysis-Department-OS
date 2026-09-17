@@ -2,11 +2,14 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SO / Engineer — Architecture Workspace",
-  description: "مساحة هندسة برمجيات متصلة بـ GitHub.",
+  title: "قسم فريق تحليل المشاريع | Analysis Department OS",
+  description: "منصة موحدة لملفات وروابط ومراجع فريق تحليل المشاريع.",
   icons: {
-    icon: "/favicon.ico",
-    shortcut: "/favicon.ico",
+    icon: [
+      { url: "/brand/site-logo.png", type: "image/png" },
+      { url: "/favicon.ico", type: "image/png" },
+    ],
+    shortcut: "/brand/site-logo.png",
   },
 };
 

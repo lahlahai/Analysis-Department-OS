@@ -1,5 +1,3 @@
-import type { Edge, Node, XYPosition } from "@xyflow/react";
-
 export const componentTypes = [
   "application",
   "service",
@@ -23,8 +21,6 @@ export type RelationshipType =
   | "uses"
   | "extends"
   | "implements";
-
-export type DiagramType = "architecture" | "erd" | "flowchart" | "workflow" | "process" | "sequence" | "component";
 
 export interface Project {
   name: string;
@@ -63,28 +59,6 @@ export interface Relationship {
   direction: "forward" | "both" | "none";
 }
 
-export interface DiagramNodeLayout {
-  id: string;
-  position: XYPosition;
-  width?: number;
-  height?: number;
-  collapsed?: boolean;
-}
-
-export interface DiagramEdgeLayout {
-  id: string;
-  source: string;
-  target: string;
-}
-
-export interface DiagramLayout {
-  version: string;
-  diagram: { id: string; name: string; type: DiagramType };
-  nodes: DiagramNodeLayout[];
-  edges: DiagramEdgeLayout[];
-  viewport?: { x: number; y: number; zoom: number };
-}
-
 export interface SoftwareModel {
   project: Project;
   components: Component[];
@@ -105,6 +79,63 @@ export interface CitizenServiceStage {
   order: number;
   name: string;
   owner: string;
+}
+
+export interface ServiceFieldDefinition {
+  name: string;
+  key: string;
+  type: "string" | "number" | "phone" | "file" | "select" | "date" | "coordinates" | "boolean";
+  required: boolean;
+  description: string;
+  validationRule?: string;
+  example?: string;
+}
+
+export interface ServiceValidationConstraint {
+  rule: string;
+  rationale: string;
+  severity: "error" | "warning";
+}
+
+export interface ServiceAttachmentSpec {
+  name: string;
+  format: string;
+  maxSize: string;
+  isRequired: boolean;
+  purpose: string;
+  issuingAuthority: string;
+}
+
+export interface ServiceFaqItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: "إداري وتشغيلي" | "تقني ونموذج البيانات" | "مالي وقانوني" | "إجراءات واعتمادات";
+}
+
+export interface ServiceEdgeCase {
+  condition: string;
+  action: string;
+  returnCode?: string;
+}
+
+export interface ServiceSpecification {
+  serviceId: string;
+  serviceCode: string;
+  legalBasis: string;
+  slaDays: number;
+  slaDescription: string;
+  businessGoal: string;
+  targetBeneficiary: string;
+  digitalMaturityLevel: "أتمتة جزئية" | "مكتمل رقمياً" | "إجراء هجين ورقي/رقمي";
+  deliverableType: string;
+  officialCertification: string;
+  fieldsDictionary: ServiceFieldDefinition[];
+  validationConstraints: ServiceValidationConstraint[];
+  attachmentsSpecification: ServiceAttachmentSpec[];
+  edgeCasesAndReturns: ServiceEdgeCase[];
+  apiPayloadExample?: string;
+  faqs: ServiceFaqItem[];
 }
 
 export interface CitizenServiceDefinition {
@@ -128,23 +159,8 @@ export interface CitizenServiceDefinition {
   stages: CitizenServiceStage[];
   returnReasons?: string[];
   authorityNotes?: string[];
+  specification?: ServiceSpecification;
 }
-
-export interface ArchitectureNodeData extends Record<string, unknown> {
-  label: string;
-  type: ComponentType | "entity";
-  description: string;
-  metadata: Record<string, string>;
-  fieldCount?: number;
-  fields?: EntityField[];
-  diagramType?: DiagramType;
-  flowKind?: "start" | "end" | "action" | "decision" | "service";
-  lane?: string;
-  status?: "ready" | "active" | "blocked" | "done";
-}
-
-export type ArchitectureNode = Node<ArchitectureNodeData, "architecture">;
-export type ArchitectureEdge = Edge<{ label: string; relationshipType: RelationshipType }, "architecture-edge">;
 
 export interface ValidationIssue {
   id: string;

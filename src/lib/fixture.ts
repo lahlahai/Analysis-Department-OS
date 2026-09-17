@@ -1,8 +1,9 @@
-import { citizenServicesDocumentSchema, diagramLayoutSchema, componentsDocumentSchema, entitiesDocumentSchema, jobCardCatalogSchema, projectDocumentSchema, relationshipsDocumentSchema } from "@/domain/schemas";
+import { citizenServicesDocumentSchema, componentsDocumentSchema, entitiesDocumentSchema, jobCardCatalogSchema, projectDocumentSchema, relationshipsDocumentSchema } from "@/domain/schemas";
+import { citizenServiceSpecifications } from "./citizen-service-specifications";
 import jobCardCatalogDocument from "../../.software/job-card-catalog.json";
 import citizenServicesDocument from "../../.software/citizen-services.json";
-import citizenServicePlantumlLinks from "../../.software/citizen-service-plantuml-links.json";
-import type { DiagramLayout, SoftwareModel } from "@/domain/types";
+import citizenServiceDiagramsDocument from "../../.software/citizen-service-diagrams.json";
+import type { SoftwareModel } from "@/domain/types";
 
 const jsonDocument = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
 
@@ -87,21 +88,12 @@ const relationshipsDocument = {
   ],
 };
 
-const diagramDocument = (diagram: DiagramLayout["diagram"], nodes: DiagramLayout["nodes"], edges: DiagramLayout["edges"]) => jsonDocument({ version: "1.0", diagram, nodes, edges });
-
 const documentationOverview = [
   "# التوثيق الأساسي للنظام",
   "",
   "## المجال الموثق",
   "",
   "دائرة التخطيط العمراني في بلدية مدينة حماة، بما يشمل دائرة التنظيم العمراني والشعب واللجان والمعاملات المرتبطة بالعقارات.",
-  "",
-  "## المخططات المتاحة",
-  "",
-  "- ERD يربط العقار بالمخطط والدراسة والمعاملة والمخططات والقرارات.",
-  "- Flowchart يوضح انتقال المعاملة من صاحب العلاقة إلى المراجعة والإحالة.",
-  "- Workflow يوضح سير الاستملاك والإفراز بين الوحدات.",
-  "- Process diagram يوضح إجراء دراسة العقار وإصدار القرار.",
   "",
   "للتفاصيل، افتح ملف hama-urban-planning-department.md.",
   "",
@@ -143,50 +135,14 @@ export const fixtureFiles: Record<string, string> = {
   ".software/components.json": jsonDocument(componentsDocument),
   ".software/entities.json": jsonDocument(entitiesDocument),
   ".software/relationships.json": jsonDocument(relationshipsDocument),
-  ".software/diagrams/system.json": diagramDocument({ id: "system", name: "الهيكل التنظيمي", type: "architecture" }, [
-    { id: "technical-affairs", position: { x: 520, y: 40 }, width: 250, height: 132 }, { id: "urban-planning", position: { x: 520, y: 250 }, width: 250, height: 132 }, { id: "planning-regulation", position: { x: 80, y: 480 }, width: 250, height: 132 }, { id: "map-secretariat", position: { x: 380, y: 480 }, width: 250, height: 132 }, { id: "expropriation-plans", position: { x: 680, y: 480 }, width: 250, height: 132 }, { id: "urban-committee", position: { x: 980, y: 480 }, width: 250, height: 132 },
-  ], [
-    { id: "technical-affairs-manages-urban-planning", source: "technical-affairs", target: "urban-planning" }, { id: "urban-planning-contains-planning", source: "urban-planning", target: "planning-regulation" }, { id: "urban-planning-contains-map", source: "urban-planning", target: "map-secretariat" }, { id: "urban-planning-contains-expropriation", source: "urban-planning", target: "expropriation-plans" },
-  ]),
-  ".software/diagrams/erd.json": diagramDocument({ id: "erd", name: "بيانات المعاملات والعقارات", type: "erd" }, [
-    { id: "real-estate", position: { x: 70, y: 80 }, width: 250, height: 170 }, { id: "regulatory-plan", position: { x: 370, y: 80 }, width: 250, height: 150 }, { id: "planning-study", position: { x: 670, y: 80 }, width: 250, height: 150 }, { id: "planning-certificate", position: { x: 970, y: 80 }, width: 250, height: 150 }, { id: "transaction-file", position: { x: 70, y: 380 }, width: 250, height: 170 }, { id: "expropriation-map", position: { x: 370, y: 380 }, width: 250, height: 170 }, { id: "subdivision-plan", position: { x: 670, y: 380 }, width: 250, height: 170 }, { id: "committee-decision", position: { x: 970, y: 380 }, width: 250, height: 150 },
-  ], [
-    { id: "planning-study-uses-regulatory-plan", source: "planning-study", target: "regulatory-plan" }, { id: "transaction-concerns-real-estate", source: "transaction-file", target: "real-estate" }, { id: "real-estate-has-certificate", source: "real-estate", target: "planning-certificate" }, { id: "expropriation-map-covers-real-estate", source: "expropriation-map", target: "real-estate" }, { id: "subdivision-plan-covers-real-estate", source: "subdivision-plan", target: "real-estate" }, { id: "transaction-produces-expropriation-map", source: "transaction-file", target: "expropriation-map" }, { id: "transaction-produces-subdivision-plan", source: "transaction-file", target: "subdivision-plan" }, { id: "committee-produces-decision", source: "transaction-file", target: "committee-decision" },
-  ]),
-  ".software/diagrams/flow.json": diagramDocument({ id: "flow", name: "تدفق معاملة التخطيط", type: "flowchart" }, [
-    { id: "applicant", position: { x: 40, y: 210 }, width: 220, height: 125 }, { id: "transaction-file", position: { x: 330, y: 210 }, width: 240, height: 150 }, { id: "map-secretariat", position: { x: 650, y: 210 }, width: 250, height: 132 }, { id: "planning-regulation", position: { x: 980, y: 210 }, width: 250, height: 132 }, { id: "urban-committee", position: { x: 1310, y: 210 }, width: 240, height: 132 },
-  ], [
-    { id: "applicant-submits-transaction", source: "applicant", target: "transaction-file" }, { id: "transaction-to-map-secretariat", source: "transaction-file", target: "map-secretariat" }, { id: "map-secretariat-to-planning", source: "map-secretariat", target: "planning-regulation" }, { id: "planning-to-committee", source: "planning-regulation", target: "urban-committee" },
-  ]),
-  ".software/diagrams/workflow.json": diagramDocument({ id: "workflow", name: "سير عمل الاستملاك والإفراز", type: "workflow" }, [
-    { id: "applicant", position: { x: 40, y: 210 }, width: 220, height: 125 }, { id: "transaction-file", position: { x: 320, y: 210 }, width: 240, height: 150 }, { id: "map-secretariat", position: { x: 620, y: 210 }, width: 250, height: 132 }, { id: "expropriation-plans", position: { x: 930, y: 210 }, width: 250, height: 132 }, { id: "urban-committee", position: { x: 1240, y: 210 }, width: 240, height: 132 }, { id: "regional-committee", position: { x: 1240, y: 470 }, width: 240, height: 132 },
-  ], [
-    { id: "applicant-submits-transaction", source: "applicant", target: "transaction-file" }, { id: "transaction-to-map-secretariat", source: "transaction-file", target: "map-secretariat" }, { id: "map-to-expropriation", source: "map-secretariat", target: "expropriation-plans" }, { id: "expropriation-to-committee", source: "expropriation-plans", target: "urban-committee" },
-  ]),
-  ".software/diagrams/process.json": diagramDocument({ id: "process", name: "إجراء دراسة العقار", type: "process" }, [
-    { id: "real-estate", position: { x: 50, y: 220 }, width: 240, height: 170 }, { id: "planning-certificate", position: { x: 360, y: 220 }, width: 250, height: 150 }, { id: "planning-study", position: { x: 680, y: 220 }, width: 250, height: 150 }, { id: "regulatory-plan", position: { x: 1000, y: 220 }, width: 250, height: 150 }, { id: "transaction-file", position: { x: 1320, y: 220 }, width: 250, height: 170 }, { id: "committee-decision", position: { x: 1320, y: 500 }, width: 250, height: 150 },
-  ], [
-    { id: "real-estate-has-certificate", source: "real-estate", target: "planning-certificate" }, { id: "planning-study-uses-regulatory-plan", source: "planning-study", target: "regulatory-plan" }, { id: "transaction-concerns-real-estate", source: "transaction-file", target: "real-estate" }, { id: "committee-produces-decision", source: "transaction-file", target: "committee-decision" },
-  ]),
-  ".software/diagrams/component.json": diagramDocument({ id: "component", name: "مكوّنات دائرة التنظيم", type: "component" }, [
-    { id: "urban-planning", position: { x: 80, y: 200 } }, { id: "planning-regulation", position: { x: 420, y: 200 } }, { id: "map-secretariat", position: { x: 760, y: 200 } }, { id: "expropriation-plans", position: { x: 1100, y: 200 } },
-  ], [
-    { id: "urban-planning-contains-planning", source: "urban-planning", target: "planning-regulation" }, { id: "urban-planning-contains-map", source: "urban-planning", target: "map-secretariat" }, { id: "urban-planning-contains-expropriation", source: "urban-planning", target: "expropriation-plans" },
-  ]),
-  ".software/diagrams/citizen-services-sequence.json": diagramDocument({ id: "citizen-services-sequence", name: "تسلسل طلبات المواطنين", type: "sequence" }, [
-    { id: "applicant", position: { x: 40, y: 220 }, width: 220, height: 125 }, { id: "one-stop-window", position: { x: 320, y: 220 }, width: 230, height: 132 }, { id: "general-registry", position: { x: 610, y: 220 }, width: 220, height: 132 }, { id: "technical-registry", position: { x: 890, y: 220 }, width: 230, height: 132 }, { id: "urban-planning-mail", position: { x: 1180, y: 220 }, width: 250, height: 132 }, { id: "drafter-reviewer", position: { x: 1490, y: 220 }, width: 230, height: 132 }, { id: "technical-affairs-head", position: { x: 1780, y: 220 }, width: 250, height: 132 }, { id: "city-manager", position: { x: 2090, y: 220 }, width: 220, height: 132 },
-  ], [
-    { id: "applicant-to-one-stop-window", source: "applicant", target: "one-stop-window" }, { id: "one-stop-to-general-registry", source: "one-stop-window", target: "general-registry" }, { id: "general-to-technical-registry", source: "general-registry", target: "technical-registry" }, { id: "technical-registry-to-mail", source: "technical-registry", target: "urban-planning-mail" }, { id: "mail-to-drafter-reviewer", source: "urban-planning-mail", target: "drafter-reviewer" }, { id: "drafter-to-technical-head", source: "drafter-reviewer", target: "technical-affairs-head" }, { id: "technical-head-to-city-manager", source: "technical-affairs-head", target: "city-manager" },
-  ]),
   "docs/architecture/overview.md": documentationOverview,
   "docs/architecture/hama-urban-planning-department.md": documentationSummary,
   "docs/requirements/citizen-services.md": "# طلبات المواطنين — دائرة التنظيم العمراني\n\nيتضمن الكتالوج ثمانية طلبات: دمج عقارين، شراء فضلة، كروكي، الاستعلام عن الوضع التنظيمي للعقار، استعلام تغيير استخدام عقار، موافقة مبدئية على تنظيم مشروع إفراز طابقي أو جوار، استفسار عن مصاعد بانورامية وشروط التركيب، وترخيص صيدلية.\n\nالمراحل الموحدة: النافذة الواحدة ← الديوان العام ← دائرة التنظيم والتخطيط العمراني ← إعداد الرد والتوقيع ← المصادقة والختم أو الإحالة إلى الجهة المختصة.\n\nالتفاصيل المنظمة موجودة في .software/citizen-services.json.\n",
-  "docs/studies/hama-urban-planning/README.md": "# دراسة دائرة التخطيط العمراني في بلدية مدينة حماة\n\nتبدأ هذه الدراسة من ملف التوثيق الوظيفي، ثم تُضاف إليها متطلبات المديرية ونموذج البيانات والإجراءات وقرارات الاعتماد.\n\nالمخططات الأربعة موجودة في .software/diagrams/: ERD وFlowchart وWorkflow وProcess diagram.\n",
+  "docs/studies/hama-urban-planning/README.md": "# دراسة دائرة التخطيط العمراني في بلدية مدينة حماة\n\nتبدأ هذه الدراسة من ملف التوثيق الوظيفي، ثم تُضاف إليها متطلبات المديرية ونموذج البيانات والإجراءات وقرارات الاعتماد.\n",
 };
 
 export interface FixtureWorkspace {
   model: SoftwareModel;
-  layouts: DiagramLayout[];
   files: Record<string, string>;
   jobCards: ReturnType<typeof jobCardCatalogSchema.parse>["cards"];
   citizenServices: ReturnType<typeof citizenServicesDocumentSchema.parse>["services"];
@@ -195,23 +151,31 @@ export interface FixtureWorkspace {
 type CitizenService = ReturnType<typeof citizenServicesDocumentSchema.parse>["services"][number];
 
 function citizenServiceTableDocument(service: CitizenService) {
+  const spec = citizenServiceSpecifications[service.id];
+  const serviceWithSpec = { ...service, specification: spec };
   const rows = [
     ["اسم الطلب", service.name],
     ["المعرف الفريد", service.id],
+    ["رمز الخدمة", spec?.serviceCode ?? service.id],
     ["النوع", service.kind === "service" ? "خدمة" : "استعلام"],
     ["الجمهور", service.audience],
     ["المجال", service.domain],
     ["الوحدة", service.unit],
     ["الوصف", service.description],
     ["الاستخدام", service.usage],
+    ["الأساس القانوني", spec?.legalBasis ?? "ضابطة البناء العامة وقوانين الإدارة المحلية"],
+    ["زمن الإنجاز المتوقع (SLA)", spec?.slaDescription ?? "بين 1 إلى 3 أيام عمل رسمية"],
     ["المديرية", service.directorate],
     ["الدائرة", service.department],
     ["التوفر", service.availability],
     ["القناة", service.channel],
     ["الأولوية", service.priority],
+    ["مستوى النضج الرقمي", spec?.digitalMaturityLevel ?? "إجراء هجين ورقي/رقمي"],
+    ["المخرج الرسمي", spec?.deliverableType ?? service.response],
+    ["جهة الاعتماد والختم", spec?.officialCertification ?? "رئيس الدائرة ومدير الشؤون الفنية"],
     ["الحقول المطلوبة", service.requiredFields.join("، ")],
     ["المرفقات", service.attachments.join("، ") || "لا يوجد"],
-    ["الرسوم", service.fee ? `${service.fee.label}: ${service.fee.amount} ${service.fee.currency}` : "لا يوجد"],
+    ["الرسوم", service.fee ? `${service.fee.label}: ${service.fee.amount} ${service.fee.currency}` : "9700 ليرة سورية قديمة"],
     ["مراحل الطلب", service.stages.map((stage) => `${stage.order}. ${stage.name} — ${stage.owner}`).join(" ← ")],
     ["أسباب الإرجاع", service.returnReasons?.join("، ") || "لا يوجد"],
     ["ملاحظات الجهة", service.authorityNotes?.join("، ") || "لا يوجد"],
@@ -219,14 +183,15 @@ function citizenServiceTableDocument(service: CitizenService) {
   ];
   const filePath = citizenServiceFilePath(service);
   const repository = "https://github.com/lahlahai/Analysis-Department-OS";
+  const diagramLinks = citizenServiceDiagramsDocument.services[service.id as keyof typeof citizenServiceDiagramsDocument.services]?.links ?? [];
   const links = [
-    { id: "request-file", title: "ملف الطلب في المستودع", description: "النسخة المحفوظة من هذا الطلب داخل GitHub", url: `${repository}/blob/main/${encodeURI(filePath)}` },
-    { id: "plantuml", title: "المخطط الإلكتروني للطلب", description: "فتح مخطط PlantUML المرتبط بهذا الطلب", url: citizenServicePlantumlLinks[service.id as keyof typeof citizenServicePlantumlLinks] },
-    { id: "service-catalog", title: "كتالوج الخدمات", description: "المرجع الكامل لبيانات خدمات المواطنين", url: `${repository}/blob/main/.software/citizen-services.json` },
-    { id: "service-guide", title: "دليل طلبات المواطنين", description: "المراحل العامة ومتطلبات معالجة الطلبات", url: `${repository}/blob/main/docs/requirements/citizen-services.md` },
-    { id: "repository", title: "مستودع فريق تحليل المشاريع", description: "الملفات والمراجع المشتركة للفريق", url: repository },
+    ...diagramLinks,
+    { id: "request-file", title: "ملف الطلب في المستودع", description: "النسخة المحفوظة من هذا الطلب داخل GitHub", url: `${repository}/blob/main/${encodeURI(filePath)}`, category: "supporting" },
+    { id: "service-catalog", title: "كتالوج الخدمات", description: "المرجع الكامل لبيانات خدمات المواطنين", url: `${repository}/blob/main/.software/citizen-services.json`, category: "supporting" },
+    { id: "service-guide", title: "دليل طلبات المواطنين", description: "المراحل العامة ومتطلبات معالجة الطلبات", url: `${repository}/blob/main/docs/requirements/citizen-services.md`, category: "supporting" },
+    { id: "repository", title: "مستودع فريق تحليل المشاريع", description: "الملفات والمراجع المشتركة للفريق", url: repository, category: "supporting" },
   ];
-  return `${JSON.stringify({ version: "1.0", serviceId: service.id, request: service, links, columns: ["البيان", "التفاصيل"], rows, columnWidths: [180, 700], rowHeights: rows.map(() => 42) }, null, 2)}\n`;
+  return `${JSON.stringify({ version: "1.0", serviceId: service.id, request: serviceWithSpec, specification: spec, links, columns: ["البيان", "التفاصيل"], rows, columnWidths: [220, 680], rowHeights: rows.map(() => 42) }, null, 2)}\n`;
 }
 
 function citizenServiceFilePath(service: CitizenService) {
@@ -239,10 +204,14 @@ export function loadFixtureWorkspace(): FixtureWorkspace {
   const components = componentsDocumentSchema.parse(JSON.parse(fixtureFiles[".software/components.json"])).components;
   const entities = entitiesDocumentSchema.parse(JSON.parse(fixtureFiles[".software/entities.json"])).entities;
   const relationships = relationshipsDocumentSchema.parse(JSON.parse(fixtureFiles[".software/relationships.json"])).relationships;
-  const layouts = Object.entries(fixtureFiles).filter(([path]) => path.includes("/diagrams/")).map(([, contents]) => diagramLayoutSchema.parse(JSON.parse(contents)));
   const jobCardDocument = jobCardCatalogSchema.parse(jobCardCatalogDocument);
   const citizenServices = citizenServicesDocumentSchema.parse(citizenServicesDocument);
-  const citizenServiceFiles = Object.fromEntries(citizenServices.services.map((service) => [citizenServiceFilePath(service), citizenServiceTableDocument(service)]));
-  const files = { ...fixtureFiles, ...citizenServiceFiles, ".software/job-card-catalog.json": `${JSON.stringify(jobCardDocument, null, 2)}\n`, ".software/citizen-services.json": `${JSON.stringify(citizenServices, null, 2)}\n` };
-  return { model: { project: { ...project, version: "1.0" }, components, entities, relationships }, layouts, files, jobCards: jobCardDocument.cards, citizenServices: citizenServices.services };
+  const enrichedCitizenServices = citizenServices.services.map((service) => ({
+    ...service,
+    specification: citizenServiceSpecifications[service.id],
+  }));
+  const citizenServiceFiles = Object.fromEntries(enrichedCitizenServices.map((service) => [citizenServiceFilePath(service), citizenServiceTableDocument(service)]));
+  const files = { ...fixtureFiles, ...citizenServiceFiles, ".software/job-card-catalog.json": `${JSON.stringify(jobCardDocument, null, 2)}\n`, ".software/citizen-services.json": `${JSON.stringify({ version: "1.0", services: enrichedCitizenServices }, null, 2)}\n` };
+  return { model: { project: { ...project, version: "1.0" }, components, entities, relationships }, files, jobCards: jobCardDocument.cards, citizenServices: enrichedCitizenServices };
 }
+

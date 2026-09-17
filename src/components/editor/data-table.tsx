@@ -1,7 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent } from "react";
-import { ClipboardPaste, Plus, Trash2 } from "lucide-react";
+import { useEffect, useMemo, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent } from "react";
+import { ClipboardPaste, FileSpreadsheet, FileText, Plus, Table2, Trash2 } from "lucide-react";
+import { ServiceRequestDocumentView } from "@/components/citizen-services/service-request-document-view";
+import type { CitizenServiceDefinition, ServiceSpecification } from "@/domain/types";
+import { cn } from "@/lib/cn";
 
 interface TableData {
   columns: string[];
@@ -150,11 +153,37 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   const [resizeCursor, setResizeCursor] = useState<"col-resize" | "row-resize" | "">("");
   const tableRef = useRef(table);
   const resizeRef = useRef<ResizeState | null>(null);
-  const metadataRef = useRef<TableMetadata>(readTableMetadata(value));
+  const metadata = useMemo(() => readTableMetadata(value), [value]);
+  const metadataRef = useRef<TableMetadata>(metadata);
+
+  // Detect citizen service definition if present in document metadata
+  const citizenService = useMemo<CitizenServiceDefinition | null>(() => {
+    if (metadata.request && typeof metadata.request === "object") {
+      return metadata.request as CitizenServiceDefinition;
+    }
+    return null;
+  }, [metadata]);
+
+  const serviceSpecification = useMemo<ServiceSpecification | undefined>(() => {
+    if (metadata.specification && typeof metadata.specification === "object") {
+      return metadata.specification as ServiceSpecification;
+    }
+    if (metadata.request && typeof metadata.request === "object") {
+      const req = metadata.request as Record<string, unknown>;
+      if (req.specification && typeof req.specification === "object") {
+        return req.specification as ServiceSpecification;
+      }
+    }
+    return undefined;
+  }, [metadata]);
+
+  const [viewTab, setViewTab] = useState<"specification" | "table">(() => {
+    return citizenService ? "specification" : "table";
+  });
 
   useEffect(() => {
-    metadataRef.current = readTableMetadata(value);
-  }, [value]);
+    metadataRef.current = metadata;
+  }, [metadata]);
 
   useEffect(() => {
     tableRef.current = table;
@@ -210,6 +239,18 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     tableRef.current = normalized;
     setTable(normalized);
     onChange(serializeTable(normalized, metadataRef.current));
+  }
+
+  function handleUpdateSpecification(newSpec: ServiceSpecification) {
+    const updatedMetadata = {
+      ...metadataRef.current,
+      specification: newSpec,
+      request: metadataRef.current.request
+        ? { ...(metadataRef.current.request as Record<string, unknown>), specification: newSpec }
+        : undefined,
+    };
+    metadataRef.current = updatedMetadata;
+    onChange(serializeTable(tableRef.current, updatedMetadata));
   }
 
   function beginResize(event: ReactPointerEvent<HTMLButtonElement>, type: ResizeState["type"], index: number) {
@@ -281,61 +322,226 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   const tableWidth = 40 + table.columnWidths.reduce((total, width) => total + width, 0);
 
   return (
-    <div className="official-data-table flex h-full min-h-0 flex-col bg-slate-50" dir="rtl" onPaste={handlePaste}>
-      <div className="flex shrink-0 items-center gap-3 border-b border-slate-200 bg-white px-5 py-3">
-        <div>
-          <div className="text-sm font-semibold text-slate-900">جدول البيانات</div>
-          <div className="mt-0.5 font-mono text-[10px] text-slate-500" dir="ltr">{path}</div>
+    <div className="official-data-table flex h-full min-h-0 flex-col bg-slate-100" dir="rtl" onPaste={handlePaste}>
+      {/* Top Document Mode Navigation Bar */}
+      {citizenService && (
+        <div className="flex h-11 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white px-2.5 sm:px-4 shadow-2xs">
+          <div className="inline-flex h-8 items-center justify-center rounded-lg bg-slate-100/90 p-0.5 text-slate-500 border border-slate-200/70 select-none">
+            <button
+              type="button"
+              onClick={() => setViewTab("specification")}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
+                viewTab === "specification"
+                  ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                  : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
+              )}
+            >
+              <FileText size={13} className={viewTab === "specification" ? "text-[#8f733a]" : "text-slate-400"} />
+              <span>التوصيف المنظم للطلب</span>
+              <span
+                className={cn(
+                  "rounded-full px-1.5 py-0.2 font-mono text-[8.5px] sm:text-[9px] font-bold border transition-colors",
+                  viewTab === "specification"
+                    ? "bg-[#fbf7ee] text-[#8f733a] border-[#b49a63]/30"
+                    : "bg-slate-200/70 text-slate-500 border-transparent"
+                )}
+              >
+                مفصّل
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setViewTab("table")}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
+                viewTab === "table"
+                  ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                  : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
+              )}
+            >
+              <Table2 size={13} className={viewTab === "table" ? "text-emerald-600" : "text-slate-400"} />
+              <span>جدول البيانات</span>
+              <span
+                className={cn(
+                  "rounded-full px-1.5 py-0.2 font-mono text-[8.5px] sm:text-[9px] font-bold border transition-colors",
+                  viewTab === "table"
+                    ? "bg-emerald-50 text-emerald-700 border-emerald-200/70"
+                    : "bg-slate-200/70 text-slate-500 border-transparent"
+                )}
+              >
+                {table.rows.length} صف
+              </span>
+            </button>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2" dir="ltr">
+            <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200/80 bg-slate-50/80 px-2.5 py-1 text-[10.5px] font-mono text-slate-600 shadow-2xs">
+              <span className="size-1.5 rounded-full bg-emerald-500" />
+              <span className="font-semibold text-slate-700">{citizenService.id}</span>
+            </div>
+          </div>
         </div>
-        <div className="mr-auto flex items-center gap-2">
-          <button type="button" onClick={addColumn} className="inline-flex items-center gap-1.5 rounded-md border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-700 transition hover:border-pink-300 hover:bg-pink-50 hover:text-pink-700"><Plus size={13} />عمود</button>
-          <button type="button" onClick={addRow} className="inline-flex items-center gap-1.5 rounded-md bg-pink-600 px-2.5 py-1.5 text-xs text-white transition hover:bg-pink-700"><Plus size={13} />صف</button>
+      )}
+
+      {/* Main View Area */}
+      {citizenService && viewTab === "specification" ? (
+        <div className="min-h-0 flex-1 overflow-hidden">
+          <ServiceRequestDocumentView
+            path={path}
+            service={citizenService}
+            specification={serviceSpecification}
+            rawJson={value}
+            onUpdateSpecification={handleUpdateSpecification}
+          />
         </div>
-      </div>
-      <div className="flex shrink-0 items-center gap-2 border-b border-slate-200 bg-pink-50 px-5 py-2 text-xs text-pink-800">
-        <ClipboardPaste size={14} />
-        <span>الصق خلايا Excel مباشرة داخل الجدول باستخدام Ctrl + V</span>
-        <span className="mr-auto text-[10px] text-pink-600">{table.rows.length} صف · {table.columns.length} أعمدة</span>
-      </div>
-      <div className="min-h-0 flex-1 overflow-auto p-5">
-        <div className="w-max min-w-full overflow-hidden rounded-lg border border-slate-300 bg-white shadow-sm">
-          <table className="table-fixed border-collapse text-right text-xs" dir="rtl" style={{ width: tableWidth }}>
-            <colgroup>
-              {table.columnWidths.map((width, columnIndex) => <col key={`column-size-${columnIndex}`} style={{ width }} />)}
-              <col style={{ width: 40 }} />
-            </colgroup>
-            <thead>
-              <tr className="bg-slate-100">
-                {table.columns.map((column, columnIndex) => (
-                  <th key={`column-${columnIndex}`} className="border-b border-l border-slate-300 p-0" style={{ width: table.columnWidths[columnIndex] }}>
-                    <div className="relative flex h-10 min-w-0 items-center">
-                      <span className="w-9 shrink-0 border-l border-slate-200 px-2 py-2 text-center text-[10px] font-normal text-slate-400">{String.fromCharCode(65 + columnIndex)}</span>
-                      <input value={column} onChange={(event) => updateColumn(columnIndex, event.target.value)} className="min-w-0 flex-1 bg-transparent px-2 py-2 font-semibold text-slate-700 outline-none focus:bg-pink-50" aria-label={`اسم العمود ${columnIndex + 1}`} />
-                      <button type="button" onClick={() => removeColumn(columnIndex)} className="mr-1 shrink-0 rounded p-1 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600" title="حذف العمود"><Trash2 size={12} /></button>
-                      <button type="button" onPointerDown={(event) => beginResize(event, "column", columnIndex)} className="absolute inset-y-0 left-0 z-20 w-2 cursor-col-resize touch-none bg-transparent transition hover:bg-pink-400" aria-label={`تغيير عرض العمود ${columnIndex + 1}`} title="اسحب لتغيير عرض العمود" />
-                    </div>
-                  </th>
-                ))}
-                <th className="border-b border-slate-300 p-0" aria-label="إجراءات الصف" />
-              </tr>
-            </thead>
-            <tbody>
-              {table.rows.map((row, rowIndex) => (
-                <tr key={`row-${rowIndex}`} className="group border-b border-slate-200 last:border-0 hover:bg-pink-50/30" style={{ height: table.rowHeights[rowIndex] }}>
-                  {table.columns.map((_, columnIndex) => (
-                    <td key={`cell-${rowIndex}-${columnIndex}`} className="border-l border-slate-200 p-0" style={{ width: table.columnWidths[columnIndex] }}>
-                      <input value={row[columnIndex] ?? ""} onFocus={() => setFocusedCell({ row: rowIndex, column: columnIndex })} onChange={(event) => updateCell(rowIndex, columnIndex, event.target.value)} className="block h-full min-h-[26px] w-full min-w-0 bg-transparent px-2 py-2 text-slate-800 outline-none focus:bg-pink-50 focus:ring-1 focus:ring-inset focus:ring-pink-400" aria-label={`الصف ${rowIndex + 1}، العمود ${columnIndex + 1}`} />
-                    </td>
+      ) : (
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-slate-50">
+          {/* Table Header Controls */}
+          <div className="flex shrink-0 items-center justify-between border-b border-slate-300 bg-white px-5 py-3">
+            <div>
+              <div className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                <FileSpreadsheet size={16} className="text-[#8f733a]" />
+                جدول البيانات والخصائص
+              </div>
+              <div className="mt-0.5 font-mono text-[10px] text-slate-500" dir="ltr">{path}</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={addColumn}
+                className="inline-flex items-center gap-1.5 rounded-lg border-2 border-slate-900 bg-white px-3 py-1.5 font-sans text-xs font-bold text-slate-900 transition hover:bg-slate-100"
+              >
+                <Plus size={13} />
+                عمود
+              </button>
+              <button
+                type="button"
+                onClick={addRow}
+                className="inline-flex items-center gap-1.5 rounded-lg border-2 border-slate-900 bg-slate-900 px-3 py-1.5 font-sans text-xs font-bold text-white transition hover:bg-slate-800"
+              >
+                <Plus size={13} />
+                صف
+              </button>
+            </div>
+          </div>
+
+          <div className="flex shrink-0 items-center gap-2 border-b border-slate-300 bg-slate-100 px-5 py-2 text-xs font-medium text-slate-700">
+            <ClipboardPaste size={14} className="text-[#8f733a]" />
+            <span>يمكنك لصق خلايا من جدول Excel مباشرة داخل الجدول بالضغط على Ctrl + V</span>
+            <span className="mr-auto font-mono text-[10px] text-slate-500">
+              {table.rows.length} صف · {table.columns.length} أعمدة
+            </span>
+          </div>
+
+          <div className="min-h-0 flex-1 overflow-auto p-5">
+            <div className="w-max min-w-full overflow-hidden rounded-xl border-2 border-slate-900 bg-white shadow-md">
+              <table className="table-fixed border-collapse text-right text-xs" dir="rtl" style={{ width: tableWidth }}>
+                <colgroup>
+                  {table.columnWidths.map((width, columnIndex) => (
+                    <col key={`column-size-${columnIndex}`} style={{ width }} />
                   ))}
-                  <td className="relative w-10 p-1 text-center"><button type="button" onClick={() => removeRow(rowIndex)} className="rounded p-1 text-slate-300 opacity-0 transition hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100" title="حذف الصف"><Trash2 size={12} /></button><button type="button" onPointerDown={(event) => beginResize(event, "row", rowIndex)} className="absolute inset-x-0 bottom-0 z-20 h-2 cursor-row-resize touch-none bg-transparent transition hover:bg-pink-400" aria-label={`تغيير ارتفاع الصف ${rowIndex + 1}`} title="اسحب لتغيير ارتفاع الصف" /></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  <col style={{ width: 40 }} />
+                </colgroup>
+                <thead>
+                  <tr className="border-b-2 border-slate-900 bg-slate-100">
+                    {table.columns.map((column, columnIndex) => (
+                      <th
+                        key={`column-${columnIndex}`}
+                        className="border-b border-l border-slate-300 p-0"
+                        style={{ width: table.columnWidths[columnIndex] }}
+                      >
+                        <div className="relative flex h-10 min-w-0 items-center">
+                          <span className="w-9 shrink-0 border-l border-slate-300 px-2 py-2 text-center font-mono text-[10px] font-bold text-slate-500">
+                            {String.fromCharCode(65 + columnIndex)}
+                          </span>
+                          <input
+                            value={column}
+                            onChange={(event) => updateColumn(columnIndex, event.target.value)}
+                            className="min-w-0 flex-1 bg-transparent px-2 py-2 font-sans font-bold text-slate-900 outline-none focus:bg-slate-200"
+                            aria-label={`اسم العمود ${columnIndex + 1}`}
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeColumn(columnIndex)}
+                            className="mr-1 shrink-0 rounded p-1 text-slate-400 transition hover:bg-rose-50 hover:text-rose-600"
+                            title="حذف العمود"
+                          >
+                            <Trash2 size={12} />
+                          </button>
+                          <button
+                            type="button"
+                            onPointerDown={(event) => beginResize(event, "column", columnIndex)}
+                            className="absolute inset-y-0 left-0 z-20 w-2 cursor-col-resize touch-none bg-transparent transition hover:bg-slate-900"
+                            aria-label={`تغيير عرض العمود ${columnIndex + 1}`}
+                            title="اسحب لتغيير عرض العمود"
+                          />
+                        </div>
+                      </th>
+                    ))}
+                    <th className="border-b border-slate-300 p-0" aria-label="إجراءات الصف" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {table.rows.map((row, rowIndex) => (
+                    <tr
+                      key={`row-${rowIndex}`}
+                      className="group border-b border-slate-200 last:border-0 hover:bg-slate-50/80"
+                      style={{ height: table.rowHeights[rowIndex] }}
+                    >
+                      {table.columns.map((_, columnIndex) => (
+                        <td
+                          key={`cell-${rowIndex}-${columnIndex}`}
+                          className="border-l border-slate-200 p-0"
+                          style={{ width: table.columnWidths[columnIndex] }}
+                        >
+                          <input
+                            value={row[columnIndex] ?? ""}
+                            onFocus={() => setFocusedCell({ row: rowIndex, column: columnIndex })}
+                            onChange={(event) => updateCell(rowIndex, columnIndex, event.target.value)}
+                            className="block h-full min-h-[28px] w-full min-w-0 bg-transparent px-2.5 py-2 text-slate-800 outline-none focus:bg-slate-100 focus:ring-1 focus:ring-inset focus:ring-slate-900"
+                            aria-label={`الصف ${rowIndex + 1}، العمود ${columnIndex + 1}`}
+                          />
+                        </td>
+                      ))}
+                      <td className="relative w-10 p-1 text-center">
+                        <button
+                          type="button"
+                          onClick={() => removeRow(rowIndex)}
+                          className="rounded p-1 text-slate-300 opacity-0 transition hover:bg-rose-50 hover:text-rose-600 group-hover:opacity-100"
+                          title="حذف الصف"
+                        >
+                          <Trash2 size={12} />
+                        </button>
+                        <button
+                          type="button"
+                          onPointerDown={(event) => beginResize(event, "row", rowIndex)}
+                          className="absolute inset-x-0 bottom-0 z-20 h-2 cursor-row-resize touch-none bg-transparent transition hover:bg-slate-900"
+                          aria-label={`تغيير ارتفاع الصف ${rowIndex + 1}`}
+                          title="اسحب لتغيير ارتفاع الصف"
+                        />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            <button
+              type="button"
+              onClick={addRow}
+              className="mt-4 flex items-center gap-1.5 rounded-lg border-2 border-dashed border-slate-300 px-3 py-2 font-sans text-xs font-bold text-slate-600 transition hover:border-slate-900 hover:bg-white hover:text-slate-900"
+            >
+              <Plus size={13} />
+              إضافة صف جديد
+            </button>
+            <p className="mt-2 text-[10px] text-slate-400">
+              اسحب الحد الأيسر من عنوان العمود لتغيير عرضه، أو الحد السفلي للصف لتغيير ارتفاعه.
+            </p>
+          </div>
         </div>
-        <button type="button" onClick={addRow} className="mt-3 flex items-center gap-1.5 rounded-md border border-dashed border-slate-300 px-3 py-2 text-xs text-slate-500 transition hover:border-pink-300 hover:bg-pink-50 hover:text-pink-700"><Plus size={13} />إضافة صف جديد</button>
-        <p className="mt-2 text-[10px] text-slate-400">اسحب الحد الأيسر من عنوان العمود لتغيير عرضه، أو الحد السفلي للصف لتغيير ارتفاعه.</p>
-      </div>
+      )}
     </div>
   );
 }

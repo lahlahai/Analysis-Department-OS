@@ -2,5 +2,5 @@ import type { InputHTMLAttributes } from "react";
 import { cn } from "@/lib/cn";
 
 export function Input({ className, ...props }: InputHTMLAttributes<HTMLInputElement>) {
-  return <input className={cn("flex h-8 w-full rounded-md border border-slate-200 bg-slate-50 px-2.5 font-mono text-[11px] text-slate-800 outline-none transition-colors placeholder:text-slate-400 focus:border-pink-400 focus:bg-white focus:ring-2 focus:ring-pink-100 disabled:cursor-not-allowed disabled:opacity-50", className)} {...props} />;
+  return <input className={cn("flex h-8 w-full rounded-lg border border-slate-300 bg-white px-3 font-sans text-xs text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-slate-900 focus:ring-2 focus:ring-slate-900/15 disabled:cursor-not-allowed disabled:opacity-50 shadow-2xs", className)} {...props} />;
 }

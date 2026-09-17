@@ -5,16 +5,16 @@ import { cn } from "@/lib/cn";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "outline" | "danger";
 
-const buttonVariants = cva("inline-flex items-center justify-center gap-2 rounded-md border font-mono text-[11px] font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40", {
+const buttonVariants = cva("inline-flex items-center justify-center gap-2 rounded-lg border font-sans text-xs font-semibold transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900/20 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100", {
   variants: {
     variant: {
-      primary: "border-cyan-400/40 bg-cyan-400 px-3 text-slate-950 hover:bg-cyan-300",
-      secondary: "border-white/10 bg-white/[0.07] text-slate-200 hover:border-white/20 hover:bg-white/[0.12]",
-      outline: "border-white/15 bg-transparent text-slate-300 hover:bg-white/[0.07]",
-      ghost: "border-transparent bg-transparent text-slate-400 hover:bg-white/[0.07] hover:text-slate-100",
-      danger: "border-rose-400/30 bg-rose-400/10 text-rose-300 hover:bg-rose-400/20",
+      primary: "border-slate-950 bg-slate-900 px-3 text-slate-50 shadow-sm hover:bg-slate-800 hover:border-slate-900",
+      secondary: "border-slate-300 bg-slate-100 text-slate-900 hover:bg-slate-200/80 hover:border-slate-400",
+      outline: "border-slate-300 bg-white text-slate-900 shadow-2xs hover:bg-slate-100 hover:border-slate-400 hover:text-slate-950",
+      ghost: "border-transparent bg-transparent text-slate-700 hover:bg-slate-100 hover:text-slate-900",
+      danger: "border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-100 hover:border-rose-400",
     },
-    size: { sm: "h-7 px-2.5", md: "h-8 px-3", icon: "size-8" },
+    size: { sm: "h-7 px-2.5 text-[11px]", md: "h-8 px-3", icon: "size-8 shrink-0" },
   },
   defaultVariants: { variant: "secondary", size: "md" },
 });

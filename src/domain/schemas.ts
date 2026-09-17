@@ -45,7 +45,69 @@ export const relationshipsDocumentSchema = z.object({ version: z.string(), relat
 export const jobCardDefinitionSchema = z.object({ id: z.string().min(1), domain: z.string().min(1), table: z.string().min(1), description: z.string().min(1) });
 export const jobCardCatalogSchema = z.object({ version: z.string(), cards: z.array(jobCardDefinitionSchema) });
 
-export const citizenServiceStageSchema = z.object({ order: z.number().int().positive(), name: z.string().min(1), owner: z.string().min(1) });
+export const serviceFieldDefinitionSchema = z.object({
+  name: z.string().min(1),
+  key: z.string().min(1),
+  type: z.enum(["string", "number", "phone", "file", "select", "date", "coordinates", "boolean"]),
+  required: z.boolean(),
+  description: z.string(),
+  validationRule: z.string().optional(),
+  example: z.string().optional(),
+});
+
+export const serviceValidationConstraintSchema = z.object({
+  rule: z.string().min(1),
+  rationale: z.string().min(1),
+  severity: z.enum(["error", "warning"]),
+});
+
+export const serviceAttachmentSpecSchema = z.object({
+  name: z.string().min(1),
+  format: z.string().min(1),
+  maxSize: z.string().min(1),
+  isRequired: z.boolean(),
+  purpose: z.string().min(1),
+  issuingAuthority: z.string().min(1),
+});
+
+export const serviceFaqItemSchema = z.object({
+  id: z.string().min(1),
+  question: z.string().min(1),
+  answer: z.string().min(1),
+  category: z.enum(["إداري وتشغيلي", "تقني ونموذج البيانات", "مالي وقانوني", "إجراءات واعتمادات"]),
+});
+
+export const serviceEdgeCaseSchema = z.object({
+  condition: z.string().min(1),
+  action: z.string().min(1),
+  returnCode: z.string().optional(),
+});
+
+export const citizenServiceStageSchema = z.object({
+  order: z.number().int().positive(),
+  name: z.string().min(1),
+  owner: z.string().min(1),
+});
+
+export const serviceSpecificationSchema = z.object({
+  serviceId: z.string().min(1),
+  serviceCode: z.string().min(1),
+  legalBasis: z.string().min(1),
+  slaDays: z.number().int().nonnegative(),
+  slaDescription: z.string().min(1),
+  businessGoal: z.string().min(1),
+  targetBeneficiary: z.string().min(1),
+  digitalMaturityLevel: z.enum(["أتمتة جزئية", "مكتمل رقمياً", "إجراء هجين ورقي/رقمي"]),
+  deliverableType: z.string().min(1),
+  officialCertification: z.string().min(1),
+  fieldsDictionary: z.array(serviceFieldDefinitionSchema),
+  validationConstraints: z.array(serviceValidationConstraintSchema),
+  attachmentsSpecification: z.array(serviceAttachmentSpecSchema),
+  edgeCasesAndReturns: z.array(serviceEdgeCaseSchema),
+  apiPayloadExample: z.string().optional(),
+  faqs: z.array(serviceFaqItemSchema),
+});
+
 export const citizenServiceSchema = z.object({
   id: z.string().min(1).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
   kind: z.enum(["service", "inquiry"]),
@@ -67,16 +129,9 @@ export const citizenServiceSchema = z.object({
   stages: z.array(citizenServiceStageSchema),
   returnReasons: z.array(z.string().min(1)).optional(),
   authorityNotes: z.array(z.string().min(1)).optional(),
+  specification: serviceSpecificationSchema.optional(),
 });
 export const citizenServicesDocumentSchema = z.object({ version: z.string(), services: z.array(citizenServiceSchema) });
-
-export const diagramLayoutSchema = z.object({
-  version: z.string(),
-  diagram: z.object({ id, name: z.string(), type: z.enum(["architecture", "erd", "flowchart", "workflow", "process", "sequence", "component"]) }),
-  nodes: z.array(z.object({ id, position: z.object({ x: z.number(), y: z.number() }), width: z.number().optional(), height: z.number().optional(), collapsed: z.boolean().optional() })),
-  edges: z.array(z.object({ id, source: id, target: id })),
-  viewport: z.object({ x: z.number(), y: z.number(), zoom: z.number() }).optional(),
-});
 
 export type ParsedDocument =
   | z.infer<typeof projectDocumentSchema>
@@ -85,4 +140,3 @@ export type ParsedDocument =
   | z.infer<typeof relationshipsDocumentSchema>
   | z.infer<typeof jobCardCatalogSchema>
   | z.infer<typeof citizenServicesDocumentSchema>
-  | z.infer<typeof diagramLayoutSchema>;

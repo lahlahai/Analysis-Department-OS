@@ -1,17 +1,148 @@
 {
-  "version": "1.0",
-  "serviceId": "purchase-surplus",
-  "links": [
-    { "id": "request-file", "title": "ملف الطلب في المستودع", "description": "النسخة المحفوظة من هذا الطلب داخل GitHub", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%B4%D8%B1%D8%A7%D8%A1%20%D9%81%D8%B6%D9%84%D8%A9.json" },
-    { "id": "service-catalog", "title": "كتالوج الخدمات", "description": "المرجع الكامل لبيانات خدمات المواطنين", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json" },
-    { "id": "service-guide", "title": "دليل طلبات المواطنين", "description": "المراحل العامة ومتطلبات معالجة الطلبات", "url": "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md" },
-    { "id": "repository", "title": "مستودع فريق تحليل المشاريع", "description": "الملفات والمراجع المشتركة للفريق", "url": "https://github.com/lahlahai/Analysis-Department-OS" },
-    { "id": "plantuml", "title": "المخطط الإلكتروني للطلب", "description": "مخطط PlantUML المرتبط بهذا الطلب", "url": "https://editor.plantuml.com/uml/b9JFRjD04CRl-nIhtda13WW94AUegEK5LjOchEGuaRCjX1CEjGavym88sYGLZMlbJvetcRdo9CnaDr7aEXWgrSgkv_TzCpixVjwpAhONxL1OOqCjOOrNC96mW0B6y5rY0YlQcShVdxv9o6dl1WfQmfXsRs56yIDOk-K6KwOmmv4GAh2TM9xm2qnnIE0QinEfUlA5iUQZZaINZ4rWkYgo-xWCbZlnQzhuJ1O53baHfblulD-pkbrYALaAtIL5PaiSuTKs_gKEpQME-nLk6JqJkFVSDiKxoBtFQQJFRQVx68ESj8TSfI-QdkaMUQqZ7QlmJBTCpvOTozW2Vd9TpZevAF2j3jv59ZYgCu62OlF_wCLMjg5CM57CWlAVU0aYPYH33V0dn-5j7TaAhe0vrqqa3ZsRum07ZenLqvxfIwFVwxW45t13ISuVfuyPFD0HfKwmjfuteOeY4xKQAbAjiWjdGsZnhqTTB-8Mc3cIht3VGKVhO-U9kouUQgX-9wwyzNpD9_jpm8IGUr_dgmywkB1qXK-RJHDe8Vpqo2VF_2p8fvAe0HjXUdH-gxbho676lcGESy8nPINMeKsdLKiMEF00VY6PMqmS_SjriexdcMVV8QpeV-DOoeREPCE_C1N2SIK50XTSeylWCEL3mBipiO42LjBfyc5nihoSkwLlD3kJTCvldUOFM784JAjbnpmsz7hCTsNDuqbdEAqJvi_RL_dN3v4GAhGbVGeu5DvWjlUKHxw3GaZwE-Z2xfle-k16cVhuG7GYoUYEMHon-fzkpIUtYIQ8ulivnNUKxp1aXzXm0pk1A1mZYcmbiI8H5CStOMv3_IfJcl9BZxljSLZ02W_Jhrvr_QdNqpX7ztzi4TkX9iqKlNd9cnZSUAu_LAoPfokuhl48zhj-WMkWhC691qvxN9ttdBtz2KNwuDw00ODiY4BGhG2oBP_Bwm4OLebl_PMHMfdv7G7O-3gDX7gKApYsJzQAQHA2vn4iSvs8UNmm_SHR_gUOgdVUy3sHrko-cNtrdsxb6fHg3G0-nm_MNdpvz2wyCN8TfRqcWOcbIkMMvFGS0O1cqeJONNp-Ud6WxWA3FQJcsefPSg_exinQczx2iTnIXI7JFcBt2EuRa72wYvn8lReezXftDA2pbIFfbZ5ioPPYff6NCEpdhkP34PbzVRHsTMFh-oKK-yiCP4klg6m2PFQ--mYmfmnJ2uNXBcnQMcYk6MSCwZsgI8S2tuDXVZRicyYvRsolsXWGHpjTMuDvOIkGU16JfO4Or82DrDmmRYOPbpFxQApal2OaPCcbMiI7h4ueelQ7tiTGseyeRTcBYDnuunnv_804xXUTG87-xXIm7ojRN3BMwJB7GlfFqUluHruQrVwa9r6Jq-U6haimWEQ3m6G3C0IJoQvNdnqZhoh1Z2zdtHYIrw53zbR13C6NFJAtc_lkKHnX2Bz4YsU8Mqhj7jKisYSEGIYxHR0YlxTiK6u9yFzb_2wdgzzB99xloBoGll7g2kmOKUfQ57eg5mcVjAVWeVRcTerf3xREOHqUr8v8THoXgi7LZIZdCHZrF54VCqOTGjdSSmpdC21UfXv6ziJiMBeQlpcS-QUcHVmbK7CjtNfHR8vDYHp64cxKvsZ0BSmvjeMLTertnaDRsy5jEdIIs87v4QUgivoivfwkvfzCcWybiUEwnOxoSGU8Li7Vc13xfx6wdZOK5KfXIH6qJOceqCBghnYFMPg0T_hu7hfTM_TaJZA-F5oFZgGVePgGNZnsaLWqLqkjy9WgG2LHJUxXgP95klo-r00f_8W7UdgvBe_0-3gg4eFGU1Q-3dBYzuDX6MynFmgDaU5fmmDkKR7HZZABPZ5HGlzh8Y7t6GMpvpBvXLzB5koSx6Kb2-R9Y0fqkShqyppmVFdR5Kv6SP_WtKMJHt6AqDe3me2IdKvh3XACkJFSJdZqbEGnUaaI9ReATTcOz5MSVwK2oby2eYhELWIAL8IIa2kOPx-U5dBYUYML4bwkgMHdXPl38cbWRWQZrTlSMU4ETWHloaOc9rPA4FbEJFLfBdb-n1rcZFxoJLlN0IaMslZ9GcxUZYLLlCc3560PjRtzi41QGSXi2dCH_JK5C9cJcy0fTuB_mQl5hXEqeW7nx81cQODJR-E2gGofcB9nnkdUEycJuaOsy5s565ODrJjgidPm7_vBLbVzZ_BLfqjBK80DQbB6wa7tltK7-ryQVm00" }
-  ],
-  "columns": ["البيان", "التفاصيل"],
-  "rows": [
-    ["اسم الطلب", "طلب شراء فضلة"], ["المعرف الفريد", "purchase-surplus"], ["النوع", "خدمة"], ["المجال", "التخطيط والتنظيم العمراني"], ["الوحدة", "إدارة المقاسم"], ["الوصف", "طلب دراسة شراء فضلة عقارية ملاصقة لعقار مقدم الطلب."], ["الاستخدام", "يستخدم للتحقق من وضع الفضلة وإمكانية ضمها إلى العقار وفق المخطط التنظيمي."], ["المديرية", "مديرية الشؤون الفنية"], ["الدائرة", "دائرة التنظيم والتخطيط العمراني"], ["القناة", "ورقي"], ["الأولوية", "رئيسي"], ["الحقول المطلوبة", "اسم مقدم الطلب، رقم الهاتف الجوال، رقم العقار، اسم المنطقة العقارية، وصف موقع الفضلة"], ["المرفقات", "بيان قيد عقاري، مخطط كروكي حديث، تكليف مساحي مع إحداثيات دقيقة"], ["الاستجابة", "رد فني يوضح وضع الفضلة وإمكانية متابعة إجراءات الشراء."]
-  ],
-  "columnWidths": [180, 700],
-  "rowHeights": [42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42, 42]
+    "version":  "1.0",
+    "serviceId":  "purchase-surplus",
+    "links":  [
+                  {
+                      "id":  "sequence-diagram",
+                      "title":  "sequence diagram",
+                      "description":  "تسلسل خطوات الطلب والجهات المشاركة",
+                      "url":  "https://editor.plantuml.com/uml/b9JFRjD04CRl-nIhtda13WW94AUegEK5LjOchEGuaRCjX1CEjGavym88sYGLZMlbJvetcRdo9CnaDr7aEXWgrSgkv_TzCpixVjwpAhONxL1OOqCjOOrNC96mW0B6y5rY0YlQcShVdxv9o6dl1WfQmfXsRs56yIDOk-K6KwOmmv4GAh2TM9xm2qnnIE0QinEfUlA5iUQZZaINZ4rWkYgo-xWCbZlnQzhuJ1O53baHfblulD-pkbrYALaAtIL5PaiSuTKs_gKEpQME-nLk6JqJkFVSDiKxoBtFQQJFRQVx68ESj8TSfI-QdkaMUQqZ7QlmJBTCpvOTozW2Vd9TpZevAF2j3jv59ZYgCu62OlF_wCLMjg5CM57CWlAVU0aYPYH33V0dn-5j7TaAhe0vrqqa3ZsRum07ZenLqvxfIwFVwxW45t13ISuVfuyPFD0HfKwmjfuteOeY4xKQAbAjiWjdGsZnhqTTB-8Mc3cIht3VGKVhO-U9kouUQgX-9wwyzNpD9_jpm8IGUr_dgmywkB1qXK-RJHDe8Vpqo2VF_2p8fvAe0HjXUdH-gxbho676lcGESy8nPINMeKsdLKiMEF00VY6PMqmS_SjriexdcMVV8QpeV-DOoeREPCE_C1N2SIK50XTSeylWCEL3mBipiO42LjBfyc5nihoSkwLlD3kJTCvldUOFM784JAjbnpmsz7hCTsNDuqbdEAqJvi_RL_dN3v4GAhGbVGeu5DvWjlUKHxw3GaZwE-Z2xfle-k16cVhuG7GYoUYEMHon-fzkpIUtYIQ8ulivnNUKxp1aXzXm0pk1A1mZYcmbiI8H5CStOMv3_IfJcl9BZxljSLZ02W_Jhrvr_QdNqpX7ztzi4TkX9iqKlNd9cnZSUAu_LAoPfokuhl48zhj-WMkWhC691qvxN9ttdBtz2KNwuDw00ODiY4BGhG2oBP_Bwm4OLebl_PMHMfdv7G7O-3gDX7gKApYsJzQAQHA2vn4iSvs8UNmm_SHR_gUOgdVUy3sHrko-cNtrdsxb6fHg3G0-nm_MNdpvz2wyCN8TfRqcWOcbIkMMvFGS0O1cqeJONNp-Ud6WxWA3FQJcsefPSg_exinQczx2iTnIXI7JFcBt2EuRa72wYvn8lReezXftDA2pbIFfbZ5ioPPYff6NCEpdhkP34PbzVRHsTMFh-oKK-yiCP4klg6m2PFQ--mYmfmnJ2uNXBcnQMcYk6MSCwZsgI8S2tuDXVZRicyYvRsolsXWGHpjTMuDvOIkGU16JfO4Or82DrDmmRYOPbpFxQApal2OaPCcbMiI7h4ueelQ7tiTGseyeRTcBYDnuunnv_804xXUTG87-xXIm7ojRN3BMwJB7GlfFqUluHruQrVwa9r6Jq-U6haimWEQ3m6G3C0IJoQvNdnqZhoh1Z2zdtHYIrw53zbR13C6NFJAtc_lkKHnX2Bz4YsU8Mqhj7jKisYSEGIYxHR0YlxTiK6u9yFzb_2wdgzzB99xloBoGll7g2kmOKUfQ57eg5mcVjAVWeVRcTerf3xREOHqUr8v8THoXgi7LZIZdCHZrF54VCqOTGjdSSmpdC21UfXv6ziJiMBeQlpcS-QUcHVmbK7CjtNfHR8vDYHp64cxKvsZ0BSmvjeMLTertnaDRsy5jEdIIs87v4QUgivoivfwkvfzCcWybiUEwnOxoSGU8Li7Vc13xfx6wdZOK5KfXIH6qJOceqCBghnYFMPg0T_hu7hfTM_TaJZA-F5oFZgGVePgGNZnsaLWqLqkjy9WgG2LHJUxXgP95klo-r00f_8W7UdgvBe_0-3gg4eFGU1Q-3dBYzuDX6MynFmgDaU5fmmDkKR7HZZABPZ5HGlzh8Y7t6GMpvpBvXLzB5koSx6Kb2-R9Y0fqkShqyppmVFdR5Kv6SP_WtKMJHt6AqDe3me2IdKvh3XACkJFSJdZqbEGnUaaI9ReATTcOz5MSVwK2oby2eYhELWIAL8IIa2kOPx-U5dBYUYML4bwkgMHdXPl38cbWRWQZrTlSMU4ETWHloaOc9rPA4FbEJFLfBdb-n1rcZFxoJLlN0IaMslZ9GcxUZYLLlCc3560PjRtzi41QGSXi2dCH_JK5C9cJcy0fTuB_mQl5hXEqeW7nx81cQODJR-E2gGofcB9nnkdUEycJuaOsy5s565ODrJjgidPm7_vBLbVzZ_BLfqjBK80DQbB6wa7tltK7-ryQVm00",
+                      "category":  "diagram",
+                      "order":  1
+                  },
+                  {
+                      "id":  "state-diagram",
+                      "title":  "state diagram",
+                      "description":  "حالات الطلب وانتقاله بين المراحل",
+                      "url":  "https://editor.plantuml.com/uml/hLdDRXj73BxpAHOv5iWBz52aSDAYXwI1NUHIzA3AasGHMN9NAwVkgPP_gXhehIzGf8vb9R8Y-CTHdsJssYSfl-LccT5Gbetq4627dk7tyOSSZdAlcpUolBVH8ihJlEKIF_R7nPu_zgF4N_77CF7dVihhlv9Ynr-ov2JvzzS_4pzXsMi_vMLvOEHFUV-XlvBbhDZ7gUAWE2Jw_hCVahjtlqWUkPUhxgUUw-P4Z9kxvCu7ZBT-meSdTv96DzYctwM61-tSPVSRUIFvFF53Fs5MVbJqSRZO5-HIeUe_uasd-0FlPmHc9BRLMm6fUeaK0e0L-4hcMDqwK8_OhZCSD-56e7748EUbo_oqw4CIeeLAYUP0W7k_q-njk7P-txNIBPTj0td6o9TiBpjt3_R242pFiAnGM7hcHum_mL-Lrn2MyzxtB9vUVqZOll8NsE5Fm3YYGpGl4TRLOkLv9sqwS3xsfwpvK52l_9Gn-rNAA0cbQM-_dgyG3929mdL0RirbMnQxSuRRhRaL0t_1W7kcfZHppNojz-D6skscdNQaIgrJoWW1CDJOkLspug2sUH4RjLKD8Ge5ml6xhD5yaRQV1IbhHPjL7qE0eWSDpLY5hJdpsH5l7_ePg4chi3ZMy4GraP2LHGK2nFe2J84n2KxNMTXTTKt75gCUIzI1RPe_Oj7lyXSkU-vVxogsfT5ZtdOIXSCC6coAmauqBrd8KXL_Ea-qc21aTad4F8WYKK3uYSlIfscpaPUsQSIl477K8Pmzyc-BVSxpsJBOK9ibPRy4sgsCs6SWxPxo2M_jCf5fCS3ziaYtLwgydHqLj6os1LTKiSFGZ5JyPd8C8xhIoH3lYlg0rG_y964EVN-H-5V5847E5lk1MOlLVktQBckqLjspj9jBYp-6OSM-rkh0ly4zM_Gr_XBwNTabiAWPFsPJnykYeYOGXJArrdRdhN73oi8DFS0bLCq720YOpNk1Q4uWVSCrdxUPYqgbflnRT1p9op57zD2-bkVHp_tVl5aMd047zJqNuH35q23qkDLejxalFMoaBUQo17w8hkudjnYQm2O08GeWvKBRvDaDeLhEGAoU-Q7MsIcYLzcjgeZqEtJzMjvRtvRhH1k_bjCUWWpw_cokgwhOThXg9uhHz31NyC1Vyh-PpgIYKERI-B3uauVBsSTcNuc_qKJGGdQBGp5aZ3JnRwxb00P-PiDQ-p6hyUO-Eem_ngqcWKRJcR8syI0ktOeVoea59v4h48jlsayxsKPPaNOlulFdR11Ymsu-DAfI2bVa88Ss2Ba5j_R2vStd3xOQhLw9QNQeK8lTfOoTIeqlk3eTJ0E9JB6PdVFF0Hlq2Y8_b7X6JAqyXbfM2hMyTOTt7LwVKZ0dSY3HlAHw5xdrbPPhP2wJlyEEGFK_33ULQsod-CFMikgwlLR-E4FvYZJKeiT9-z8OvG5BP0JHlRKXI1Wa_HWMnLI9OlQQE_63GBg5MbOLNOro-xU0Q08x4vJ8aaOSWtU1FNmlLHGz2sxu4b28EACqMsCBzGKGYqDgrciW1FkKTu1DN_W6y4JXscOOqC9dmbcWRuB5EkndWIgxsQmFICk8UFotvJQX1MdxwRE_oLL7_ZaYoctfj1_dOl0hZQKbbjbDMeSLqnaOrOkTS5ZtHvWPuOs5BHexSCTX94VdaCOM_lGIDKaYgsykrYNUzpFn_wB3buYab0RV5LLn20rxTh4LZTZVVVIzEPkhmK6fGM0zxSqhK4SmmtZ94CJfKITttN2uACqV-_TGP1xLmNZLRQNkfJKnH6QecPg72YKpYt_3Li5feGQTPbH96MUrW4Y_IuOhQPx-udYGsDXiEGqPfcDSDU8oCEDu7LGJc_AvzPGJ3XmW5pCWYaJsbRvqm0aB9QHdl0l20NdgNtDMdCNF5FRzUo12_GtVBPe3HE4wI9Fhakp4EAYzv66ZtNZcCiqpUNelobOxi_vNczKWDNb9sab726DOzm-fqFYStLBjvpcSWjuJjWix_hn0UvykUIFR4I2ovHzituxYLKqMA5e_qrvrWUGj-ZSYAOlYG9Z5C4GGnNmUDhOxoiJyIRyg_0zFzoKL8rlHcMetAGRJq8KGUF2pQ_Polf6_VSetfQkfQFCfTgfVt48_sJpa6Fgi7zRfMoRGEqbF6v3858SClzpSp3hyqh3O-PaCB-QDHjeaPt81-CbofZ4mKSm53BzAsurMlIaOxIB40xo-4IiUxaosW9xN62m_hc4kwdXqMdY5GBLzqX2MC4yu2DBwvysw4kDgnuT3G6Yg61Keq-yIX_zVZkYUQw_tDbh_0G00",
+                      "category":  "diagram",
+                      "order":  2
+                  },
+                  {
+                      "id":  "class-diagram",
+                      "title":  "class diagram",
+                      "description":  "العناصر والبيانات والعلاقات الأساسية",
+                      "url":  "https://editor.plantuml.com/uml/lLXVRnj547-_Jx7A8r8hUEq3Qg48LQAqIlfkdPnDSi8-b_Ew411IuzZ6lMU-088syP7KjTpyCPzazvLFmipkk9VntgqkKg5I5VdcD_zdPsRtVb_5cHfqEr6a4jMHmapqjJunOw6lp4YV2lrUB_I9_bsO8tq9NsRYdvU_2Js7Rs-0CXC07kb2lmLyhg_SpvKP8vUPc3oAsfsutnTRI31ZCzKdW9niYRWllanKyfDCnS-HW7ztX5wOeHctE5BS4uzI9VTbHYZul0GK88PwJd1dB41tL9Qa-nNoVWMsmXmvz9cPujyI_qjfPetRrk2lVcpBVl_f86iVn7svBRyVoBxYveViiKvTmlzLoEW2z2uWbcyTgB1kvcOCm8Unai-Ihbn3porYngMHMJigLeC-8I6h1OWyuzYmPlYn0gun_9tVr5t6Yd8zH3ORdwTPxxdCrA4VaXBeQNMqYKt9f8fgnc3-5N3Fc20mTER1JqsEOZ3PDLgv-HNf_IPETtq7IcYrYNe9QiujzQ5i9zsumpsOWXshAbPWceFlSu-smXG0Lu6rszAdt9qcu2kqlaNsdUFnzAt7YjGhxc1ThCPuokcCcsCGFZN79Y-zoFLVDexRiYrJjVETLEq3FvAbe401CfXN-1Jk1S7GT2wBdmscq5h53ySOQ2TGEaEWVz7hTMISRbOvrPNW1SYA7cNAhaozXi04X5tMh_M5xQqBxdJ3scuG7Q_JKPEPwWkJcv7rwA7i92zaTlWasvMPvurbQt6sGES53mkenrKmGKpIMZrBaX-e1Ng933nGFhJGIpDY7TJhOXXLAFztDC-m5s55KrzuaieTrNlkvvKnLiufZge_MxR5Js-K6CvWg_nhcSeixcpB_QIlCh-rCkQ04Hpb6x5Xm7lzfvdI3tE4avo2yKos3zAa_JzOT6gJE6--RD1vxCHf2g8Unqcdfliih17Kwi8ZSAaB_CkBftb9yZHZM5Vwb1onNQc00p-ZK_SypbHj0o7EO3m9KrTaPDyO46PA5in1mz3fp-8zjIrV9F87cTNkPDVco3C1YSwCoW67usrHN_Wk6teMABKTDTZrwunpSwFuiaNB79zopGUXDsLd3DPqDdCkDgGzOuu1Tc9oVtxHVFBtEXwEK65pO8FsYJMIcs6WVOxHIJEros8Xw3HSOjFxaCm7kxk9Idfft7cKxlMoRem_l9noONvMgJjV-0FVRf0hNy9jrslk7OvFEmkkoOrlUqfMMbq2kTMKfWiF5N0W1ECES6ZuXi2XrXCtOfc_8Fk8Ei83fUBsGLr7MaD37GbLXbD5WA2Fg4UlWkM7rNocLvGaryLyepcK6yxLUbWlj3oYMFUL5uCXogXkVq1v0ygM_e33IxYjIJEztSHBu_sFqBjPEU1QlsYw4_p75hWV49tP-ltWyADgv6cXlTskAQJnSNpO-vYwYFKOL-GFkRTDyvt9wKugsmC5-_2JlRsaxRKU9Y1q40dZ7KMgpz89xDd3ODlneFnWodJG1S-eyuZolG7zuQyJv8q-io6Ukn-dMDcWxlg6NNODczXpKbIYs9xl48LrlLpWwaIP8UecAjq4mIj6OoEJ340FtUHz3PolMdm8re5eahVq7tRXEETgUDDXD1Pqeg5Az9D2vvACJSdFG-YUnvA10j3QYNvlTwOoVymS9grav8ceCMCT13I2BkJS17fCg8cXrNjfSWfUcJI7_nlRHOjzPP6gjgboq5TMgPyN5ExU5ObcDHKU3LMltpotFjiIT-w8hK_ltlrag-PXyPumkNlaZA9A14d1F-NR6tBfmjRY41yDNaRHckPhfVSkO0AMXRsfNrcc1XePE-ZaBwVu4DL027ihic8eJy9wyAgXv_m1Xa9mYI-7OG4KYdBL8UPpB3AJSoF2ClYpYHEpnD7j4iYfDyodrmLYm8eH-dKJhOoNAgNa9H8WF_VU49oBuE0eYZPfYFVl-EJDcHa9CosPEP3OsGsSwM84H9PtNeOhF_CGypkgPS4aDqhFvcsIrmWJt83n36UX3OMxGKSHHuNE2GwIfS_G_4nulDpUwflMkgonbuOBhBau7AN7s3cfPGJDmePw-yF5kLdEWjfSBXt7MxpP2pD24pTsvG0NZU4RUcx1GwjfKpZkbOs06-jWW8LAfYwwUFhOBiOR5D8t7s9PMIATlQLZWl3hpNjbT5-ckuDkvry0",
+                      "category":  "diagram",
+                      "order":  3
+                  },
+                  {
+                      "id":  "activity-diagram",
+                      "title":  "activity diagram",
+                      "description":  "تدفق الإجراءات والقرارات",
+                      "url":  "https://editor.plantuml.com/uml/hLdDRjj65ztpARXCNi7Qv5K-u7CG0MvQr2gwhNv8iogwwxu8N4SIevyGjYohJp9tsoVfEKDEBaLoA59r5tM7S-VSS_-lq7Ute__zEFhfkviW60r7DzUXnER9BCmXD0UPcMM8KuRpfr36vXbVLk4_l_mHcXs-VJOPZcQ1hwdPGdxEPpmU9U8hYMKU15P345oPL2Pc9tE9lDW3YZq0V4iOO9b7I4ja7qOMEtywE9NBP59SonqUfJBEPTUIyE-9D2tS4pE1piGSJr0fM7ZWauEjt1_1-JaqAOoSqHZgu_6HHySYCezW4LitfJd2lTbJWaPUuUiMztFypU0CA9h3nDKvc0Ty-ZM_YV7liVbQ-9zccWt4wC7X-_2DOjfxnJL_lWr77wu_GWJEb-at0K3i8J1x6mGX_g73CcYtxds1v3W4tGtbP1xITZAnDZcgo80Y_e3D83Ub98vaXiTV1eeiOrnCyjib_I2novm9dSANo_A7WQEri2wPuIwo0T9iEhL3bMcM-AMHWGLPYPWVPkKKmh0KIfVcI5TjA5BpMI7xyuSX2kYDt14FLnIvD8wCq_0MOB2q28cpvyaSwH77bayE4kV-Ya7sXRSvWKHcNV9HqLCNAx-f5EphcUkF_tVEYTaSN9BrAPkEwUzmxvb-PXTgmZGg0S7hcriGurMD3dtAEld6rnctbhj-V1JuiffHW9QQkSHwX6RuFc-xvH2Mg-J1ial9ZnszQnygrsgtjeZx0pEAVQlf0Ox7S-m0WyDQ8fb363TGJd_hAyX5x43q6i3lRCjqPJjdSE4uYN6zHxGaGRUpqwVCJjjeFQ6XVEuY7DCZDIHUAHfDFr_RppHG1sxksgb4F5bmr-ZtPiDExJ0R15MemSdAXKmGoHEx_HNaMfKc57e9XyMfyqkvOtU1f9J631N3fpwKf1MbYl1a_fAaE22-SP5MxHXBax5KUgmqWox6CP9BTTYMJYSRRwNfssBmHlHzKhpVoKGczlMED22mAkqmkabHNBSfLXI_hzcZU_ISiXRge0O5vZTk03QpKsvSbM5TqBPBoCIftT2N9ANLPb9NRP5vaYcXtI2kPfcck4JKpIBcTnLTK8E_CZMXorud4BT4hNZgRz3JhqIhLUUbVR04bje2T4VkySXdsap3w6a72vLfX4kPU5magtHyXQ_HRK-tln6hB6_FO_czNz3qFnnw6VdU9kocNy3KxusWhZ8gw3tsU0lPTN8IcsuyZzXrdQ-jzFxOLB8ij_IItRl7_dtXMjcuT5UDktpPrfMlj5WhqxuRSt_p_9kpXNg5BEk--rw-_zROzie-2r2qbdeMIbBPJXGuLwsJkZal9E9OAtMN_9b_SEeFXZAQQsJQ1lFUnTd5qMARnFfaUIicQ3ImeizyhuamXinUruijZxnTvYIzyxxIi4_7E4MLYIHD6tRY6JkwJZMERslKnhmKezfyaPZqAYHqY2lFdgtV_W9mDRUpLwgzww1kWlwF0rWBkVQelgtNbJ9LDDp-gBMFwFQttaKzat7bTzMIV9hnL9yh8GXyXeR7-WODtIzqfJxrhzJLNLNPrEreJy4L3_6hqBfyBoadW2jlra-7zEmCylgvsl5NYF-NfIPopxnj4wqdA7TRJHTlQbUDLINQ_adNPFxVZrONqunapL5ziISxJfrgxjRigInUMcKywE_F1aRvGUBNLgArOIzPvhIrNnLUQURAc8uePDHPmFFGqZmZmjIakX76DiU_DlI4zjbNfsEELEAJvmF0fXBP6Lr_RStbhrlwwZnSUqsNLBNQ4QfAVFwjCClYp0ZYM9I3KITBFhUZxty8WdSe1VpVdNy1",
+                      "category":  "diagram",
+                      "order":  4
+                  },
+                  {
+                      "id":  "request-file",
+                      "title":  "ملف الطلب في المستودع",
+                      "description":  "النسخة المحفوظة من هذا الطلب داخل GitHub",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/%D9%82%D8%B3%D9%85%20%D8%A7%D9%84%D8%AA%D9%86%D8%B8%D9%8A%D9%85%20%D9%88%D8%A7%D9%84%D8%AA%D8%AE%D8%B7%D9%8A%D8%B7%20%D8%A7%D9%84%D8%B9%D9%85%D8%B1%D8%A7%D9%86%D9%8A/%D8%B7%D9%84%D8%A8%20%D8%B4%D8%B1%D8%A7%D8%A1%20%D9%81%D8%B6%D9%84%D8%A9.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-catalog",
+                      "title":  "كتالوج الخدمات",
+                      "description":  "المرجع الكامل لبيانات خدمات المواطنين",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/.software/citizen-services.json",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "service-guide",
+                      "title":  "دليل طلبات المواطنين",
+                      "description":  "المراحل العامة ومتطلبات معالجة الطلبات",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS/blob/main/docs/requirements/citizen-services.md",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "repository",
+                      "title":  "مستودع فريق تحليل المشاريع",
+                      "description":  "الملفات والمراجع المشتركة للفريق",
+                      "url":  "https://github.com/lahlahai/Analysis-Department-OS",
+                      "category":  "supporting"
+                  }
+              ],
+    "columns":  [
+                    "البيان",
+                    "التفاصيل"
+                ],
+    "rows":  [
+                 [
+                     "اسم الطلب",
+                     "طلب شراء فضلة"
+                 ],
+                 [
+                     "المعرف الفريد",
+                     "purchase-surplus"
+                 ],
+                 [
+                     "النوع",
+                     "خدمة"
+                 ],
+                 [
+                     "المجال",
+                     "التخطيط والتنظيم العمراني"
+                 ],
+                 [
+                     "الوحدة",
+                     "إدارة المقاسم"
+                 ],
+                 [
+                     "الوصف",
+                     "طلب دراسة شراء فضلة عقارية ملاصقة لعقار مقدم الطلب."
+                 ],
+                 [
+                     "الاستخدام",
+                     "يستخدم للتحقق من وضع الفضلة وإمكانية ضمها إلى العقار وفق المخطط التنظيمي."
+                 ],
+                 [
+                     "المديرية",
+                     "مديرية الشؤون الفنية"
+                 ],
+                 [
+                     "الدائرة",
+                     "دائرة التنظيم والتخطيط العمراني"
+                 ],
+                 [
+                     "القناة",
+                     "ورقي"
+                 ],
+                 [
+                     "الأولوية",
+                     "رئيسي"
+                 ],
+                 [
+                     "الحقول المطلوبة",
+                     "اسم مقدم الطلب، رقم الهاتف الجوال، رقم العقار، اسم المنطقة العقارية، وصف موقع الفضلة"
+                 ],
+                 [
+                     "المرفقات",
+                     "بيان قيد عقاري، مخطط كروكي حديث، تكليف مساحي مع إحداثيات دقيقة"
+                 ],
+                 [
+                     "الاستجابة",
+                     "رد فني يوضح وضع الفضلة وإمكانية متابعة إجراءات الشراء."
+                 ]
+             ],
+    "columnWidths":  [
+                         180,
+                         700
+                     ],
+    "rowHeights":  [
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42,
+                       42
+                   ]
 }
