@@ -10,6 +10,8 @@ interface TableData {
   rowHeights: number[];
 }
 
+type TableMetadata = Record<string, unknown>;
+
 interface DataTableEditorProps {
   path: string;
   value: string;
@@ -104,9 +106,26 @@ function parseTableDocument(value: string): TableData {
   return normalizeTable(defaultColumns, []);
 }
 
+function readTableMetadata(value: string): TableMetadata {
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) return {};
+    const metadata = { ...(parsed as TableMetadata) };
+    delete metadata.version;
+    delete metadata.columns;
+    delete metadata.rows;
+    delete metadata.columnWidths;
+    delete metadata.rowHeights;
+    return metadata;
+  } catch {
+    return {};
+  }
+}
+
 export function emptyDataTableDocument() {
   return `${JSON.stringify({
     version: "1.0",
+    links: [],
     columns: defaultColumns,
     rows: [Array(defaultColumns.length).fill("")],
     columnWidths: defaultColumns.map(() => DEFAULT_COLUMN_WIDTH),
@@ -114,8 +133,9 @@ export function emptyDataTableDocument() {
   }, null, 2)}\n`;
 }
 
-function serializeTable(table: TableData) {
+function serializeTable(table: TableData, metadata: TableMetadata = {}) {
   return `${JSON.stringify({
+    ...metadata,
     version: "1.0",
     columns: table.columns,
     rows: table.rows,
@@ -130,6 +150,11 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   const [resizeCursor, setResizeCursor] = useState<"col-resize" | "row-resize" | "">("");
   const tableRef = useRef(table);
   const resizeRef = useRef<ResizeState | null>(null);
+  const metadataRef = useRef<TableMetadata>(readTableMetadata(value));
+
+  useEffect(() => {
+    metadataRef.current = readTableMetadata(value);
+  }, [value]);
 
   useEffect(() => {
     tableRef.current = table;
@@ -164,7 +189,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
         : { ...current, rowHeights: current.rowHeights.map((height, index) => index === resizeState.index ? nextSize : height) };
       tableRef.current = next;
       setTable(next);
-      onChange(serializeTable(next));
+      onChange(serializeTable(next, metadataRef.current));
     }
 
     function stopResize() {
@@ -184,7 +209,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     const normalized = normalizeTable(next.columns, next.rows, next.columnWidths, next.rowHeights);
     tableRef.current = normalized;
     setTable(normalized);
-    onChange(serializeTable(normalized));
+    onChange(serializeTable(normalized, metadataRef.current));
   }
 
   function beginResize(event: ReactPointerEvent<HTMLButtonElement>, type: ResizeState["type"], index: number) {

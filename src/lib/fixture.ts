@@ -1,6 +1,7 @@
 import { citizenServicesDocumentSchema, diagramLayoutSchema, componentsDocumentSchema, entitiesDocumentSchema, jobCardCatalogSchema, projectDocumentSchema, relationshipsDocumentSchema } from "@/domain/schemas";
 import jobCardCatalogDocument from "../../.software/job-card-catalog.json";
 import citizenServicesDocument from "../../.software/citizen-services.json";
+import citizenServicePlantumlLinks from "../../.software/citizen-service-plantuml-links.json";
 import type { DiagramLayout, SoftwareModel } from "@/domain/types";
 
 const jsonDocument = (value: unknown) => `${JSON.stringify(value, null, 2)}\n`;
@@ -196,20 +197,41 @@ type CitizenService = ReturnType<typeof citizenServicesDocumentSchema.parse>["se
 function citizenServiceTableDocument(service: CitizenService) {
   const rows = [
     ["اسم الطلب", service.name],
+    ["المعرف الفريد", service.id],
     ["النوع", service.kind === "service" ? "خدمة" : "استعلام"],
+    ["الجمهور", service.audience],
     ["المجال", service.domain],
     ["الوحدة", service.unit],
     ["الوصف", service.description],
     ["الاستخدام", service.usage],
     ["المديرية", service.directorate],
     ["الدائرة", service.department],
+    ["التوفر", service.availability],
     ["القناة", service.channel],
     ["الأولوية", service.priority],
     ["الحقول المطلوبة", service.requiredFields.join("، ")],
     ["المرفقات", service.attachments.join("، ") || "لا يوجد"],
+    ["الرسوم", service.fee ? `${service.fee.label}: ${service.fee.amount} ${service.fee.currency}` : "لا يوجد"],
+    ["مراحل الطلب", service.stages.map((stage) => `${stage.order}. ${stage.name} — ${stage.owner}`).join(" ← ")],
+    ["أسباب الإرجاع", service.returnReasons?.join("، ") || "لا يوجد"],
+    ["ملاحظات الجهة", service.authorityNotes?.join("، ") || "لا يوجد"],
     ["الاستجابة", service.response],
   ];
-  return `${JSON.stringify({ version: "1.0", serviceId: service.id, columns: ["البيان", "التفاصيل"], rows, columnWidths: [180, 520], rowHeights: rows.map(() => 36) }, null, 2)}\n`;
+  const filePath = citizenServiceFilePath(service);
+  const repository = "https://github.com/lahlahai/Analysis-Department-OS";
+  const links = [
+    { id: "request-file", title: "ملف الطلب في المستودع", description: "النسخة المحفوظة من هذا الطلب داخل GitHub", url: `${repository}/blob/main/${encodeURI(filePath)}` },
+    { id: "plantuml", title: "المخطط الإلكتروني للطلب", description: "فتح مخطط PlantUML المرتبط بهذا الطلب", url: citizenServicePlantumlLinks[service.id as keyof typeof citizenServicePlantumlLinks] },
+    { id: "service-catalog", title: "كتالوج الخدمات", description: "المرجع الكامل لبيانات خدمات المواطنين", url: `${repository}/blob/main/.software/citizen-services.json` },
+    { id: "service-guide", title: "دليل طلبات المواطنين", description: "المراحل العامة ومتطلبات معالجة الطلبات", url: `${repository}/blob/main/docs/requirements/citizen-services.md` },
+    { id: "repository", title: "مستودع فريق تحليل المشاريع", description: "الملفات والمراجع المشتركة للفريق", url: repository },
+  ];
+  return `${JSON.stringify({ version: "1.0", serviceId: service.id, request: service, links, columns: ["البيان", "التفاصيل"], rows, columnWidths: [180, 700], rowHeights: rows.map(() => 42) }, null, 2)}\n`;
+}
+
+function citizenServiceFilePath(service: CitizenService) {
+  const safeName = service.name.trim().replace(/[\\/:*?"<>|]/g, "-");
+  return `قسم التنظيم والتخطيط العمراني/${safeName}.json`;
 }
 
 export function loadFixtureWorkspace(): FixtureWorkspace {
@@ -220,7 +242,7 @@ export function loadFixtureWorkspace(): FixtureWorkspace {
   const layouts = Object.entries(fixtureFiles).filter(([path]) => path.includes("/diagrams/")).map(([, contents]) => diagramLayoutSchema.parse(JSON.parse(contents)));
   const jobCardDocument = jobCardCatalogSchema.parse(jobCardCatalogDocument);
   const citizenServices = citizenServicesDocumentSchema.parse(citizenServicesDocument);
-  const citizenServiceFiles = Object.fromEntries(citizenServices.services.map((service) => [`قسم التنظيم والتخطيط العمراني/${service.id}.json`, citizenServiceTableDocument(service)]));
+  const citizenServiceFiles = Object.fromEntries(citizenServices.services.map((service) => [citizenServiceFilePath(service), citizenServiceTableDocument(service)]));
   const files = { ...fixtureFiles, ...citizenServiceFiles, ".software/job-card-catalog.json": `${JSON.stringify(jobCardDocument, null, 2)}\n`, ".software/citizen-services.json": `${JSON.stringify(citizenServices, null, 2)}\n` };
   return { model: { project: { ...project, version: "1.0" }, components, entities, relationships }, layouts, files, jobCards: jobCardDocument.cards, citizenServices: citizenServices.services };
 }

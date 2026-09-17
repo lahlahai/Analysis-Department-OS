@@ -124,6 +124,28 @@ function isValidQuickLink(value: unknown): value is QuickLink {
   return typeof link.id === "string" && typeof link.title === "string" && typeof link.description === "string" && typeof link.url === "string";
 }
 
+function readFileQuickLinks(value: string): QuickLink[] {
+  try {
+    const parsed = JSON.parse(value) as Record<string, unknown>;
+    return Array.isArray(parsed.links) ? parsed.links.filter(isValidQuickLink) : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeFileQuickLinks(value: string, links: QuickLink[]) {
+  try {
+    const parsed = JSON.parse(value) as Record<string, unknown>;
+    return `${JSON.stringify({ ...parsed, links }, null, 2)}\n`;
+  } catch {
+    return value;
+  }
+}
+
+function initialFileQuickLinks() {
+  return Object.fromEntries(Object.entries(workspace.files).map(([path, content]) => [path, readFileQuickLinks(content)]).filter(([, links]) => links.length > 0));
+}
+
 function MarkdownPreview({ text }: { text: string }) {
   return <div className="h-full overflow-auto bg-[#0d131c] px-8 py-7 text-sm text-slate-300"><div className="mx-auto max-w-3xl space-y-5 font-sans leading-7">{text.split("\n").map((line, index) => line.startsWith("# ") ? <h1 key={index} className="border-b border-white/10 pb-4 text-2xl font-semibold text-slate-100">{line.slice(2)}</h1> : line.startsWith("## ") ? <h2 key={index} className="pt-3 text-lg font-semibold text-slate-100">{line.slice(3)}</h2> : line.startsWith("- ") ? <div key={index} className="flex gap-2 pl-2"><span className="text-cyan-300">•</span><span>{line.slice(2)}</span></div> : /^\d+\. /.test(line) ? <div key={index} className="pl-2 text-slate-400">{line}</div> : line.trim() ? <p key={index}>{line.replaceAll("**", "")}</p> : <div key={index} className="h-1" />)}</div></div>;
 }
@@ -190,12 +212,14 @@ export function Workspace() {
   const [tabContextMenu, setTabContextMenu] = useState<{ x: number; y: number } | null>(null);
   const [editorOpen, setEditorOpen] = useState(false);
   const [isLayingOut, setIsLayingOut] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
   const [quickLinks, setQuickLinks] = useState<QuickLink[]>(defaultQuickLinks);
-  const [fileQuickLinks, setFileQuickLinks] = useState<Record<string, QuickLink[]>>({});
+  const [fileQuickLinks, setFileQuickLinks] = useState<Record<string, QuickLink[]>>(initialFileQuickLinks);
   const [quickLinksHydrated, setQuickLinksHydrated] = useState(false);
   const [quickLinksGeneralRatio, setQuickLinksGeneralRatio] = useState(20);
   const quickLinksResizeRef = useRef<{ startY: number; startRatio: number; height: number } | null>(null);
+  const autoSaveAttemptRef = useRef("");
   const [quickLinkDialog, setQuickLinkDialog] = useState(false);
   const [quickLinkScope, setQuickLinkScope] = useState<QuickLinkScope>("general");
   const [quickLinkEditingId, setQuickLinkEditingId] = useState<string | null>(null);
@@ -206,11 +230,6 @@ export function Workspace() {
       const stored = JSON.parse(localStorage.getItem("analysis-department-quick-links") ?? "null") as unknown;
       // eslint-disable-next-line react-hooks/set-state-in-effect
       if (Array.isArray(stored) && stored.every(isValidQuickLink)) setQuickLinks(stored);
-      const storedFileLinks = JSON.parse(localStorage.getItem("analysis-department-file-links") ?? "null") as unknown;
-      if (storedFileLinks && typeof storedFileLinks === "object" && !Array.isArray(storedFileLinks)) {
-        const validFileLinks = Object.fromEntries(Object.entries(storedFileLinks).filter(([, links]) => Array.isArray(links) && links.every(isValidQuickLink)));
-        setFileQuickLinks(validFileLinks);
-      }
       const storedRatio = Number(localStorage.getItem("analysis-department-quick-links-ratio"));
       if (Number.isFinite(storedRatio)) {
         setQuickLinksGeneralRatio(clampQuickLinksRatio(storedRatio));
@@ -224,13 +243,13 @@ export function Workspace() {
   useEffect(() => {
     if (!quickLinksHydrated) return;
     localStorage.setItem("analysis-department-quick-links", JSON.stringify(quickLinks));
-    localStorage.setItem("analysis-department-file-links", JSON.stringify(fileQuickLinks));
     localStorage.setItem("analysis-department-quick-links-ratio", String(quickLinksGeneralRatio));
-  }, [quickLinks, fileQuickLinks, quickLinksGeneralRatio, quickLinksHydrated]);
+  }, [quickLinks, quickLinksGeneralRatio, quickLinksHydrated]);
 
   const activeLayout = useMemo(() => layouts.find((layout) => activePath === `.software/diagrams/${layout.diagram.id}.json`), [activePath, layouts]);
   const activeIsDiagram = Boolean(activeLayout);
   const modifiedPaths = useMemo(() => Object.keys(files).filter((path) => files[path] !== savedFiles[path]), [files, savedFiles]);
+  const deletedPaths = useMemo(() => Object.keys(savedFiles).filter((path) => !(path in files)), [files, savedFiles]);
   const issues = useMemo(() => [...Object.entries(files).flatMap(([path, content]) => validateJsonFile(path, content)), ...validateModel(model, layouts)], [files, layouts, model]);
   const selectedNode = canvasNodes.find((node) => node.id === selectedId);
   const selectedEntity = selectedId ? model.entities.find((entity) => entity.id === selectedId) : undefined;
@@ -356,13 +375,54 @@ export function Workspace() {
     }
   }
 
-  function saveChanges() {
+  async function saveChanges(): Promise<boolean> {
     const errors = issues.filter((issue) => issue.severity === "error");
-    if (errors.length) { setShowProblems(true); setNotice(`أصلح ${errors.length} من أخطاء التحقق قبل الحفظ`); return; }
-    setSavedFiles({ ...files });
-    setNotice(modifiedPaths.length ? `تم حفظ ${modifiedPaths.length} ملف` : "لا توجد تغييرات");
-    window.setTimeout(() => setNotice(null), 2400);
+    if (errors.length) { setShowProblems(true); setNotice(`أصلح ${errors.length} من أخطاء التحقق قبل الحفظ`); return false; }
+    const changedFiles = Object.fromEntries(modifiedPaths.map((path) => [path, files[path]]));
+    if (!modifiedPaths.length && !deletedPaths.length) { setNotice("لا توجد تغييرات"); window.setTimeout(() => setNotice(null), 2400); return true; }
+
+    setIsSaving(true);
+    setNotice("جارٍ حفظ الملفات داخل المستودع…");
+    try {
+      const response = await fetch("/api/github/files", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files: changedFiles,
+          deletedPaths,
+          message: `تحديث ملفات مساحة العمل${activePath ? `: ${fileNameFromPath(activePath)}` : ""}`,
+        }),
+      });
+      const payload = await response.json() as { error?: string; ok?: boolean };
+      if (!response.ok || !payload.ok) throw new Error(payload.error ?? "تعذر حفظ الملفات داخل المستودع.");
+      setSavedFiles({ ...files });
+      setNotice(`تم حفظ ${modifiedPaths.length + deletedPaths.length} ملفًا داخل المشروع`);
+      window.setTimeout(() => setNotice(null), 2400);
+      return true;
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "تعذر حفظ الملفات داخل المستودع.");
+      return false;
+    } finally {
+      setIsSaving(false);
+    }
   }
+
+  useEffect(() => {
+    if (!modifiedPaths.length && !deletedPaths.length) {
+      autoSaveAttemptRef.current = "";
+      return;
+    }
+    if (isSaving) return;
+    const signature = JSON.stringify({ changed: modifiedPaths.map((path) => [path, files[path]]), deleted: deletedPaths });
+    if (autoSaveAttemptRef.current === signature) return;
+    const timer = window.setTimeout(() => {
+      autoSaveAttemptRef.current = signature;
+      void saveChanges();
+    }, 850);
+    return () => window.clearTimeout(timer);
+    // saveChanges intentionally uses the current file snapshot when the debounce completes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files, savedFiles, isSaving, modifiedPaths, deletedPaths]);
 
   function deleteSelected() {
     if (!selectedId || !activeLayout) return;
@@ -401,7 +461,11 @@ export function Workspace() {
     if (quickLinkScope === "general") {
       setQuickLinks((current) => quickLinkEditingId ? current.map((item) => item.id === quickLinkEditingId ? link : item) : [...current, link]);
     } else if (activePath) {
-      setFileQuickLinks((current) => ({ ...current, [activePath]: quickLinkEditingId ? (current[activePath] ?? []).map((item) => item.id === quickLinkEditingId ? link : item) : [...(current[activePath] ?? []), link] }));
+      const nextLinks = quickLinkEditingId
+        ? (fileQuickLinks[activePath] ?? []).map((item) => item.id === quickLinkEditingId ? link : item)
+        : [...(fileQuickLinks[activePath] ?? []), link];
+      setFileQuickLinks((current) => ({ ...current, [activePath]: nextLinks }));
+      setFiles((current) => current[activePath] === undefined ? current : { ...current, [activePath]: writeFileQuickLinks(current[activePath], nextLinks) });
     }
     setQuickLinkEditingId(null);
     setQuickLinkDialog(false);
@@ -409,7 +473,11 @@ export function Workspace() {
 
   function removeQuickLink(scope: QuickLinkScope, id: string) {
     if (scope === "general") setQuickLinks((current) => current.filter((link) => link.id !== id));
-    else if (activePath) setFileQuickLinks((current) => ({ ...current, [activePath]: (current[activePath] ?? []).filter((link) => link.id !== id) }));
+    else if (activePath) {
+      const nextLinks = (fileQuickLinks[activePath] ?? []).filter((link) => link.id !== id);
+      setFileQuickLinks((current) => ({ ...current, [activePath]: nextLinks }));
+      setFiles((current) => current[activePath] === undefined ? current : { ...current, [activePath]: writeFileQuickLinks(current[activePath], nextLinks) });
+    }
   }
 
   function startQuickLinksResize(event: ReactPointerEvent<HTMLDivElement>) {
@@ -509,7 +577,6 @@ export function Workspace() {
       const newPrefix = folderPrefix(nextName);
       const renamePaths = (record: Record<string, string>) => Object.fromEntries(Object.entries(record).map(([path, value]) => [path.startsWith(`${oldPrefix}/`) ? `${newPrefix}/${path.slice(oldPrefix.length + 1)}` : path, value]));
       setFiles((current) => renamePaths(current));
-      setSavedFiles((current) => renamePaths(current));
       setOpenPaths((current) => current.map((path) => path.startsWith(`${oldPrefix}/`) ? `${newPrefix}/${path.slice(oldPrefix.length + 1)}` : path));
       if (activePath.startsWith(`${oldPrefix}/`)) setActivePath(`${newPrefix}/${activePath.slice(oldPrefix.length + 1)}`);
       setFolders((current) => current.map((folder) => folder === editingFolder ? nextName : folder));
@@ -524,7 +591,6 @@ export function Workspace() {
     const folderFiles = Object.keys(files).filter((path) => path.startsWith(prefix));
     if (folderFiles.length && !window.confirm(`حذف مجلد ${folder} وكل ملفاته؟`)) return;
     setFiles((current) => Object.fromEntries(Object.entries(current).filter(([path]) => !path.startsWith(prefix))));
-    setSavedFiles((current) => Object.fromEntries(Object.entries(current).filter(([path]) => !path.startsWith(prefix))));
     setLayouts((current) => current.filter((layout) => !folderFiles.includes(`.software/diagrams/${layout.diagram.id}.json`)));
     setOpenPaths((current) => current.filter((path) => !path.startsWith(prefix)));
     if (activePath.startsWith(prefix)) setActivePath(defaultPath);
@@ -535,7 +601,6 @@ export function Workspace() {
     if (Object.keys(files).length <= 1 || !window.confirm(`حذف الملف ${fileNameFromPath(path)}؟`)) return;
     const nextFiles = Object.keys(files).filter((item) => item !== path);
     setFiles((current) => { const next = { ...current }; delete next[path]; return next; });
-    setSavedFiles((current) => { const next = { ...current }; delete next[path]; return next; });
     setLayouts((current) => current.filter((layout) => `.software/diagrams/${layout.diagram.id}.json` !== path));
     const nextOpenPaths = openPaths.filter((item) => item !== path);
     const nextActivePath = activePath === path ? nextOpenPaths.at(-1) ?? nextFiles[0] ?? defaultPath : activePath;
@@ -555,7 +620,6 @@ export function Workspace() {
       const isDiagramFile = oldPath.includes("/diagrams/");
       const nextId = nextName.replace(/\.json$/i, "");
       setFiles((current) => { const next = { ...current, [nextPath]: isDiagramFile ? renameDiagramContent(current[oldPath], nextId) : current[oldPath] }; delete next[oldPath]; return next; });
-      setSavedFiles((current) => { const next = { ...current, [nextPath]: isDiagramFile ? renameDiagramContent(current[oldPath], nextId) : current[oldPath] }; delete next[oldPath]; return next; });
       setOpenPaths((current) => current.map((path) => path === oldPath ? nextPath : path));
       if (activePath === oldPath) setActivePath(nextPath);
       if (isDiagramFile && nextPath.includes("/diagrams/")) {
@@ -576,10 +640,8 @@ export function Workspace() {
     setFileDialog(null);
   }
 
-  function saveAndCloseEditor() {
-    if (issues.some((issue) => issue.severity === "error")) { saveChanges(); return; }
-    saveChanges();
-    setEditorOpen(false);
+  async function saveAndCloseEditor() {
+    if (await saveChanges()) setEditorOpen(false);
   }
 
   function toggleDiagramType(type: DiagramType) {
@@ -613,7 +675,7 @@ export function Workspace() {
     <header className="official-header flex h-12 shrink-0 items-center border-b border-white/10 bg-[#111923] px-3 shadow-lg shadow-black/10">
       <div className="official-brand flex w-[244px] items-center gap-2 border-r border-white/10 pr-4"><div className="official-brand-mark grid size-7 place-items-center rounded-md bg-cyan-400 text-slate-950"><Package size={16} strokeWidth={2.5} /></div><div><div className="font-mono text-[11px] font-semibold tracking-tight text-slate-100">قسم فريق تحليل المشاريع</div><div className="font-mono text-[8px] tracking-[0.12em] text-slate-500">مكان واحد لكل الملفات والروابط</div></div></div>
       <div className="flex min-w-0 flex-1 items-center gap-3 px-4"><span className="rounded border border-white/10 bg-white/[0.04] px-2 py-1 font-mono text-[10px] text-slate-300">checkout-platform</span><ChevronRight size={13} className="text-slate-600" /><span className="flex items-center gap-1 font-mono text-[10px] text-slate-400"><GitBranch size={13} className="text-violet-300" />main</span><span className="h-4 w-px bg-white/10" /><span className="font-mono text-[10px] text-slate-500">acme / checkout-platform</span></div>
-      <div className="flex items-center gap-1"><Button size="sm" variant="ghost" onClick={saveChanges}><Check size={13} className={modifiedPaths.length ? "text-amber-600" : "text-emerald-600"} />حفظ {modifiedPaths.length > 0 && <span className="rounded bg-amber-100 px-1 text-[9px] text-amber-700">{modifiedPaths.length}</span>}</Button><Button size="sm" variant="ghost" disabled={!activeLayout || isLayingOut} onClick={() => handleAutoLayout("RIGHT")}><WandSparkles size={13} className="text-violet-600" />ترتيب</Button><Button size="sm" variant="ghost" onClick={() => setShowProblems(true)}><CircleDot size={13} className={issues.length ? "text-amber-600" : "text-emerald-600"} />تحقق</Button><Button size="icon" variant="ghost" title="إعدادات المخططات" onClick={() => setShowDiagramSettings(true)}><Settings2 size={14} /></Button></div>
+      <div className="flex items-center gap-1"><Button size="sm" variant="ghost" disabled={isSaving} onClick={saveChanges}><Check size={13} className={isSaving ? "animate-pulse text-cyan-500" : modifiedPaths.length ? "text-amber-600" : "text-emerald-600"} />حفظ {modifiedPaths.length > 0 && <span className="rounded bg-amber-100 px-1 text-[9px] text-amber-700">{modifiedPaths.length}</span>}</Button><Button size="sm" variant="ghost" disabled={!activeLayout || isLayingOut} onClick={() => handleAutoLayout("RIGHT")}><WandSparkles size={13} className="text-violet-600" />ترتيب</Button><Button size="sm" variant="ghost" onClick={() => setShowProblems(true)}><CircleDot size={13} className={issues.length ? "text-amber-600" : "text-emerald-600"} />تحقق</Button><Button size="icon" variant="ghost" title="إعدادات المخططات" onClick={() => setShowDiagramSettings(true)}><Settings2 size={14} /></Button></div>
     </header>
 
     <Dialog open={quickLinkDialog} onOpenChange={setQuickLinkDialog}><DialogContent dir="rtl"><DialogTitle className="text-lg font-semibold text-slate-900">{quickLinkEditingId ? "تعديل الرابط العام" : quickLinkScope === "general" ? "إضافة رابط عام" : "إضافة رابط للملف"}</DialogTitle><DialogDescription className="mt-1 text-right text-xs text-slate-500">أضف اسماً ووصفاً ورابطاً واضحاً ليستفيد منه الفريق.</DialogDescription><div className="mt-5 space-y-4"><label className="block text-sm font-medium text-slate-700">اسم الرابط<Input className="mt-1" autoFocus value={quickLinkDraft.title} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, title: event.target.value }))} placeholder="Google Drive" /></label><label className="block text-sm font-medium text-slate-700">الوصف<Input className="mt-1" value={quickLinkDraft.description} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, description: event.target.value }))} placeholder="الملفات والمراجع المشتركة" /></label><label className="block text-sm font-medium text-slate-700">الرابط<Input className="mt-1" value={quickLinkDraft.url} onChange={(event) => setQuickLinkDraft((current) => ({ ...current, url: event.target.value }))} placeholder="https://example.com" dir="ltr" /></label></div><div className="mt-6 flex justify-start gap-2"><Button variant="outline" onClick={() => setQuickLinkDialog(false)}>إلغاء</Button><Button variant="primary" onClick={submitQuickLink}><Link2 size={14} />{quickLinkEditingId ? "حفظ التعديل" : "إضافة الرابط"}</Button></div></DialogContent></Dialog>
