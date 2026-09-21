@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent } from "react";
-import { ClipboardPaste, FileSpreadsheet, FileText, Plus, Table2, Trash2 } from "lucide-react";
+import { ClipboardPaste, FileSpreadsheet, FileText, ListChecks, Plus, Table2, Trash2 } from "lucide-react";
 import { ServiceRequestDocumentView } from "@/components/citizen-services/service-request-document-view";
-import type { CitizenServiceDefinition, ServiceSpecification } from "@/domain/types";
+import { UserStoryDocumentView } from "@/components/citizen-services/user-story-document-view";
+import type { CitizenServiceDefinition, ServiceSpecification, ServiceUserStory } from "@/domain/types";
 import { cn } from "@/lib/cn";
+import { mergePropertiesUserStory } from "@/lib/citizen-service-user-stories";
 
 interface TableData {
   columns: string[];
@@ -125,6 +127,19 @@ function readTableMetadata(value: string): TableMetadata {
   }
 }
 
+function normalizeUserStory(value: unknown): ServiceUserStory | undefined {
+  if (!value || typeof value !== "object") return undefined;
+  const candidate = value as { format?: unknown; content?: unknown };
+  if (candidate.format !== "markdown") return undefined;
+  if (typeof candidate.content === "string") {
+    return { format: "markdown", content: candidate.content };
+  }
+  if (Array.isArray(candidate.content) && candidate.content.every((line) => typeof line === "string")) {
+    return { format: "markdown", content: candidate.content.join("\n") };
+  }
+  return undefined;
+}
+
 export function emptyDataTableDocument() {
   return `${JSON.stringify({
     version: "1.0",
@@ -177,7 +192,26 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     return undefined;
   }, [metadata]);
 
-  const [viewTab, setViewTab] = useState<"specification" | "table">(() => {
+  const isMergePropertiesRequest = citizenService?.id === "merge-properties"
+    || metadata.serviceId === "merge-properties"
+    || path.includes("طلب دمج عقارين");
+
+  const userStory = useMemo<ServiceUserStory | undefined>(() => {
+    const documentStory = normalizeUserStory(metadata.userStory);
+    if (documentStory) return documentStory;
+    const specificationStory = normalizeUserStory(serviceSpecification?.userStory);
+    if (specificationStory) return specificationStory;
+    if (metadata.request && typeof metadata.request === "object") {
+      const request = metadata.request as Record<string, unknown>;
+      const requestStory = normalizeUserStory(request.userStory);
+      if (requestStory) return requestStory;
+    }
+    return isMergePropertiesRequest ? mergePropertiesUserStory : undefined;
+  }, [isMergePropertiesRequest, metadata, serviceSpecification]);
+
+  const hasUserStory = isMergePropertiesRequest && Boolean(userStory);
+
+  const [viewTab, setViewTab] = useState<"specification" | "user-story" | "table">(() => {
     return citizenService ? "specification" : "table";
   });
 
@@ -253,6 +287,31 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     onChange(serializeTable(tableRef.current, updatedMetadata));
   }
 
+  function handleUpdateUserStory(content: string) {
+    const updatedStory: ServiceUserStory = { format: "markdown", content };
+    const updatedMetadata: TableMetadata = {
+      ...metadataRef.current,
+      userStory: updatedStory,
+    };
+
+    if (metadataRef.current.specification && typeof metadataRef.current.specification === "object") {
+      updatedMetadata.specification = {
+        ...(metadataRef.current.specification as Record<string, unknown>),
+        userStory: updatedStory,
+      };
+    }
+
+    if (metadataRef.current.request && typeof metadataRef.current.request === "object") {
+      updatedMetadata.request = {
+        ...(metadataRef.current.request as Record<string, unknown>),
+        userStory: updatedStory,
+      };
+    }
+
+    metadataRef.current = updatedMetadata;
+    onChange(serializeTable(tableRef.current, updatedMetadata));
+  }
+
   function beginResize(event: ReactPointerEvent<HTMLButtonElement>, type: ResizeState["type"], index: number) {
     event.preventDefault();
     event.stopPropagation();
@@ -324,32 +383,34 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   return (
     <div className="official-data-table flex h-full min-h-0 flex-col bg-slate-100" dir="rtl" onPaste={handlePaste}>
       {/* Top Document Mode Navigation Bar */}
-      {citizenService && (
+      {(citizenService || hasUserStory) && (
         <div className="flex h-11 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white px-2.5 sm:px-4 shadow-2xs">
           <div className="inline-flex h-8 items-center justify-center rounded-lg bg-slate-100/90 p-0.5 text-slate-500 border border-slate-200/70 select-none">
-            <button
-              type="button"
-              onClick={() => setViewTab("specification")}
-              className={cn(
-                "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
-                viewTab === "specification"
-                  ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
-                  : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
-              )}
-            >
-              <FileText size={13} className={viewTab === "specification" ? "text-[#8f733a]" : "text-slate-400"} />
-              <span>التوصيف المنظم للطلب</span>
-              <span
+            {citizenService && (
+              <button
+                type="button"
+                onClick={() => setViewTab("specification")}
                 className={cn(
-                  "rounded-full px-1.5 py-0.2 font-mono text-[8.5px] sm:text-[9px] font-bold border transition-colors",
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
                   viewTab === "specification"
-                    ? "bg-[#fbf7ee] text-[#8f733a] border-[#b49a63]/30"
-                    : "bg-slate-200/70 text-slate-500 border-transparent"
+                    ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                    : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
                 )}
               >
-                مفصّل
-              </span>
-            </button>
+                <FileText size={13} className={viewTab === "specification" ? "text-[#8f733a]" : "text-slate-400"} />
+                <span>التوصيف المنظم للطلب</span>
+                <span
+                  className={cn(
+                    "rounded-full px-1.5 py-0.2 font-mono text-[8.5px] sm:text-[9px] font-bold border transition-colors",
+                    viewTab === "specification"
+                      ? "bg-[#fbf7ee] text-[#8f733a] border-[#b49a63]/30"
+                      : "bg-slate-200/70 text-slate-500 border-transparent"
+                  )}
+                >
+                  مفصّل
+                </span>
+              </button>
+            )}
 
             <button
               type="button"
@@ -374,12 +435,38 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
                 {table.rows.length} صف
               </span>
             </button>
+
+            {hasUserStory && (
+              <button
+                type="button"
+                onClick={() => setViewTab("user-story")}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  viewTab === "user-story"
+                    ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                    : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
+                )}
+              >
+                <ListChecks size={13} className={viewTab === "user-story" ? "text-[#8f733a]" : "text-slate-400"} />
+                <span>قصة المستخدم</span>
+                <span
+                  className={cn(
+                    "rounded-full px-1.5 py-0.2 font-mono text-[8.5px] font-bold border transition-colors",
+                    viewTab === "user-story"
+                      ? "bg-[#fbf7ee] text-[#8f733a] border-[#b49a63]/30"
+                      : "bg-slate-200/70 text-slate-500 border-transparent"
+                  )}
+                >
+                  US-001
+                </span>
+              </button>
+            )}
           </div>
 
           <div className="hidden sm:flex items-center gap-2" dir="ltr">
             <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200/80 bg-slate-50/80 px-2.5 py-1 text-[10.5px] font-mono text-slate-600 shadow-2xs">
               <span className="size-1.5 rounded-full bg-emerald-500" />
-              <span className="font-semibold text-slate-700">{citizenService.id}</span>
+              <span className="font-semibold text-slate-700">{citizenService?.id ?? String(metadata.serviceId ?? "merge-properties")}</span>
             </div>
           </div>
         </div>
@@ -387,7 +474,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
 
       {/* Main View Area */}
       {citizenService && viewTab === "specification" ? (
-        <div className="min-h-0 flex-1 overflow-hidden">
+        <div className="flex min-h-0 flex-1 overflow-hidden">
           <ServiceRequestDocumentView
             path={path}
             service={citizenService}
@@ -395,6 +482,10 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
             rawJson={value}
             onUpdateSpecification={handleUpdateSpecification}
           />
+        </div>
+      ) : viewTab === "user-story" && userStory ? (
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <UserStoryDocumentView story={userStory} onChange={handleUpdateUserStory} />
         </div>
       ) : (
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-slate-50">

@@ -224,45 +224,45 @@ export function ServiceRequestDocumentView({
   ];
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto bg-[#f8fafc] p-2 sm:p-2.5 md:p-3 font-sans text-slate-900 selection:bg-[#b49a63]/20 text-[10px] sm:text-[10.5px]" dir="rtl">
-      <div className="mx-auto w-full max-w-6xl space-y-2 sm:space-y-2.5">
+    <div className="flex h-full flex-col overflow-y-auto bg-[#f8fafc] p-2.5 sm:p-3.5 md:p-4 font-sans text-slate-900 selection:bg-[#b49a63]/20 text-xs sm:text-sm" dir="rtl">
+      <div className="mx-auto w-full max-w-6xl space-y-3 sm:space-y-3.5">
         {/* Document Header Hero Card (Sidebar Directorial Style) */}
         <div className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
           {/* Top Bar: Clean Identity & Action Tools */}
-          <div className="flex h-10 sm:h-10.5 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-3.5">
+          <div className="flex h-11 sm:h-12 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
             <div className="flex items-center gap-2 min-w-0">
-              <span className="grid size-5.5 sm:size-6 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                <Building2 size={12} />
+              <span className="grid size-6 sm:size-7 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                <Building2 size={14} />
               </span>
-              <div className="min-w-0 truncate font-sans text-[10px] font-bold text-slate-800 sm:text-[11px]" title={service.name}>
+              <div className="min-w-0 truncate font-sans text-xs sm:text-sm font-bold text-slate-800" title={service.name}>
                 {service.name}
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={openAssistant}
-                className="h-6 sm:h-6.5 gap-1 border border-emerald-300/80 bg-emerald-50/70 px-2 text-[9px] sm:text-[9.5px] font-bold text-emerald-900 hover:border-emerald-400 hover:bg-emerald-100/80 shadow-2xs"
+                className="h-7 sm:h-7.5 gap-1.5 border border-emerald-300/80 bg-emerald-50/70 px-2.5 text-[11px] sm:text-xs font-bold text-emerald-900 hover:border-emerald-400 hover:bg-emerald-100/80 shadow-2xs"
                 title="يفتح ChatGPT وينسخ سياق الطلب الكامل إلى الحافظة"
               >
-                <Sparkles size={11} className="text-emerald-700" />
+                <Sparkles size={12} className="text-emerald-700" />
                 <span>متابعة مع ChatGPT</span>
-                <ExternalLink size={9} className="text-emerald-600" />
+                <ExternalLink size={10} className="text-emerald-600" />
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={downloadSkill}
-                className="h-6 sm:h-6.5 gap-1 px-1.5 text-[9px] sm:text-[9.5px] font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                className="h-7 sm:h-7.5 gap-1.5 px-2 text-[11px] sm:text-xs font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                 title="تنزيل سياق الطلب كملف Skill بصيغة Markdown"
               >
-                <Download size={11} />
+                <Download size={12} />
                 <span className="hidden xs:inline">تحميل Skill</span>
               </Button>
               {assistantStatus && (
-                <span className="text-[8px] sm:text-[8.5px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.2 rounded border border-emerald-200 animate-in fade-in">
+                <span className="text-[10px] sm:text-xs font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 animate-in fade-in">
                   {assistantStatus}
                 </span>
               )}
@@ -270,71 +270,71 @@ export function ServiceRequestDocumentView({
           </div>
 
           {/* Service Title & Metadata Badges */}
-          <div className="p-2.5 sm:p-3 space-y-1">
-            <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-              <h1 className="text-[11px] sm:text-xs md:text-[13px] font-bold tracking-tight text-slate-900 leading-snug">
+          <div className="p-3 sm:p-4 space-y-1.5">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-sm sm:text-base md:text-lg font-bold tracking-tight text-slate-900 leading-snug">
                 {service.name}
               </h1>
               <span className={cn(
-                "rounded px-1.5 py-0.2 text-[8px] sm:text-[8.5px] font-bold border",
+                "rounded px-2 py-0.5 text-[10px] sm:text-xs font-bold border",
                 service.kind === "service"
                   ? "bg-slate-900 text-white border-slate-900"
                   : "bg-slate-100 text-slate-700 border-slate-200"
               )}>
                 {service.kind === "service" ? "خدمة تنفيذية" : "استعلام تنظيمي"}
               </span>
-              <span className="rounded border border-slate-200/90 bg-slate-50 px-1.5 py-0.2 text-[8px] sm:text-[8.5px] font-mono text-slate-600">
+              <span className="rounded border border-slate-200/90 bg-slate-50 px-2 py-0.5 text-[10px] sm:text-xs font-mono text-slate-600">
                 {spec.digitalMaturityLevel}
               </span>
             </div>
 
-            <p className="text-[9px] sm:text-[9.5px] md:text-[10px] leading-relaxed text-slate-600 max-w-4xl">
+            <p className="text-xs sm:text-[13px] md:text-sm leading-relaxed text-slate-600 max-w-4xl">
               {service.description}
             </p>
           </div>
 
           {/* KPI Mini-Cards Strip (Right Sidebar Style) */}
-          <div className="border-t border-slate-100 bg-slate-50/60 p-1.5 sm:p-2">
-            <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-4">
-              <div className="flex items-center gap-2 rounded-md border border-slate-200/70 bg-white px-2 py-1 shadow-2xs">
-                <span className="grid size-5.5 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                  <Clock size={11} />
+          <div className="border-t border-slate-100 bg-slate-50/60 p-2 sm:p-2.5">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <div className="flex items-center gap-2.5 rounded-md border border-slate-200/70 bg-white px-2.5 py-1.5 shadow-2xs">
+                <span className="grid size-6 sm:size-7 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                  <Clock size={13} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[7.5px] sm:text-[8px] text-slate-500 font-medium leading-none mb-0.5">زمن المعالجة (SLA)</div>
-                  <div className="font-bold text-[9px] sm:text-[9.5px] text-slate-900 truncate">1 - 3 أيام عمل</div>
+                  <div className="text-[10px] sm:text-xs text-slate-500 font-medium leading-none mb-1">زمن المعالجة (SLA)</div>
+                  <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">1 - 3 أيام عمل</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 rounded-md border border-slate-200/70 bg-white px-2 py-1 shadow-2xs">
-                <span className="grid size-5.5 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                  <Coins size={11} />
+              <div className="flex items-center gap-2.5 rounded-md border border-slate-200/70 bg-white px-2.5 py-1.5 shadow-2xs">
+                <span className="grid size-6 sm:size-7 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                  <Coins size={13} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[7.5px] sm:text-[8px] text-slate-500 font-medium leading-none mb-0.5">الرسوم المعتمدة</div>
-                  <div className="font-bold text-[9px] sm:text-[9.5px] text-slate-900 truncate">
+                  <div className="text-[10px] sm:text-xs text-slate-500 font-medium leading-none mb-1">الرسوم المعتمدة</div>
+                  <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">
                     {service.fee ? `${service.fee.amount} ${service.fee.currency}` : "9700 ليرة سورية قديمة"}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 rounded-md border border-slate-200/70 bg-white px-2 py-1 shadow-2xs">
-                <span className="grid size-5.5 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                  <Workflow size={11} />
+              <div className="flex items-center gap-2.5 rounded-md border border-slate-200/70 bg-white px-2.5 py-1.5 shadow-2xs">
+                <span className="grid size-6 sm:size-7 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                  <Workflow size={13} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[7.5px] sm:text-[8px] text-slate-500 font-medium leading-none mb-0.5">مراحل التدفق</div>
-                  <div className="font-bold text-[9px] sm:text-[9.5px] text-slate-900 truncate">{service.stages.length} مراحل معتمدة</div>
+                  <div className="text-[10px] sm:text-xs text-slate-500 font-medium leading-none mb-1">مراحل التدفق</div>
+                  <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">{service.stages.length} مراحل معتمدة</div>
                 </div>
               </div>
 
-              <div className="flex items-center gap-2 rounded-md border border-slate-200/70 bg-white px-2 py-1 shadow-2xs">
-                <span className="grid size-5.5 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                  <Layers size={11} />
+              <div className="flex items-center gap-2.5 rounded-md border border-slate-200/70 bg-white px-2.5 py-1.5 shadow-2xs">
+                <span className="grid size-6 sm:size-7 shrink-0 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                  <Layers size={13} />
                 </span>
                 <div className="min-w-0">
-                  <div className="text-[7.5px] sm:text-[8px] text-slate-500 font-medium leading-none mb-0.5">حقول الإدخال</div>
-                  <div className="font-bold text-[9px] sm:text-[9.5px] text-slate-900 truncate">{spec.fieldsDictionary.length} حقول رئيسية</div>
+                  <div className="text-[10px] sm:text-xs text-slate-500 font-medium leading-none mb-1">حقول الإدخال</div>
+                  <div className="font-bold text-xs sm:text-sm text-slate-900 truncate">{spec.fieldsDictionary.length} حقول رئيسية</div>
                 </div>
               </div>
             </div>
@@ -342,57 +342,57 @@ export function ServiceRequestDocumentView({
         </div>
 
         {/* 2-Column Responsive Body Layout */}
-        <div className="grid grid-cols-1 gap-2 sm:gap-2.5 lg:grid-cols-12">
+        <div className="grid grid-cols-1 gap-2.5 sm:gap-3 lg:grid-cols-12">
           {/* Main Reading Stream (8 cols on lg) */}
-          <div className="space-y-2 sm:space-y-2.5 lg:col-span-8">
+          <div className="space-y-2.5 sm:space-y-3 lg:col-span-8">
             {/* Section 1: Overview & Framework */}
             <div id="overview" className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden scroll-mt-3">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <Compass size={11} />
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <Compass size={13} />
                   </span>
                   <span>1. الرؤية والأساس التشغيلي والقانوني</span>
                 </div>
-                <span className="rounded-full bg-slate-200/70 px-1.5 py-0.2 font-mono text-[8px] sm:text-[8.5px] font-semibold text-slate-600">
+                <span className="rounded-full bg-slate-200/70 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-semibold text-slate-600">
                   نظرة عامة
                 </span>
               </div>
 
-              <div className="p-2.5 sm:p-3 space-y-2 text-[9px] sm:text-[9.5px] md:text-[10px] leading-relaxed">
+              <div className="p-3 sm:p-4 space-y-2.5 text-xs sm:text-sm leading-relaxed">
                 <div>
-                  <h4 className="font-bold text-slate-800 mb-0.5 text-[9px] sm:text-[9.5px]">الهدف والوظيفة التشغيلية للطلب:</h4>
-                  <p className="rounded-md bg-slate-50/80 p-2 text-slate-700 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-1 text-xs sm:text-sm">الهدف والوظيفة التشغيلية للطلب:</h4>
+                  <p className="rounded-md bg-slate-50/80 p-2.5 sm:p-3 text-slate-700 border border-slate-100">
                     {spec.businessGoal}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-slate-800 mb-0.5 text-[9px] sm:text-[9.5px]">نطاق الاستخدام وحالات التطبيق:</h4>
-                  <p className="rounded-md bg-slate-50/80 p-2 text-slate-700 border border-slate-100">
+                  <h4 className="font-bold text-slate-800 mb-1 text-xs sm:text-sm">نطاق الاستخدام وحالات التطبيق:</h4>
+                  <p className="rounded-md bg-slate-50/80 p-2.5 sm:p-3 text-slate-700 border border-slate-100">
                     {service.usage}
                   </p>
                 </div>
 
                 <div>
-                  <h4 className="font-bold text-slate-800 mb-0.5 text-[9px] sm:text-[9.5px]">الأساس التشريعي والمرجع القانوني:</h4>
-                  <p className="rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] p-2 text-[#7a6231]">
+                  <h4 className="font-bold text-slate-800 mb-1 text-xs sm:text-sm">الأساس التشريعي والمرجع القانوني:</h4>
+                  <p className="rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] p-2.5 sm:p-3 text-[#7a6231]">
                     {spec.legalBasis}
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-0.5">
-                  <div className="rounded-md border border-slate-200/80 p-1.5 sm:p-2 bg-white shadow-2xs">
-                    <span className="text-[8px] sm:text-[8.5px] font-bold text-slate-500 block">المخرج الرسمي النهائي</span>
-                    <span className="font-bold text-slate-900 text-[9px] sm:text-[9.5px] mt-0.5 flex items-center gap-1.5">
-                      <FileCheck size={11} className="text-emerald-600 shrink-0" />
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                  <div className="rounded-md border border-slate-200/80 p-2.5 sm:p-3 bg-white shadow-2xs">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 block">المخرج الرسمي النهائي</span>
+                    <span className="font-bold text-slate-900 text-xs sm:text-sm mt-1 flex items-center gap-1.5">
+                      <FileCheck size={14} className="text-emerald-600 shrink-0" />
                       {spec.deliverableType}
                     </span>
                   </div>
 
-                  <div className="rounded-md border border-slate-200/80 p-1.5 sm:p-2 bg-white shadow-2xs">
-                    <span className="text-[8px] sm:text-[8.5px] font-bold text-slate-500 block">سلسلة المصادقة والختم</span>
-                    <span className="font-bold text-slate-900 text-[9px] sm:text-[9.5px] mt-0.5 block truncate">
+                  <div className="rounded-md border border-slate-200/80 p-2.5 sm:p-3 bg-white shadow-2xs">
+                    <span className="text-[10px] sm:text-xs font-bold text-slate-500 block">سلسلة المصادقة والختم</span>
+                    <span className="font-bold text-slate-900 text-xs sm:text-sm mt-1 block truncate">
                       {spec.officialCertification}
                     </span>
                   </div>
@@ -402,38 +402,38 @@ export function ServiceRequestDocumentView({
 
             {/* Section 2: Workflow Stages */}
             <div id="workflow" className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden scroll-mt-3">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <Workflow size={11} />
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <Workflow size={13} />
                   </span>
                   <span>2. مراحل التدفق الإجرائي</span>
                 </div>
-                <span className="rounded-full bg-slate-200/70 px-1.5 py-0.2 font-mono text-[8px] sm:text-[8.5px] font-semibold text-slate-600">
+                <span className="rounded-full bg-slate-200/70 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-semibold text-slate-600">
                   {service.stages.length} مراحل
                 </span>
               </div>
 
-              <div className="p-2.5 sm:p-3 space-y-1">
+              <div className="p-3 sm:p-4 space-y-1.5">
                 {service.stages.map((stage, idx) => {
                   const isLast = idx === service.stages.length - 1;
                   return (
                     <div
                       key={stage.order}
-                      className="flex items-start gap-2 rounded-md border border-slate-200/70 bg-white p-1.5 sm:p-2 transition-colors hover:bg-slate-50/70"
+                      className="flex items-start gap-2.5 rounded-md border border-slate-200/70 bg-white p-2 sm:p-2.5 transition-colors hover:bg-slate-50/70"
                     >
-                      <div className="flex size-4.5 shrink-0 items-center justify-center rounded-md bg-slate-900 font-mono text-[8px] sm:text-[8.5px] font-bold text-white shadow-2xs">
+                      <div className="flex size-5 sm:size-6 shrink-0 items-center justify-center rounded-md bg-slate-900 font-mono text-[11px] sm:text-xs font-bold text-white shadow-2xs">
                         {stage.order}
                       </div>
 
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center justify-between gap-1.5">
-                          <span className="font-bold text-slate-900 text-[9px] sm:text-[9.5px]">{stage.name}</span>
-                          <span className="rounded border border-slate-200/80 bg-slate-50 px-1 py-0.2 text-[7.5px] sm:text-[8px] font-normal text-slate-600">
+                          <span className="font-bold text-slate-900 text-xs sm:text-sm">{stage.name}</span>
+                          <span className="rounded border border-slate-200/80 bg-slate-50 px-1.5 py-0.5 text-[9.5px] sm:text-[10.5px] font-normal text-slate-600">
                             {idx === 0 ? "استلام وقيد" : isLast ? "اعتماد نهائي" : "معالجة وتدقيق"}
                           </span>
                         </div>
-                        <div className="mt-0.5 text-[8px] sm:text-[8.5px] text-slate-600">
+                        <div className="mt-1 text-xs sm:text-[12.5px] text-slate-600">
                           <span className="text-slate-500">الجهة المسؤولة: </span>
                           <span className="font-semibold text-slate-800">{stage.owner}</span>
                         </div>
@@ -446,55 +446,55 @@ export function ServiceRequestDocumentView({
 
             {/* Section 3: Data Dictionary & Validation */}
             <div id="schema" className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden scroll-mt-3">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <Layers size={11} />
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <Layers size={13} />
                   </span>
                   <span>3. قاموس البيانات وقواعد التحقق البرمجية</span>
                 </div>
-                <span className="rounded-full bg-slate-200/70 px-1.5 py-0.2 font-mono text-[8px] sm:text-[8.5px] font-semibold text-slate-600">
+                <span className="rounded-full bg-slate-200/70 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-semibold text-slate-600">
                   {spec.fieldsDictionary.length} حقول
                 </span>
               </div>
 
-              <div className="p-2.5 sm:p-3 space-y-2">
+              <div className="p-3 sm:p-4 space-y-3">
                 {/* Data Dictionary Table */}
                 <div className="overflow-x-auto rounded-md border border-slate-200/80 bg-white">
-                  <table className="min-w-[420px] w-full text-right text-[8.5px] sm:text-[9.5px]">
-                    <thead className="border-b border-slate-200/80 bg-slate-50/80 text-[8px] sm:text-[8.5px] font-bold text-slate-700">
+                  <table className="min-w-[480px] w-full text-right text-xs sm:text-[13px]">
+                    <thead className="border-b border-slate-200/80 bg-slate-50/80 text-xs sm:text-[12.5px] font-bold text-slate-700">
                       <tr>
-                        <th className="px-2 py-1.5">اسم الحقل</th>
-                        <th className="px-2 py-1.5">المعرف البرمجي</th>
-                        <th className="px-2 py-1.5">النوع</th>
-                        <th className="px-2 py-1.5">الإلزام</th>
-                        <th className="px-2 py-1.5">قاعدة التحقق والوصف</th>
+                        <th className="px-3 py-2">اسم الحقل</th>
+                        <th className="px-3 py-2">المعرف البرمجي</th>
+                        <th className="px-3 py-2">النوع</th>
+                        <th className="px-3 py-2">الإلزام</th>
+                        <th className="px-3 py-2">قاعدة التحقق والوصف</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {spec.fieldsDictionary.map((field) => (
                         <tr key={field.key} className="hover:bg-slate-50/60 transition-colors">
-                          <td className="px-2 py-1 font-bold text-slate-900">{field.name}</td>
-                          <td className="px-2 py-1 font-mono text-[8px] sm:text-[8.5px] text-slate-600" dir="ltr">
+                          <td className="px-3 py-2 font-bold text-slate-900">{field.name}</td>
+                          <td className="px-3 py-2 font-mono text-[11px] sm:text-xs text-slate-600" dir="ltr">
                             {field.key}
                           </td>
-                          <td className="px-2 py-1">
-                            <span className="rounded bg-slate-100 px-1 py-0.2 font-mono text-[7.5px] sm:text-[8px] text-slate-700 border border-slate-200">
+                          <td className="px-3 py-2">
+                            <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono text-[10px] sm:text-[11px] text-slate-700 border border-slate-200">
                               {field.type}
                             </span>
                           </td>
-                          <td className="px-2 py-1">
+                          <td className="px-3 py-2">
                             {field.required ? (
-                              <Badge variant="destructive" className="text-[7.5px] sm:text-[8px] px-1 py-0 font-medium">
+                              <Badge variant="destructive" className="text-[10px] sm:text-[11px] px-2 py-0.5 font-medium">
                                 إلزامي
                               </Badge>
                             ) : (
-                              <Badge variant="secondary" className="text-[7.5px] sm:text-[8px] px-1 py-0 font-medium">
+                              <Badge variant="secondary" className="text-[10px] sm:text-[11px] px-2 py-0.5 font-medium">
                                 اختياري
                               </Badge>
                             )}
                           </td>
-                          <td className="px-2 py-1 text-slate-600 text-[8px] sm:text-[8.5px]">
+                          <td className="px-3 py-2 text-slate-600 text-xs sm:text-[12.5px]">
                             {field.validationRule ?? field.description}
                           </td>
                         </tr>
@@ -505,14 +505,14 @@ export function ServiceRequestDocumentView({
 
                 {/* Validation Constraints */}
                 {spec.validationConstraints.length > 0 && (
-                  <div className="space-y-1 pt-0.5">
-                    <h4 className="font-bold text-slate-800 text-[9px] sm:text-[9.5px]">شروط ومحددات الاعتماد الأساسية:</h4>
-                    <div className="space-y-1">
+                  <div className="space-y-1.5 pt-1">
+                    <h4 className="font-bold text-slate-800 text-xs sm:text-sm">شروط ومحددات الاعتماد الأساسية:</h4>
+                    <div className="space-y-1.5">
                       {spec.validationConstraints.map((constraint, idx) => (
                         <div
                           key={idx}
                           className={cn(
-                            "rounded-md border p-1.5 sm:p-2 text-[8.5px] sm:text-[9px]",
+                            "rounded-md border p-2.5 sm:p-3 text-xs sm:text-[13px]",
                             constraint.severity === "error"
                               ? "border-rose-200 bg-rose-50/40 text-rose-950"
                               : "border-amber-200 bg-amber-50/40 text-amber-950"
@@ -522,7 +522,7 @@ export function ServiceRequestDocumentView({
                             <span>{constraint.rule}</span>
                             <span
                               className={cn(
-                                "rounded px-1 py-0.2 text-[7.5px] sm:text-[8px] border font-bold",
+                                "rounded px-2 py-0.5 text-[10px] sm:text-xs border font-bold",
                                 constraint.severity === "error"
                                   ? "border-rose-300 text-rose-700 bg-white"
                                   : "border-amber-300 text-amber-700 bg-white"
@@ -531,7 +531,7 @@ export function ServiceRequestDocumentView({
                               {constraint.severity === "error" ? "شرط مانع" : "ملاحظة تدقيق"}
                             </span>
                           </div>
-                          <p className="mt-0.5 text-[8px] sm:text-[8.5px] leading-relaxed text-slate-600">
+                          <p className="mt-1 text-xs sm:text-[12.5px] leading-relaxed text-slate-600">
                             {constraint.rationale}
                           </p>
                         </div>
@@ -541,18 +541,18 @@ export function ServiceRequestDocumentView({
                 )}
 
                 {/* Attachments Spec */}
-                <div className="space-y-1 pt-0.5">
-                  <h4 className="font-bold text-slate-800 text-[9px] sm:text-[9.5px]">المرفقات والوثائق المطلوبة:</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                <div className="space-y-1.5 pt-1">
+                  <h4 className="font-bold text-slate-800 text-xs sm:text-sm">المرفقات والوثائق المطلوبة:</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {spec.attachmentsSpecification.map((att, idx) => (
-                      <div key={idx} className="rounded-md border border-slate-200/80 p-1.5 sm:p-2 bg-white text-[8.5px] sm:text-[9px]">
-                        <div className="flex items-start justify-between gap-1.5">
+                      <div key={idx} className="rounded-md border border-slate-200/80 p-2.5 sm:p-3 bg-white text-xs sm:text-[13px]">
+                        <div className="flex items-start justify-between gap-2">
                           <span className="font-bold text-slate-900">{att.name}</span>
-                          <span className="font-mono text-[7.5px] sm:text-[8px] text-slate-500 bg-slate-100 px-1 py-0.2 rounded border border-slate-200/60" dir="ltr">
+                          <span className="font-mono text-[10px] sm:text-[11px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded border border-slate-200/60 shrink-0" dir="ltr">
                             {att.format}
                           </span>
                         </div>
-                        <div className="mt-0.5 space-y-0.5 text-[8px] sm:text-[8.5px] text-slate-600">
+                        <div className="mt-1 space-y-0.5 text-[11px] sm:text-xs text-slate-600">
                           <div><span className="text-slate-500">الغاية:</span> {att.purpose}</div>
                           <div><span className="text-slate-500">الجهة:</span> {att.issuingAuthority}</div>
                         </div>
@@ -565,35 +565,35 @@ export function ServiceRequestDocumentView({
 
             {/* Section 4: Edge Cases & Quality Control */}
             <div id="quality" className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden scroll-mt-3">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <ShieldCheck size={11} />
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <ShieldCheck size={13} />
                   </span>
                   <span>4. ضوابط الجودة ومعالجة الاستثناءات</span>
                 </div>
-                <span className="rounded-full bg-slate-200/70 px-1.5 py-0.2 font-mono text-[8px] sm:text-[8.5px] font-semibold text-slate-600">
+                <span className="rounded-full bg-slate-200/70 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-semibold text-slate-600">
                   {spec.edgeCasesAndReturns.length} حالات
                 </span>
               </div>
 
-              <div className="p-2.5 sm:p-3 space-y-2">
+              <div className="p-3 sm:p-4 space-y-3">
                 <div className="overflow-x-auto rounded-md border border-slate-200/80 bg-white">
-                  <table className="min-w-[420px] w-full text-right text-[8.5px] sm:text-[9.5px]">
-                    <thead className="border-b border-slate-200/80 bg-slate-50/80 text-[8px] sm:text-[8.5px] font-bold text-slate-700">
+                  <table className="min-w-[480px] w-full text-right text-xs sm:text-[13px]">
+                    <thead className="border-b border-slate-200/80 bg-slate-50/80 text-xs sm:text-[12.5px] font-bold text-slate-700">
                       <tr>
-                        <th className="px-2 py-1.5">الحالة الاستثنائية / التعارض</th>
-                        <th className="px-2 py-1.5">الإجراء النظامي المعتمد</th>
-                        <th className="px-2 py-1.5">رمز الحالة</th>
+                        <th className="px-3 py-2">الحالة الاستثنائية / التعارض</th>
+                        <th className="px-3 py-2">الإجراء النظامي المعتمد</th>
+                        <th className="px-3 py-2">رمز الحالة</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-100">
                       {spec.edgeCasesAndReturns.map((edge, idx) => (
                         <tr key={idx} className="hover:bg-slate-50/60 transition-colors">
-                          <td className="px-2 py-1 font-bold text-slate-900">{edge.condition}</td>
-                          <td className="px-2 py-1 text-slate-600 text-[8px] sm:text-[8.5px]">{edge.action}</td>
-                          <td className="px-2 py-1">
-                            <span className="font-mono text-[7.5px] sm:text-[8px] bg-slate-100 px-1 py-0.2 rounded text-slate-700 border border-slate-200" dir="ltr">
+                          <td className="px-3 py-2 font-bold text-slate-900">{edge.condition}</td>
+                          <td className="px-3 py-2 text-slate-600 text-xs sm:text-[12.5px]">{edge.action}</td>
+                          <td className="px-3 py-2">
+                            <span className="font-mono text-[10px] sm:text-[11px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-700 border border-slate-200" dir="ltr">
                               {edge.returnCode ?? "ERR_GENERAL"}
                             </span>
                           </td>
@@ -605,24 +605,24 @@ export function ServiceRequestDocumentView({
 
                 {/* API Payload Example */}
                 {spec.apiPayloadExample && (
-                  <div className="rounded-md border border-slate-800 bg-slate-900 p-2 text-slate-100">
-                    <div className="flex items-center justify-between pb-1 border-b border-slate-800">
-                      <span className="font-mono text-[8.5px] sm:text-[9px] text-slate-300 flex items-center gap-1.5">
-                        <Code size={11} className="text-emerald-400" />
+                  <div className="rounded-md border border-slate-800 bg-slate-900 p-3 text-slate-100">
+                    <div className="flex items-center justify-between pb-2 border-b border-slate-800">
+                      <span className="font-mono text-xs sm:text-[13px] text-slate-300 flex items-center gap-2">
+                        <Code size={13} className="text-emerald-400" />
                         عقد التكامل البرمجي (Payload Contract)
                       </span>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={copyPayload}
-                        className="h-5 text-slate-300 hover:text-white hover:bg-slate-800 text-[8px] sm:text-[8.5px] px-1.5"
+                        className="h-6 text-slate-300 hover:text-white hover:bg-slate-800 text-[11px] sm:text-xs px-2"
                       >
-                        {copiedCode ? <Check size={10} className="text-emerald-400" /> : <Copy size={10} />}
+                        {copiedCode ? <Check size={12} className="text-emerald-400" /> : <Copy size={12} />}
                         {copiedCode ? "تم النسخ" : "نسخ JSON"}
                       </Button>
                     </div>
                     <pre
-                      className="mt-1 overflow-x-auto text-[8px] sm:text-[8.5px] font-mono leading-relaxed text-emerald-300 max-h-48"
+                      className="mt-2 overflow-x-auto text-xs sm:text-[12.5px] font-mono leading-relaxed text-emerald-300 max-h-56 p-1"
                       dir="ltr"
                     >
                       {spec.apiPayloadExample}
@@ -634,34 +634,34 @@ export function ServiceRequestDocumentView({
 
             {/* Section 5: Knowledge Base / FAQ */}
             <div id="faq" className="rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden scroll-mt-3">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[11px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <HelpCircle size={11} />
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <HelpCircle size={13} />
                   </span>
                   <span>5. بنك الأسئلة الشائعة والمعرفة</span>
                 </div>
-                <span className="rounded-full bg-slate-200/70 px-1.5 py-0.2 font-mono text-[8px] sm:text-[8.5px] font-semibold text-slate-600">
+                <span className="rounded-full bg-slate-200/70 px-2 py-0.5 font-mono text-[10px] sm:text-xs font-semibold text-slate-600">
                   {spec.faqs.length} سؤال
                 </span>
               </div>
 
-              <div className="p-2.5 sm:p-3 space-y-1.5">
+              <div className="p-3 sm:p-4 space-y-2.5">
                 {/* Search & Category Filter (Sidebar search input design) */}
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-1.5">
+                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <div className="relative flex-1 w-full">
-                    <div className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50/70 px-2 py-0.5 text-slate-500 focus-within:border-[#8f733a] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#b49a63]/20 transition-all">
-                      <Search size={11} className="shrink-0 text-slate-400" />
+                    <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50/70 px-2.5 py-1 text-slate-500 focus-within:border-[#8f733a] focus-within:bg-white focus-within:ring-2 focus-within:ring-[#b49a63]/20 transition-all">
+                      <Search size={13} className="shrink-0 text-slate-400" />
                       <Input
                         type="text"
                         placeholder="بحث وتصفية الأسئلة الشائعة..."
                         value={faqSearch}
                         onChange={(e) => setFaqSearch(e.target.value)}
-                        className="h-5 border-0 bg-transparent p-0 text-[8.5px] sm:text-[9.5px] shadow-none focus-visible:ring-0 placeholder:text-slate-400"
+                        className="h-6 border-0 bg-transparent p-0 text-xs sm:text-[13px] shadow-none focus-visible:ring-0 placeholder:text-slate-400"
                       />
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 overflow-x-auto pb-0.5">
+                  <div className="flex items-center gap-1.5 overflow-x-auto pb-0.5">
                     {[
                       { key: "all", label: "الكل" },
                       { key: "إداري وتشغيلي", label: "إداري" },
@@ -674,7 +674,7 @@ export function ServiceRequestDocumentView({
                         type="button"
                         onClick={() => setFaqCategory(cat.key)}
                         className={cn(
-                          "rounded px-1.5 py-0.5 text-[8px] sm:text-[8.5px] font-semibold transition-all shrink-0",
+                          "rounded-md px-2.5 py-1 text-[10px] sm:text-xs font-semibold transition-all shrink-0",
                           faqCategory === cat.key
                             ? "bg-slate-900 text-white shadow-2xs"
                             : "bg-slate-100 text-slate-600 hover:bg-slate-200/80"
@@ -687,9 +687,9 @@ export function ServiceRequestDocumentView({
                 </div>
 
                 {/* FAQ Items */}
-                <div className="space-y-1 pt-0.5">
+                <div className="space-y-1.5 pt-1">
                   {filteredFaqs.length === 0 ? (
-                    <div className="rounded-md border border-dashed border-slate-200 p-2.5 text-center text-[8.5px] sm:text-[9px] text-slate-500">
+                    <div className="rounded-md border border-dashed border-slate-200 p-4 text-center text-xs sm:text-sm text-slate-500">
                       لا توجد أسئلة شائعة مطابقة للبحث.
                     </div>
                   ) : (
@@ -703,25 +703,25 @@ export function ServiceRequestDocumentView({
                           <button
                             type="button"
                             onClick={() => toggleFaq(faq.id)}
-                            className="flex w-full items-center justify-between gap-2 p-1.5 sm:p-2 text-right hover:bg-slate-50/60 transition-colors"
+                            className="flex w-full items-center justify-between gap-2 p-2.5 sm:p-3 text-right hover:bg-slate-50/60 transition-colors"
                           >
-                            <span className="font-bold text-slate-900 text-[8.5px] sm:text-[9.5px]">
+                            <span className="font-bold text-slate-900 text-xs sm:text-sm">
                               {faq.question}
                             </span>
-                            <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="rounded border border-slate-200 bg-slate-50 px-1 py-0.2 text-[7px] sm:text-[7.5px] text-slate-500 font-normal">
+                            <div className="flex items-center gap-2 shrink-0">
+                              <span className="rounded border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-[9.5px] sm:text-[10.5px] text-slate-500 font-normal">
                                 {faq.category}
                               </span>
                               {isExpanded ? (
-                                <ChevronUp size={11} className="text-slate-400" />
+                                <ChevronUp size={13} className="text-slate-400" />
                               ) : (
-                                <ChevronDown size={11} className="text-slate-400" />
+                                <ChevronDown size={13} className="text-slate-400" />
                               )}
                             </div>
                           </button>
 
                           {isExpanded && (
-                            <div className="border-t border-slate-100 bg-slate-50/50 p-2 text-[8.5px] sm:text-[9px] leading-relaxed text-slate-700">
+                            <div className="border-t border-slate-100 bg-slate-50/50 p-3 text-xs sm:text-[13px] leading-relaxed text-slate-700">
                               <p>{faq.answer}</p>
                             </div>
                           )}
@@ -735,23 +735,23 @@ export function ServiceRequestDocumentView({
           </div>
 
           {/* Sidebar-Inspired Navigation Rail (4 cols on lg) */}
-          <div className="space-y-2 sm:space-y-2.5 lg:col-span-4">
+          <div className="space-y-2.5 sm:space-y-3 lg:col-span-4">
             {/* Table of Contents Sticky Jump Menu */}
-            <div className="lg:sticky lg:top-2 rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
-              <div className="flex h-9 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3">
-                <div className="flex items-center gap-1.5 font-sans text-[10px] sm:text-[10.5px] font-bold tracking-tight text-slate-900">
-                  <span className="grid size-5 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
-                    <BookOpen size={11} />
+            <div className="lg:sticky lg:top-3 rounded-lg border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
+              <div className="flex h-10 sm:h-11 items-center justify-between border-b border-slate-200/80 bg-slate-50/70 px-3 sm:px-4">
+                <div className="flex items-center gap-2 font-sans text-xs sm:text-sm font-bold tracking-tight text-slate-900">
+                  <span className="grid size-6 place-items-center rounded-md border border-[#b49a63]/30 bg-[#fbf7ee] text-[#8f733a]">
+                    <BookOpen size={13} />
                   </span>
                   <span>فهرس وثيقة الطلب</span>
                 </div>
-                <span className="text-[7.5px] sm:text-[8px] font-mono text-slate-500">
+                <span className="text-[10px] sm:text-xs font-mono text-slate-500">
                   5 أقسام
                 </span>
               </div>
 
               {/* Jump Tree Rows (Compact, Proportional, Right Sidebar Style) */}
-              <div className="p-1.5 space-y-0.5">
+              <div className="p-2 space-y-1">
                 {navItems.map((item) => {
                   const Icon = item.icon;
                   const isActive = activeSection === item.id;
@@ -761,23 +761,23 @@ export function ServiceRequestDocumentView({
                       type="button"
                       onClick={() => scrollToSection(item.id)}
                       className={cn(
-                        "group flex w-full items-center gap-1.5 rounded-md px-2 py-1 text-right font-sans text-[8.5px] sm:text-[9.5px] transition-all",
+                        "group flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-right font-sans text-xs sm:text-[13px] transition-all",
                         isActive
                           ? "bg-[#fbf7ee] text-[#7a6231] font-bold border-r-2 border-[#b49a63] shadow-2xs"
                           : "text-slate-700 hover:bg-slate-100/80 hover:text-slate-950"
                       )}
                     >
-                      <Icon size={11} className={isActive ? "text-[#8f733a]" : "text-slate-400 group-hover:text-slate-600"} />
+                      <Icon size={13} className={isActive ? "text-[#8f733a]" : "text-slate-400 group-hover:text-slate-600"} />
                       <span className="truncate flex-1">{item.label}</span>
-                      <span className="font-mono text-[7.5px] sm:text-[8px] text-slate-400 group-hover:text-slate-600 shrink-0">{item.count}</span>
+                      <span className="font-mono text-[9.5px] sm:text-[10.5px] text-slate-400 group-hover:text-slate-600 shrink-0">{item.count}</span>
                     </button>
                   );
                 })}
 
-                <Separator className="my-1.5 bg-slate-100" />
+                <Separator className="my-2 bg-slate-100" />
 
-                {/* Quick Service Meta Box (Compact) */}
-                <div className="space-y-1 px-1.5 py-0.5 text-[8px] sm:text-[8.5px]">
+                {/* Quick Service Meta Box */}
+                <div className="space-y-1.5 px-2 py-1 text-xs sm:text-[12.5px]">
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500">المديرية:</span>
                     <span className="font-semibold text-slate-800 truncate">{service.directorate}</span>
@@ -796,7 +796,7 @@ export function ServiceRequestDocumentView({
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-slate-500">الأولوية:</span>
-                    <span className="rounded bg-slate-100 px-1 py-0.2 font-mono font-bold text-slate-700 border border-slate-200/70 text-[7.5px] sm:text-[8px]">
+                    <span className="rounded bg-slate-100 px-1.5 py-0.5 font-mono font-bold text-slate-700 border border-slate-200/70 text-[10px] sm:text-xs">
                       {service.priority}
                     </span>
                   </div>

@@ -119,6 +119,11 @@ export interface ServiceEdgeCase {
   returnCode?: string;
 }
 
+export interface ServiceUserStory {
+  format: "markdown";
+  content: string;
+}
+
 export interface ServiceSpecification {
   serviceId: string;
   serviceCode: string;
@@ -134,6 +139,7 @@ export interface ServiceSpecification {
   validationConstraints: ServiceValidationConstraint[];
   attachmentsSpecification: ServiceAttachmentSpec[];
   edgeCasesAndReturns: ServiceEdgeCase[];
+  userStory?: ServiceUserStory;
   apiPayloadExample?: string;
   faqs: ServiceFaqItem[];
 }

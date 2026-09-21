@@ -1,4 +1,5 @@
 import type { ServiceSpecification } from "@/domain/types";
+import { mergePropertiesUserStory } from "@/lib/citizen-service-user-stories";
 
 export const citizenServiceSpecifications: Record<string, ServiceSpecification> = {
   "merge-properties": {
@@ -119,6 +120,7 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         issuingAuthority: "الكاتب بالعدل",
       },
     ],
+    userStory: mergePropertiesUserStory,
     edgeCasesAndReturns: [
       {
         condition: "وجود فارق منسوب شاقولي أو شارع تنظيمي مقترح بين العقارين",

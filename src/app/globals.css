@@ -6,6 +6,16 @@
 html, body { margin: 0; min-height: 100%; background: #ffffff; }
 body { font-family: "IBM Plex Sans Arabic", Arial, sans-serif; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 button, input { font: inherit; }
+.story-monaco-rtl .monaco-editor,
+.story-monaco-rtl .monaco-editor .overflow-guard,
+.story-monaco-rtl .monaco-editor .view-lines,
+.story-monaco-rtl .monaco-editor .view-line {
+  direction: rtl !important;
+  text-align: right;
+}
+.story-monaco-rtl .monaco-editor .view-line > span {
+  direction: rtl;
+}
 .day-mode {
   --brand: #b49a63;
   --brand-dark: #8f733a;
@@ -653,3 +663,108 @@ button, input { font: inherit; }
 }
 .official-shell .context-menu-item svg { color: #e0c98d !important; }
 .official-shell .context-menu-item:disabled { color: #779083 !important; }
+
+/* Visual Markdown editor for Arabic user stories. */
+.user-story-visual-editor {
+  line-height: 1.9;
+  unicode-bidi: plaintext;
+}
+
+.user-story-visual-editor:empty::before {
+  color: #94a3b8;
+  content: attr(data-placeholder);
+  pointer-events: none;
+}
+
+.user-story-visual-editor h1,
+.user-story-visual-editor h2,
+.user-story-visual-editor h3,
+.user-story-visual-editor h4,
+.user-story-visual-editor h5,
+.user-story-visual-editor h6 {
+  color: #0f172a;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.user-story-visual-editor h1 {
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 1.8em;
+  margin: 0 0 1em;
+  padding-bottom: 0.45em;
+}
+
+.user-story-visual-editor h2 {
+  font-size: 1.45em;
+  margin: 1.4em 0 0.65em;
+}
+
+.user-story-visual-editor h3 {
+  font-size: 1.22em;
+  margin: 1.25em 0 0.55em;
+}
+
+.user-story-visual-editor h4,
+.user-story-visual-editor h5,
+.user-story-visual-editor h6 {
+  font-size: 1.05em;
+  margin: 1em 0 0.45em;
+}
+
+.user-story-visual-editor p {
+  margin: 0.55em 0;
+}
+
+.user-story-visual-editor ul,
+.user-story-visual-editor ol {
+  margin: 0.55em 0;
+  padding-right: 1.7em;
+}
+
+.user-story-visual-editor ul { list-style: disc; }
+.user-story-visual-editor ol { list-style: decimal; }
+
+.user-story-visual-editor li {
+  margin: 0.3em 0;
+  padding-right: 0.2em;
+}
+
+.user-story-visual-editor strong {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.user-story-visual-editor hr {
+  border: 0;
+  border-top: 1px solid #cbd5e1;
+  margin: 1.75em 0;
+}
+
+.user-story-visual-editor .user-story-table-wrap {
+  margin: 1em 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.user-story-visual-editor table {
+  border-collapse: collapse;
+  min-width: 520px;
+  width: 100%;
+}
+
+.user-story-visual-editor th,
+.user-story-visual-editor td {
+  border: 1px solid #cbd5e1;
+  min-width: 7em;
+  padding: 0.55em 0.75em;
+  text-align: right;
+  vertical-align: top;
+}
+
+.user-story-visual-editor th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.user-story-visual-editor tr:nth-child(even) td { background: #f8fafc; }

@@ -968,7 +968,7 @@ export function Workspace() {
       )}
 
       {/* Main Workspace Area (File Tabs + Editor) */}
-      <section className="official-main flex min-w-0 flex-1 flex-col bg-slate-100/90">
+      <section className="official-main flex min-h-0 min-w-0 flex-1 flex-col bg-slate-100/90">
         {/* Workspace Tab Bar */}
         <div className="workspace-tabs flex h-10 shrink-0 items-stretch border-b border-slate-200/90 bg-slate-200/60 px-2" onContextMenu={openTabContextMenu}>
           <div className="flex min-w-0 flex-1 items-stretch gap-1 overflow-x-auto">
