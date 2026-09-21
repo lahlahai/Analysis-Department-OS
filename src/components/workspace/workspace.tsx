@@ -57,9 +57,9 @@ interface QuickLink {
 type QuickLinkScope = "general" | "file";
 
 const defaultQuickLinks: QuickLink[] = [
-  { id: "google-drive", title: "Google Drive", description: "الملفات والمراجع المشتركة", url: "https://drive.google.com/" },
+  { id: "google-drive", title: "Google Drive", description: "الملفات والمراجع المشتركة", url: "https://drive.google.com/drive/folders/1J15tNMcku6IQYpbUQFEJxd80JX6L2vpX?usp=sharing" },
   { id: "github", title: "GitHub", description: "المستودع وسجل التعديلات", url: "https://github.com/lahlahai/Analysis-Department-OS" },
-  { id: "onedrive", title: "OneDrive", description: "مساحة ملفات إضافية للفريق", url: "https://onedrive.live.com/" },
+  
 ];
 
 const MIN_GENERAL_LINKS_RATIO = 15;
