@@ -124,6 +124,11 @@ export interface ServiceUserStory {
   content: string;
 }
 
+export interface ServicePermissionMatrix {
+  format: "markdown";
+  content: string;
+}
+
 export interface ServiceSpecification {
   serviceId: string;
   serviceCode: string;
@@ -140,6 +145,8 @@ export interface ServiceSpecification {
   attachmentsSpecification: ServiceAttachmentSpec[];
   edgeCasesAndReturns: ServiceEdgeCase[];
   userStory?: ServiceUserStory;
+  permissionMatrix?: ServicePermissionMatrix;
+  actionPermissionMatrix?: ServicePermissionMatrix;
   apiPayloadExample?: string;
   faqs: ServiceFaqItem[];
 }

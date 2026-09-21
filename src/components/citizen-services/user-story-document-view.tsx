@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   Bold,
   CloudUpload,
+  Eye,
   FileText,
   Heading1,
   Heading2,
@@ -12,6 +13,7 @@ import {
   List as ListIcon,
   ListOrdered,
   Minus,
+  Pencil,
   Plus,
   Redo2,
   RotateCcw,
@@ -234,14 +236,16 @@ function editorHtmlToMarkdown(editor: HTMLElement) {
 
 export function UserStoryDocumentView({ story, onChange }: UserStoryDocumentViewProps) {
   const [fontSize, setFontSize] = useState(16);
+  const [mode, setMode] = useState<"view" | "edit">("view");
   const editorRef = useRef<HTMLDivElement>(null);
   const lastEmittedContent = useRef<string | null>(null);
 
   useEffect(() => {
     const editor = editorRef.current;
-    if (!editor || story.content === lastEmittedContent.current) return;
+    if (mode !== "edit" || !editor) return;
+    if (story.content === lastEmittedContent.current && editor.childNodes.length > 0) return;
     editor.innerHTML = markdownToHtml(story.content);
-  }, [story.content]);
+  }, [mode, story.content]);
 
   const decreaseFontSize = () => setFontSize((current) => Math.max(12, current - 1));
   const increaseFontSize = () => setFontSize((current) => Math.min(28, current + 1));
@@ -272,7 +276,15 @@ export function UserStoryDocumentView({ story, onChange }: UserStoryDocumentView
       <div className="flex min-h-12 shrink-0 items-center gap-2 border-b border-slate-200 bg-slate-900 px-3 font-sans text-[11px] text-slate-200 sm:px-4">
         <FileText size={14} className="text-[#e0c98d]" />
         <span className="truncate font-semibold">قصة المستخدم — طلب دمج عقارين</span>
-        <span className="mr-auto flex shrink-0 items-center gap-1.5 rounded-md bg-emerald-400/10 px-2 py-1 text-[10px] text-emerald-200">
+        <button
+          type="button"
+          onClick={() => setMode((current) => current === "view" ? "edit" : "view")}
+          className="mr-auto inline-flex shrink-0 items-center gap-1.5 rounded-md border border-white/15 bg-white/10 px-2.5 py-1 text-[10px] font-semibold text-white transition hover:bg-white/15"
+        >
+          {mode === "view" ? <Pencil size={11} /> : <Eye size={11} />}
+          {mode === "view" ? "تعديل النص" : "عرض المستند"}
+        </button>
+        <span className="hidden shrink-0 items-center gap-1.5 rounded-md bg-emerald-400/10 px-2 py-1 text-[10px] text-emerald-200 sm:flex">
           <CloudUpload size={11} /> الحفظ تلقائي
         </span>
         <div className="flex shrink-0 items-center gap-1 rounded-md border border-white/10 bg-white/5 p-0.5" aria-label="التحكم بحجم الخط">
@@ -291,40 +303,50 @@ export function UserStoryDocumentView({ story, onChange }: UserStoryDocumentView
         </div>
       </div>
 
-      <div className="flex min-h-10 shrink-0 items-center gap-1 overflow-x-auto border-b border-slate-200 bg-slate-50 px-3 py-1" aria-label="أدوات تنسيق النص">
-        <EditorButton label="تراجع" onClick={() => runCommand("undo")}><Undo2 size={14} /></EditorButton>
-        <EditorButton label="إعادة" onClick={() => runCommand("redo")}><Redo2 size={14} /></EditorButton>
-        <span className="mx-1 h-5 w-px shrink-0 bg-slate-200" />
-        <EditorButton label="عنوان رئيسي" onClick={() => runCommand("formatBlock", "h1")}><Heading1 size={15} /></EditorButton>
-        <EditorButton label="عنوان ثانوي" onClick={() => runCommand("formatBlock", "h2")}><Heading2 size={15} /></EditorButton>
-        <EditorButton label="عنوان فرعي" onClick={() => runCommand("formatBlock", "h3")}><Heading3 size={15} /></EditorButton>
-        <span className="mx-1 h-5 w-px shrink-0 bg-slate-200" />
-        <EditorButton label="خط عريض" onClick={() => runCommand("bold")}><Bold size={14} /></EditorButton>
-        <EditorButton label="خط مائل" onClick={() => runCommand("italic")}><Italic size={14} /></EditorButton>
-        <EditorButton label="قائمة نقطية" onClick={() => runCommand("insertUnorderedList")}><ListIcon size={15} /></EditorButton>
-        <EditorButton label="قائمة مرقمة" onClick={() => runCommand("insertOrderedList")}><ListOrdered size={15} /></EditorButton>
-        <EditorButton label="إدراج جدول" onClick={insertTable}><Table2 size={15} /></EditorButton>
-      </div>
+      {mode === "edit" && (
+        <div className="flex min-h-10 shrink-0 items-center gap-1 overflow-x-auto border-b border-slate-200 bg-slate-50 px-3 py-1" aria-label="أدوات تنسيق النص">
+          <EditorButton label="تراجع" onClick={() => runCommand("undo")}><Undo2 size={14} /></EditorButton>
+          <EditorButton label="إعادة" onClick={() => runCommand("redo")}><Redo2 size={14} /></EditorButton>
+          <span className="mx-1 h-5 w-px shrink-0 bg-slate-200" />
+          <EditorButton label="عنوان رئيسي" onClick={() => runCommand("formatBlock", "h1")}><Heading1 size={15} /></EditorButton>
+          <EditorButton label="عنوان ثانوي" onClick={() => runCommand("formatBlock", "h2")}><Heading2 size={15} /></EditorButton>
+          <EditorButton label="عنوان فرعي" onClick={() => runCommand("formatBlock", "h3")}><Heading3 size={15} /></EditorButton>
+          <span className="mx-1 h-5 w-px shrink-0 bg-slate-200" />
+          <EditorButton label="خط عريض" onClick={() => runCommand("bold")}><Bold size={14} /></EditorButton>
+          <EditorButton label="خط مائل" onClick={() => runCommand("italic")}><Italic size={14} /></EditorButton>
+          <EditorButton label="قائمة نقطية" onClick={() => runCommand("insertUnorderedList")}><ListIcon size={15} /></EditorButton>
+          <EditorButton label="قائمة مرقمة" onClick={() => runCommand("insertOrderedList")}><ListOrdered size={15} /></EditorButton>
+          <EditorButton label="إدراج جدول" onClick={insertTable}><Table2 size={15} /></EditorButton>
+        </div>
+      )}
 
       <div className="relative min-h-0 min-w-0 flex-1 overflow-hidden bg-[#f4f5f7]">
-        <div
-          ref={editorRef}
-          contentEditable
-          suppressContentEditableWarning
-          dir="rtl"
-          lang="ar"
-          role="textbox"
-          aria-multiline="true"
-          aria-label="محرر مرئي لقصة المستخدم"
-          data-placeholder="ابدأ بكتابة قصة المستخدم..."
-          onInput={emitChange}
-          onBlur={emitChange}
-          className="user-story-visual-editor absolute inset-0 overflow-auto bg-white px-6 py-6 text-right text-slate-900 outline-none selection:bg-[#b49a63]/25 sm:px-10 lg:px-[8%]"
-          style={{
-            fontFamily: '"IBM Plex Sans Arabic", Arial, sans-serif',
-            fontSize: `${fontSize}px`,
-          }}
-        />
+        {mode === "view" ? (
+          <article
+            dir="rtl"
+            lang="ar"
+            aria-label="عرض قصة المستخدم"
+            className="user-story-visual-editor absolute inset-0 overflow-auto bg-white px-6 py-6 text-right text-slate-900 sm:px-10 lg:px-[8%]"
+            style={{ fontFamily: '"IBM Plex Sans Arabic", Arial, sans-serif', fontSize: `${fontSize}px` }}
+            dangerouslySetInnerHTML={{ __html: markdownToHtml(story.content) }}
+          />
+        ) : (
+          <div
+            ref={editorRef}
+            contentEditable
+            suppressContentEditableWarning
+            dir="rtl"
+            lang="ar"
+            role="textbox"
+            aria-multiline="true"
+            aria-label="محرر مرئي لقصة المستخدم"
+            data-placeholder="ابدأ بكتابة قصة المستخدم..."
+            onInput={emitChange}
+            onBlur={emitChange}
+            className="user-story-visual-editor absolute inset-0 overflow-auto bg-white px-6 py-6 text-right text-slate-900 outline-none selection:bg-[#b49a63]/25 sm:px-10 lg:px-[8%]"
+            style={{ fontFamily: '"IBM Plex Sans Arabic", Arial, sans-serif', fontSize: `${fontSize}px` }}
+          />
+        )}
       </div>
     </div>
   );

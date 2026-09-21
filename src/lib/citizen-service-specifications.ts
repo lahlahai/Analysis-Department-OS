@@ -1,4 +1,5 @@
 import type { ServiceSpecification } from "@/domain/types";
+import { mergePropertiesActionMatrix, mergePropertiesPermissionMatrix } from "@/lib/citizen-service-permission-matrices";
 import { mergePropertiesUserStory } from "@/lib/citizen-service-user-stories";
 
 export const citizenServiceSpecifications: Record<string, ServiceSpecification> = {
@@ -121,6 +122,8 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
       },
     ],
     userStory: mergePropertiesUserStory,
+    permissionMatrix: mergePropertiesPermissionMatrix,
+    actionPermissionMatrix: mergePropertiesActionMatrix,
     edgeCasesAndReturns: [
       {
         condition: "وجود فارق منسوب شاقولي أو شارع تنظيمي مقترح بين العقارين",

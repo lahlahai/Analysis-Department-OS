@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState, type ClipboardEvent, type PointerEvent as ReactPointerEvent } from "react";
-import { ClipboardPaste, FileSpreadsheet, FileText, ListChecks, Plus, Table2, Trash2 } from "lucide-react";
+import { ClipboardPaste, FileSpreadsheet, FileText, ListChecks, Plus, ShieldCheck, Table2, Trash2 } from "lucide-react";
+import { PermissionMatrixView } from "@/components/citizen-services/permission-matrix-view";
 import { ServiceRequestDocumentView } from "@/components/citizen-services/service-request-document-view";
 import { UserStoryDocumentView } from "@/components/citizen-services/user-story-document-view";
-import type { CitizenServiceDefinition, ServiceSpecification, ServiceUserStory } from "@/domain/types";
+import type { CitizenServiceDefinition, ServicePermissionMatrix, ServiceSpecification, ServiceUserStory } from "@/domain/types";
 import { cn } from "@/lib/cn";
+import { mergePropertiesActionMatrix, mergePropertiesPermissionMatrix } from "@/lib/citizen-service-permission-matrices";
 import { mergePropertiesUserStory } from "@/lib/citizen-service-user-stories";
 
 interface TableData {
@@ -140,6 +142,19 @@ function normalizeUserStory(value: unknown): ServiceUserStory | undefined {
   return undefined;
 }
 
+function normalizePermissionMatrix(value: unknown): ServicePermissionMatrix | undefined {
+  if (!value || typeof value !== "object") return undefined;
+  const candidate = value as { format?: unknown; content?: unknown };
+  if (candidate.format !== "markdown") return undefined;
+  if (typeof candidate.content === "string") {
+    return { format: "markdown", content: candidate.content };
+  }
+  if (Array.isArray(candidate.content) && candidate.content.every((line) => typeof line === "string")) {
+    return { format: "markdown", content: candidate.content.join("\n") };
+  }
+  return undefined;
+}
+
 export function emptyDataTableDocument() {
   return `${JSON.stringify({
     version: "1.0",
@@ -211,7 +226,37 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
 
   const hasUserStory = isMergePropertiesRequest && Boolean(userStory);
 
-  const [viewTab, setViewTab] = useState<"specification" | "user-story" | "table">(() => {
+  const permissionMatrix = useMemo<ServicePermissionMatrix | undefined>(() => {
+    const documentMatrix = normalizePermissionMatrix(metadata.permissionMatrix);
+    if (documentMatrix) return documentMatrix;
+    const specificationMatrix = normalizePermissionMatrix(serviceSpecification?.permissionMatrix);
+    if (specificationMatrix) return specificationMatrix;
+    if (metadata.request && typeof metadata.request === "object") {
+      const request = metadata.request as Record<string, unknown>;
+      const requestMatrix = normalizePermissionMatrix(request.permissionMatrix);
+      if (requestMatrix) return requestMatrix;
+    }
+    return isMergePropertiesRequest ? mergePropertiesPermissionMatrix : undefined;
+  }, [isMergePropertiesRequest, metadata, serviceSpecification]);
+
+  const hasPermissionMatrix = isMergePropertiesRequest && Boolean(permissionMatrix);
+
+  const actionPermissionMatrix = useMemo<ServicePermissionMatrix | undefined>(() => {
+    const documentMatrix = normalizePermissionMatrix(metadata.actionPermissionMatrix);
+    if (documentMatrix) return documentMatrix;
+    const specificationMatrix = normalizePermissionMatrix(serviceSpecification?.actionPermissionMatrix);
+    if (specificationMatrix) return specificationMatrix;
+    if (metadata.request && typeof metadata.request === "object") {
+      const request = metadata.request as Record<string, unknown>;
+      const requestMatrix = normalizePermissionMatrix(request.actionPermissionMatrix);
+      if (requestMatrix) return requestMatrix;
+    }
+    return isMergePropertiesRequest ? mergePropertiesActionMatrix : undefined;
+  }, [isMergePropertiesRequest, metadata, serviceSpecification]);
+
+  const hasActionPermissionMatrix = isMergePropertiesRequest && Boolean(actionPermissionMatrix);
+
+  const [viewTab, setViewTab] = useState<"specification" | "user-story" | "permission-matrix" | "action-permission-matrix" | "table">(() => {
     return citizenService ? "specification" : "table";
   });
 
@@ -383,9 +428,9 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
   return (
     <div className="official-data-table flex h-full min-h-0 flex-col bg-slate-100" dir="rtl" onPaste={handlePaste}>
       {/* Top Document Mode Navigation Bar */}
-      {(citizenService || hasUserStory) && (
+      {(citizenService || hasUserStory || hasPermissionMatrix || hasActionPermissionMatrix) && (
         <div className="flex h-11 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white px-2.5 sm:px-4 shadow-2xs">
-          <div className="inline-flex h-8 items-center justify-center rounded-lg bg-slate-100/90 p-0.5 text-slate-500 border border-slate-200/70 select-none">
+          <div className="inline-flex h-8 min-w-0 max-w-full items-center justify-start overflow-x-auto rounded-lg border border-slate-200/70 bg-slate-100/90 p-0.5 text-slate-500 select-none">
             {citizenService && (
               <button
                 type="button"
@@ -461,6 +506,40 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
                 </span>
               </button>
             )}
+
+            {hasPermissionMatrix && (
+              <button
+                type="button"
+                onClick={() => setViewTab("permission-matrix")}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  viewTab === "permission-matrix"
+                    ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                    : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
+                )}
+              >
+                <ShieldCheck size={13} className={viewTab === "permission-matrix" ? "text-emerald-600" : "text-slate-400"} />
+                <span className="hidden lg:inline">Full Permission Matrix</span>
+                <span className="lg:hidden">الصلاحيات</span>
+              </button>
+            )}
+
+            {hasActionPermissionMatrix && (
+              <button
+                type="button"
+                onClick={() => setViewTab("action-permission-matrix")}
+                className={cn(
+                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  viewTab === "action-permission-matrix"
+                    ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
+                    : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
+                )}
+              >
+                <ShieldCheck size={13} className={viewTab === "action-permission-matrix" ? "text-sky-600" : "text-slate-400"} />
+                <span className="hidden xl:inline">CRUD / Action Matrix</span>
+                <span className="xl:hidden">خصائص العمليات</span>
+              </button>
+            )}
           </div>
 
           <div className="hidden sm:flex items-center gap-2" dir="ltr">
@@ -486,6 +565,20 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
       ) : viewTab === "user-story" && userStory ? (
         <div className="flex min-h-0 flex-1 overflow-hidden">
           <UserStoryDocumentView story={userStory} onChange={handleUpdateUserStory} />
+        </div>
+      ) : viewTab === "permission-matrix" && permissionMatrix ? (
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <PermissionMatrixView matrix={permissionMatrix} />
+        </div>
+      ) : viewTab === "action-permission-matrix" && actionPermissionMatrix ? (
+        <div className="flex min-h-0 flex-1 overflow-hidden">
+          <PermissionMatrixView
+            matrix={actionPermissionMatrix}
+            title="مصفوفة خصائص العمليات"
+            subtitle="CRUD / Action Matrix"
+            itemLabel="عملية"
+            variant="action"
+          />
         </div>
       ) : (
         <div className="flex min-h-0 flex-1 flex-col overflow-hidden bg-slate-50">
