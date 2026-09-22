@@ -54,8 +54,11 @@ function parsePermissionMatrix(content: string) {
     .filter((line) => line.trim().startsWith("|"))
     .map(splitMarkdownRow);
 
-  const headers = rows[0] ?? [];
-  const body = rows.slice(1).filter((row) => !row.every((cell) => /^:?-{3,}:?$/.test(cell)));
+  const rawHeaders = rows[0] ?? [];
+  const rawBody = rows.slice(1).filter((row) => !row.every((cell) => /^:?-{3,}:?$/.test(cell)));
+  const hasNumberColumn = rawHeaders[0] === "#" && /الإجراء|الصلاحية/.test(rawHeaders[1] ?? "");
+  const headers = hasNumberColumn ? rawHeaders.slice(1) : rawHeaders;
+  const body = hasNumberColumn ? rawBody.map((row) => row.slice(1)) : rawBody;
   return { headers, body };
 }
 
