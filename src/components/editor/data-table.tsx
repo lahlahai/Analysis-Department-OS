@@ -224,7 +224,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     return isMergePropertiesRequest ? mergePropertiesUserStory : undefined;
   }, [isMergePropertiesRequest, metadata, serviceSpecification]);
 
-  const hasUserStory = isMergePropertiesRequest && Boolean(userStory);
+  const hasUserStory = Boolean(userStory);
 
   const permissionMatrix = useMemo<ServicePermissionMatrix | undefined>(() => {
     const documentMatrix = normalizePermissionMatrix(metadata.permissionMatrix);
@@ -239,7 +239,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     return isMergePropertiesRequest ? mergePropertiesPermissionMatrix : undefined;
   }, [isMergePropertiesRequest, metadata, serviceSpecification]);
 
-  const hasPermissionMatrix = isMergePropertiesRequest && Boolean(permissionMatrix);
+  const hasPermissionMatrix = Boolean(permissionMatrix);
 
   const actionPermissionMatrix = useMemo<ServicePermissionMatrix | undefined>(() => {
     const documentMatrix = normalizePermissionMatrix(metadata.actionPermissionMatrix);
@@ -254,7 +254,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     return isMergePropertiesRequest ? mergePropertiesActionMatrix : undefined;
   }, [isMergePropertiesRequest, metadata, serviceSpecification]);
 
-  const hasActionPermissionMatrix = isMergePropertiesRequest && Boolean(actionPermissionMatrix);
+  const hasActionPermissionMatrix = Boolean(actionPermissionMatrix);
 
   const [viewTab, setViewTab] = useState<"specification" | "user-story" | "permission-matrix" | "action-permission-matrix" | "table">(() => {
     return citizenService ? "specification" : "table";
@@ -429,14 +429,14 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
     <div className="official-data-table flex h-full min-h-0 flex-col bg-slate-100" dir="rtl" onPaste={handlePaste}>
       {/* Top Document Mode Navigation Bar */}
       {(citizenService || hasUserStory || hasPermissionMatrix || hasActionPermissionMatrix) && (
-        <div className="flex h-11 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white px-2.5 sm:px-4 shadow-2xs">
+        <div className="flex h-10 shrink-0 items-center justify-between border-b border-slate-200/80 bg-white px-2 sm:px-3 shadow-2xs">
           <div className="inline-flex h-8 min-w-0 max-w-full items-center justify-start overflow-x-auto rounded-lg border border-slate-200/70 bg-slate-100/90 p-0.5 text-slate-500 select-none">
             {citizenService && (
               <button
                 type="button"
                 onClick={() => setViewTab("specification")}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
+                  "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 sm:px-2.5 text-[9px] sm:text-[10px] leading-none font-semibold transition-all whitespace-nowrap",
                   viewTab === "specification"
                     ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
                     : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
@@ -461,7 +461,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
               type="button"
               onClick={() => setViewTab("table")}
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-md px-2.5 sm:px-3 py-1 text-[11px] sm:text-xs font-semibold transition-all",
+                "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 sm:px-2.5 text-[9px] sm:text-[10px] leading-none font-semibold transition-all whitespace-nowrap",
                 viewTab === "table"
                   ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
                   : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
@@ -486,7 +486,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
                 type="button"
                 onClick={() => setViewTab("user-story")}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-[9px] leading-none font-semibold transition-all sm:px-2.5 sm:text-[10px] whitespace-nowrap",
                   viewTab === "user-story"
                     ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
                     : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
@@ -512,7 +512,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
                 type="button"
                 onClick={() => setViewTab("permission-matrix")}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-[9px] leading-none font-semibold transition-all sm:px-2.5 sm:text-[10px] whitespace-nowrap",
                   viewTab === "permission-matrix"
                     ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
                     : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
@@ -529,7 +529,7 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
                 type="button"
                 onClick={() => setViewTab("action-permission-matrix")}
                 className={cn(
-                  "inline-flex items-center gap-1.5 rounded-md px-2.5 py-1 text-[11px] font-semibold transition-all sm:px-3 sm:text-xs",
+                  "inline-flex h-7 shrink-0 items-center gap-1 rounded-md px-2 text-[9px] leading-none font-semibold transition-all sm:px-2.5 sm:text-[10px] whitespace-nowrap",
                   viewTab === "action-permission-matrix"
                     ? "bg-white text-slate-900 shadow-2xs border border-slate-200/80"
                     : "text-slate-600 hover:text-slate-950 hover:bg-white/50"
@@ -542,12 +542,6 @@ export function DataTableEditor({ path, value, onChange }: DataTableEditorProps)
             )}
           </div>
 
-          <div className="hidden sm:flex items-center gap-2" dir="ltr">
-            <div className="inline-flex items-center gap-1.5 rounded-md border border-slate-200/80 bg-slate-50/80 px-2.5 py-1 text-[10.5px] font-mono text-slate-600 shadow-2xs">
-              <span className="size-1.5 rounded-full bg-emerald-500" />
-              <span className="font-semibold text-slate-700">{citizenService?.id ?? String(metadata.serviceId ?? "merge-properties")}</span>
-            </div>
-          </div>
         </div>
       )}
 

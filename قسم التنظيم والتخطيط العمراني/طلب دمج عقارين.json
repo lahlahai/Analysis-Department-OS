@@ -326,6 +326,27 @@
     },
     "links":  [
                   {
+                      "id":  "inquiry-form-image",
+                      "title":  "نموذج استعلام",
+                      "description":  "صورة نموذج الاستعلام الورقي المرفق بمعاملة الطلب",
+                      "url":  "/نموذج استعلام.jpeg",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "one-stop-window-form-image",
+                      "title":  "نموذج طلب النافذة الواحدة",
+                      "description":  "صورة النموذج المستخدم ضمن إجراءات النافذة الواحدة",
+                      "url":  "/نموذج طلب نافذة واحدة.jpeg",
+                      "category":  "supporting"
+                  },
+                  {
+                      "id":  "property-sketch-image",
+                      "title":  "نموذج كروكي",
+                      "description":  "صورة مخطط كروكي عقاري مرجعي لطلب دمج العقارين",
+                      "url":  "/نموذج كروكي.jpeg",
+                      "category":  "supporting"
+                  },
+                  {
                       "id":  "sequence-diagram",
                       "title":  "sequence diagram",
                       "description":  "تسلسل خطوات الطلب والجهات المشاركة",

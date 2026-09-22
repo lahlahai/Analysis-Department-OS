@@ -1,6 +1,6 @@
 import type { ServiceSpecification } from "@/domain/types";
-import { mergePropertiesActionMatrix, mergePropertiesPermissionMatrix } from "@/lib/citizen-service-permission-matrices";
-import { mergePropertiesUserStory } from "@/lib/citizen-service-user-stories";
+import { changePropertyUseActionMatrix, changePropertyUsePermissionMatrix, mergePropertiesActionMatrix, mergePropertiesPermissionMatrix, panoramicElevatorsInquiryActionMatrix, panoramicElevatorsInquiryPermissionMatrix, pharmacyLicenseActionMatrix, pharmacyLicensePermissionMatrix, preliminarySubdivisionApprovalActionMatrix, preliminarySubdivisionApprovalPermissionMatrix, propertyCroquisActionMatrix, propertyCroquisPermissionMatrix, purchaseSurplusActionMatrix, purchaseSurplusPermissionMatrix, regulatoryStatusActionMatrix, regulatoryStatusPermissionMatrix } from "@/lib/citizen-service-permission-matrices";
+import { changePropertyUseUserStory, mergePropertiesUserStory, panoramicElevatorsInquiryUserStory, pharmacyLicenseUserStory, preliminarySubdivisionApprovalUserStory, propertyCroquisUserStory, purchaseSurplusUserStory, regulatoryStatusUserStory } from "@/lib/citizen-service-user-stories";
 
 export const citizenServiceSpecifications: Record<string, ServiceSpecification> = {
   "merge-properties": {
@@ -303,6 +303,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "ERR_UTILITY_INTERFERENCE",
       },
     ],
+    userStory: purchaseSurplusUserStory,
+    permissionMatrix: purchaseSurplusPermissionMatrix,
+    actionPermissionMatrix: purchaseSurplusActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "purchase-surplus",
@@ -459,6 +462,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "ERR_ACCESS_UNCLEAR",
       },
     ],
+    userStory: propertyCroquisUserStory,
+    permissionMatrix: propertyCroquisPermissionMatrix,
+    actionPermissionMatrix: propertyCroquisActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "property-croquis",
@@ -614,6 +620,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "INFO_SPECIAL_EASEMENT",
       },
     ],
+    userStory: regulatoryStatusUserStory,
+    permissionMatrix: regulatoryStatusPermissionMatrix,
+    actionPermissionMatrix: regulatoryStatusActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "regulatory-status",
@@ -780,6 +789,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "REQ_ENV_CLEARANCE",
       },
     ],
+    userStory: changePropertyUseUserStory,
+    permissionMatrix: changePropertyUsePermissionMatrix,
+    actionPermissionMatrix: changePropertyUseActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "change-property-use",
@@ -946,6 +958,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "ERR_PARKING_SHORTAGE",
       },
     ],
+    userStory: preliminarySubdivisionApprovalUserStory,
+    permissionMatrix: preliminarySubdivisionApprovalPermissionMatrix,
+    actionPermissionMatrix: preliminarySubdivisionApprovalActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "preliminary-subdivision-approval",
@@ -1106,6 +1121,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "ERR_LIGHTING_OBSTRUCTION",
       },
     ],
+    userStory: panoramicElevatorsInquiryUserStory,
+    permissionMatrix: panoramicElevatorsInquiryPermissionMatrix,
+    actionPermissionMatrix: panoramicElevatorsInquiryActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "panoramic-elevators-inquiry",
@@ -1265,6 +1283,9 @@ export const citizenServiceSpecifications: Record<string, ServiceSpecification> 
         returnCode: "ERR_SHOP_COMMERCIAL_STATUS",
       },
     ],
+    userStory: pharmacyLicenseUserStory,
+    permissionMatrix: pharmacyLicensePermissionMatrix,
+    actionPermissionMatrix: pharmacyLicenseActionMatrix,
     apiPayloadExample: JSON.stringify(
       {
         service_id: "pharmacy-license",

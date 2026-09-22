@@ -184,8 +184,14 @@ function citizenServiceTableDocument(service: CitizenService) {
   const filePath = citizenServiceFilePath(service);
   const repository = "https://github.com/lahlahai/Analysis-Department-OS";
   const diagramLinks = citizenServiceDiagramsDocument.services[service.id as keyof typeof citizenServiceDiagramsDocument.services]?.links ?? [];
+  const visualReferenceLinks = service.id === "merge-properties" ? [
+    { id: "inquiry-form-image", title: "نموذج استعلام", description: "صورة نموذج الاستعلام الورقي المرفق بمعاملة الطلب", url: "/نموذج استعلام.jpeg", category: "supporting" },
+    { id: "one-stop-window-form-image", title: "نموذج طلب النافذة الواحدة", description: "صورة النموذج المستخدم ضمن إجراءات النافذة الواحدة", url: "/نموذج طلب نافذة واحدة.jpeg", category: "supporting" },
+    { id: "property-sketch-image", title: "نموذج كروكي", description: "صورة مخطط كروكي عقاري مرجعي لطلب دمج العقارين", url: "/نموذج كروكي.jpeg", category: "supporting" },
+  ] : [];
   const links = [
     ...diagramLinks,
+    ...visualReferenceLinks,
     { id: "request-file", title: "ملف الطلب في المستودع", description: "النسخة المحفوظة من هذا الطلب داخل GitHub", url: `${repository}/blob/main/${encodeURI(filePath)}`, category: "supporting" },
     { id: "service-catalog", title: "كتالوج الخدمات", description: "المرجع الكامل لبيانات خدمات المواطنين", url: `${repository}/blob/main/.software/citizen-services.json`, category: "supporting" },
     { id: "service-guide", title: "دليل طلبات المواطنين", description: "المراحل العامة ومتطلبات معالجة الطلبات", url: `${repository}/blob/main/docs/requirements/citizen-services.md`, category: "supporting" },

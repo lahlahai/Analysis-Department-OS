@@ -1,6 +1,7 @@
 "use client";
 
-import { Check, ShieldCheck } from "lucide-react";
+import { Check, Clipboard, ClipboardCheck, ShieldCheck } from "lucide-react";
+import { useState } from "react";
 import type { ServicePermissionMatrix } from "@/domain/types";
 import { cn } from "@/lib/cn";
 
@@ -120,6 +121,28 @@ export function PermissionMatrixView({
 }: PermissionMatrixViewProps) {
   const { headers, body } = parsePermissionMatrix(matrix.content);
   const roleCount = Math.max(0, headers.length - 1);
+  const [copied, setCopied] = useState(false);
+
+  async function copyTable() {
+    const cleanCell = (value: string) => value.replaceAll("**", "").replaceAll("`", "").trim();
+    const text = [headers, ...body].map((row) => row.map(cleanCell).join("\t")).join("\n");
+
+    try {
+      await navigator.clipboard.writeText(text);
+    } catch {
+      const helper = document.createElement("textarea");
+      helper.value = text;
+      helper.style.position = "fixed";
+      helper.style.opacity = "0";
+      document.body.appendChild(helper);
+      helper.select();
+      document.execCommand("copy");
+      helper.remove();
+    }
+
+    setCopied(true);
+    window.setTimeout(() => setCopied(false), 1800);
+  }
 
   return (
     <section className="flex h-full min-h-[320px] w-full flex-col overflow-hidden bg-slate-50" dir="rtl">
@@ -137,6 +160,10 @@ export function PermissionMatrixView({
           <div className="flex items-center gap-2 text-[10px] font-semibold sm:text-xs">
             <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{body.length} {itemLabel}</span>
             <span className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-1 text-slate-600">{roleCount} دورًا</span>
+            <button type="button" onClick={copyTable} className="inline-flex items-center gap-1.5 rounded-md border border-slate-300 bg-white px-2.5 py-1 text-slate-700 shadow-2xs transition hover:border-[#b49a63] hover:bg-[#fbf7ee] hover:text-[#8f733a]" title="نسخ الجدول إلى Excel" aria-label="نسخ الجدول إلى Excel">
+              {copied ? <ClipboardCheck size={13} /> : <Clipboard size={13} />}
+              <span>{copied ? "تم النسخ" : "نسخ الجدول"}</span>
+            </button>
           </div>
         </div>
         <div className="mt-3 flex flex-wrap items-center gap-4 border-t border-slate-100 pt-2 text-[10px] text-slate-600 sm:text-xs">

@@ -59,8 +59,12 @@ type QuickLinkScope = "general" | "file";
 const defaultQuickLinks: QuickLink[] = [
   { id: "google-drive", title: "Google Drive", description: "الملفات والمراجع المشتركة", url: "https://drive.google.com/drive/folders/1J15tNMcku6IQYpbUQFEJxd80JX6L2vpX?usp=sharing" },
   { id: "github", title: "GitHub", description: "المستودع وسجل التعديلات", url: "https://github.com/lahlahai/Analysis-Department-OS" },
-  
+  { id: "inquiry-form-image", title: "نموذج استعلام", description: "صورة نموذج الاستعلام الورقي المرفق بمعاملة الطلب", url: "/نموذج استعلام.jpeg" },
+  { id: "one-stop-window-form-image", title: "نموذج طلب النافذة الواحدة", description: "صورة النموذج المستخدم ضمن إجراءات النافذة الواحدة", url: "/نموذج طلب نافذة واحدة.jpeg" },
+  { id: "property-sketch-image", title: "نموذج كروكي", description: "صورة مخطط كروكي عقاري مرجعي لطلب دمج العقارين", url: "/نموذج كروكي.jpeg" },
 ];
+
+const requestImageQuickLinks = defaultQuickLinks.filter((link) => link.id.endsWith("-image"));
 
 const MIN_GENERAL_LINKS_RATIO = 15;
 const MAX_GENERAL_LINKS_RATIO = 85;
@@ -103,10 +107,6 @@ function writeFileQuickLinks(value: string, links: QuickLink[]) {
   } catch {
     return value;
   }
-}
-
-function initialFileQuickLinks() {
-  return Object.fromEntries(Object.entries(workspace.files).map(([path, content]) => [path, readFileQuickLinks(content)]).filter(([, links]) => links.length > 0));
 }
 
 function MarkdownPreview({ text }: { text: string }) {
@@ -488,7 +488,6 @@ export function Workspace() {
   const [notice, setNotice] = useState<string | null>(null);
   const [showTour, setShowTour] = useState(false);
   const [quickLinks, setQuickLinks] = useState<QuickLink[]>(defaultQuickLinks);
-  const [fileQuickLinks, setFileQuickLinks] = useState<Record<string, QuickLink[]>>(initialFileQuickLinks);
   const [quickLinksHydrated, setQuickLinksHydrated] = useState(false);
   const [quickLinksGeneralRatio, setQuickLinksGeneralRatio] = useState(20);
   const quickLinksResizeRef = useRef<{ startY: number; startRatio: number; height: number } | null>(null);
@@ -497,6 +496,14 @@ export function Workspace() {
   const [quickLinkScope, setQuickLinkScope] = useState<QuickLinkScope>("general");
   const [quickLinkEditingId, setQuickLinkEditingId] = useState<string | null>(null);
   const [quickLinkDraft, setQuickLinkDraft] = useState({ title: "", description: "", url: "" });
+  const fileQuickLinks = useMemo(
+    () => Object.fromEntries(
+      Object.entries(files)
+        .map(([path, content]) => [path, readFileQuickLinks(content)] as const)
+        .filter(([, links]) => links.length > 0),
+    ),
+    [files],
+  );
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -509,7 +516,10 @@ export function Workspace() {
     }
     try {
       const stored = JSON.parse(localStorage.getItem("analysis-department-quick-links") ?? "null") as unknown;
-      if (Array.isArray(stored) && stored.every(isValidQuickLink)) setQuickLinks(stored);
+      if (Array.isArray(stored) && stored.every(isValidQuickLink)) {
+        const storedIds = new Set(stored.map((link) => link.id));
+        setQuickLinks([...stored, ...requestImageQuickLinks.filter((link) => !storedIds.has(link.id))]);
+      }
       const storedRatio = Number(localStorage.getItem("analysis-department-quick-links-ratio"));
       if (Number.isFinite(storedRatio)) {
         setQuickLinksGeneralRatio(clampQuickLinksRatio(storedRatio));
@@ -642,7 +652,6 @@ export function Workspace() {
       const nextLinks = quickLinkEditingId
         ? (fileQuickLinks[activePath] ?? []).map((item) => item.id === quickLinkEditingId ? link : item)
         : [...(fileQuickLinks[activePath] ?? []), link];
-      setFileQuickLinks((current) => ({ ...current, [activePath]: nextLinks }));
       setFiles((current) => current[activePath] === undefined ? current : { ...current, [activePath]: writeFileQuickLinks(current[activePath], nextLinks) });
     }
     setQuickLinkEditingId(null);
@@ -653,7 +662,6 @@ export function Workspace() {
     if (scope === "general") setQuickLinks((current) => current.filter((link) => link.id !== id));
     else if (activePath) {
       const nextLinks = (fileQuickLinks[activePath] ?? []).filter((link) => link.id !== id);
-      setFileQuickLinks((current) => ({ ...current, [activePath]: nextLinks }));
       setFiles((current) => current[activePath] === undefined ? current : { ...current, [activePath]: writeFileQuickLinks(current[activePath], nextLinks) });
     }
   }
